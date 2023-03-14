@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
-  // fetchNotificationsWebsocket,
+  fetchStormsWebsocket,
   selectStormsMetadata,
   useGetStormsQuery,
 } from '../features/storms/stormsSlice'
@@ -19,7 +19,7 @@ export const Navbar = () => {
     .length
 
   const fetchNewStorms = () => {
-    // dispatch(fetchStormsWebsocket())
+    dispatch(fetchStormsWebsocket())
   }
 
   let unreadStormsBadge
@@ -33,7 +33,7 @@ export const Navbar = () => {
   return (
     <nav>
       <section>
-        <h1>Штормовые телеграммы</h1>
+        <h1>Последние шторма</h1>
 
         <div className="navContent">
           <div className="navLinks">

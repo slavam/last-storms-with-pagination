@@ -8,6 +8,7 @@ import {
 
 // import { forceGenerateNotifications } from '../../api/server'
 import { apiSlice } from '../api/apiSlice'
+// import actionCable from "actioncable"
 
 const stormsReceived = createAction(
   'storms/stormsReceived'
@@ -22,7 +23,8 @@ export const extendedApi = apiSlice.injectEndpoints({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
         // create a websocket connection when the cache subscription starts
-        const ws = new WebSocket('ws://localhost')
+        const ws = new WebSocket('ws://localhost:3000/cable')
+        // const ws = actionCable.createConsumer('ws://localhost:3000/cable')
         try {
           // wait for the initial query to resolve before proceeding
           await cacheDataLoaded
@@ -31,13 +33,15 @@ export const extendedApi = apiSlice.injectEndpoints({
           // update our query result with the received message
           const listener = (event) => {
             const message = JSON.parse(event.data)
+            // alert(JSON.stringify(message))
             switch (message.type) {
               case 'storms': {
+                alert("!!!!!!")
                 updateCachedData((draft) => {
                   // Insert all received notifications from the websocket
                   // into the existing RTKQ cache array
                   draft.push(...message.payload)
-                  draft.sort((a, b) => b.date.localeCompare(a.date))
+                  draft.sort((a, b) => b.telegram_date.localeCompare(a.telegram_date))
                 })
                 // Dispatch an additional action so we can track "read" state
                 dispatch(stormsReceived(message.payload))
@@ -49,6 +53,14 @@ export const extendedApi = apiSlice.injectEndpoints({
           }
 
           ws.addEventListener('message', listener)
+          // ws.subscriptions.create(
+          //   { channel: "SynopticTelegramChannel" },
+          //   { received: (message) => handleReceivedMessage(message) }
+          // );
+          // if(isSuccess){
+          //   setTelegrams(storms)
+          // }
+          // console.log("Subscribed")
         } catch {
           // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
           // in which case `cacheDataLoaded` will throw
@@ -72,15 +84,15 @@ const selectStormsData = createSelector(
   selectStormsResult,
   (stormsResult) => stormsResult.data ?? emptyStorms
 )
-/*
-export const fetchNotificationsWebsocket = () => (dispatch, getState) => {
-  const allNotifications = selectNotificationsData(getState())
-  const [latestNotification] = allNotifications
-  const latestTimestamp = latestNotification?.date ?? ''
+
+export const fetchStormsWebsocket = () => (dispatch, getState) => {
+  const allStorms = selectStormsData(getState())
+  const [latestStorm] = allStorms
+  const latestTimestamp = latestStorm?.telegram_date ?? ''
   // Hardcode a call to the mock server to simulate a server push scenario over websockets
-  forceGenerateNotifications(latestTimestamp)
+  // forceGenerateNotifications(latestTimestamp)
 }
-*/
+
 const stormsAdapter = createEntityAdapter()
 
 const matchStormsReceived = isAnyOf(

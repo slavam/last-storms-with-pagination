@@ -1,22 +1,13 @@
 import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import classnames from 'classnames'
-
 import { Spinner } from '../../components/Spinner'
-
 import { useGetStationsQuery } from '../api/apiSlice'
 
 let Station = ({ station }) => {
+  let s = `ID: ${station.id} ${station.name} ${station.code}`
   return (
-    <article className="post-excerpt" key={station.id}>
-      <h3>{station.name}</h3>
-      
-      {/* <p className="post-content">{post.content.substring(0, 100)}</p> */}
-
-      {/* <ReactionButtons post={post} /> */}
-      <Link to={`/stations/${station.id}`} className="button muted-button">
-        Просмотр
-      </Link>
+    <article key={station.id}>
+      <h3>{s}</h3>
     </article>
   )
 }
