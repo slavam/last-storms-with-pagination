@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
+  // Navigate,
 } from 'react-router-dom'
 import { Navbar } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'

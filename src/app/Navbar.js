@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
-  fetchStormsWebsocket,
+  // fetchStormsWebsocket,
   selectStormsMetadata,
   useGetStormsQuery,
 } from '../features/storms/stormsSlice'
@@ -18,9 +18,9 @@ export const Navbar = () => {
   const numUnreadStorms = stormsMetadata.filter((n) => !n.read)
     .length
 
-  const fetchNewStorms = () => {
-    dispatch(fetchStormsWebsocket())
-  }
+  // const fetchNewStorms = () => {
+  //   dispatch(fetchStormsWebsocket())
+  // }
 
   let unreadStormsBadge
 
