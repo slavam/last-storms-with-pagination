@@ -56,7 +56,16 @@ export const extendedApi = apiSlice.injectEndpoints({
           // ws.addEventListener('message', listener)
           ws.subscriptions.create(
             { channel: "SynopticTelegramChannel" },
-            { received: (message) => updateCachedData((draft) => {draft.push(message.telegram); alert("Subscribed")}) }
+            // { received: (message) => console.log(message) }
+            { received: (message) => {
+                // updateCachedData((draft) => {[message.telegram].concat(draft)}) 
+                updateCachedData((draft) => {
+                  draft.push(message.telegram)
+                  draft.sort((a, b) => b.telegram_date.localeCompare(a.telegram_date))
+                }) 
+                dispatch(stormsReceived(message.telegram))
+              }
+            }
           );
           // if(isSuccess){
           //   setTelegrams(storms)
@@ -69,7 +78,7 @@ export const extendedApi = apiSlice.injectEndpoints({
         // cacheEntryRemoved will resolve when the cache subscription is no longer active
         await cacheEntryRemoved
         // perform cleanup steps once the `cacheEntryRemoved` promise resolves
-        ws.close()
+        // ws.close()
       },
     }),
   }),
@@ -114,15 +123,15 @@ const stormsSlice = createSlice({
   extraReducers(builder) {
     builder.addMatcher(matchStormsReceived, (state, action) => {
       // Add client-side metadata for tracking new notifications
-      const stormsMetadata = action.payload.map((notification) => ({
-        id: notification.id,
+      const stormsMetadata = action.payload.map((storm) => ({
+        id: storm.id,
         read: false,
         isNew: true,
       }))
 
-      Object.values(state.entities).forEach((notification) => {
+      Object.values(state.entities).forEach((storm) => {
         // Any notifications we've read are no longer new
-        notification.isNew = !notification.read
+        storm.isNew = !storm.read
       })
 
       stormsAdapter.upsertMany(state, stormsMetadata)
