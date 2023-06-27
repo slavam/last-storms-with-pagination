@@ -4,7 +4,7 @@ import { Spinner } from '../../components/Spinner'
 import { useGetStationsQuery } from '../api/apiSlice'
 
 let Station = ({ station }) => {
-  let s = `ID: ${station.id} ${station.name} ${station.code}`
+  let s = `ID: ${station.id} ${station.code} ${station.name}`
   return (
     <article key={station.id}>
       <h3>{s}</h3>
@@ -23,6 +23,7 @@ export const StationsList = () => {
   } = useGetStationsQuery()
 
   const sortedStations = useMemo(() => {
+    // alert(stations.length)
     const sortedStations = stations.slice()
     // sortedStations.sort((a, b) => a.id.localeCompare(b.id))
     return sortedStations

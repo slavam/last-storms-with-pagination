@@ -2,11 +2,8 @@ import {
   createAction,
   createSlice,
   createEntityAdapter,
-  // createSelector,
   isAnyOf,
 } from '@reduxjs/toolkit'
-
-// import { forceGenerateNotifications } from '../../api/server'
 import { apiSlice } from '../api/apiSlice'
 import actionCable from "actioncable"
 
@@ -23,7 +20,6 @@ export const extendedApi = apiSlice.injectEndpoints({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
         // create a websocket connection when the cache subscription starts
-        // const ws = new WebSocket('ws://localhost:3000/cable')
         const ws = actionCable.createConsumer('ws://localhost:3000/cable')
         try {
           // wait for the initial query to resolve before proceeding
@@ -53,24 +49,20 @@ export const extendedApi = apiSlice.injectEndpoints({
           //   }
           // }
 
-          // ws.addEventListener('message', listener)
-          ws.subscriptions.create(
-            { channel: "SynopticTelegramChannel" },
-            // { received: (message) => console.log(message) }
-            { received: (message) => {
-                // updateCachedData((draft) => {[message.telegram].concat(draft)}) 
-                updateCachedData((draft) => {
-                  draft.push(message.telegram)
-                  draft.sort((a, b) => b.telegram_date.localeCompare(a.telegram_date))
-                }) 
-                dispatch(stormsReceived(message.telegram))
-              }
-            }
-          );
-          // if(isSuccess){
-          //   setTelegrams(storms)
-          // }
-          // console.log("Subscribed")
+          // mwm for login dev only !!!!!!!!!!!!!
+          // ws.subscriptions.create(
+          //   { channel: "SynopticTelegramChannel" },
+          //   // { received: (message) => console.log(message) }
+          //   { received: (message) => {
+          //       // updateCachedData((draft) => {[message.telegram].concat(draft)}) 
+          //       updateCachedData((draft) => {
+          //         draft.push(message.telegram)
+          //         draft.sort((a, b) => b.telegram_date.localeCompare(a.telegram_date))
+          //       }) 
+          //       dispatch(stormsReceived(message.telegram))
+          //     }
+          //   }
+          // );
         } catch {
           // no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
           // in which case `cacheDataLoaded` will throw
@@ -86,22 +78,7 @@ export const extendedApi = apiSlice.injectEndpoints({
 
 export const { useGetStormsQuery } = extendedApi
 
-// const emptyStorms = []
-
 export const selectStormsResult = extendedApi.endpoints.getStorms.select()
-
-// const selectStormsData = createSelector(
-//   selectStormsResult,
-//   (stormsResult) => stormsResult.data ?? emptyStorms
-// )
-
-// export const fetchStormsWebsocket = () => (dispatch, getState) => {
-  // const allStorms = selectStormsData(getState())
-  // const [latestStorm] = allStorms
-  // const latestTimestamp = latestStorm?.telegram_date ?? ''
-  // Hardcode a call to the mock server to simulate a server push scenario over websockets
-  // forceGenerateNotifications(latestTimestamp)
-// }
 
 const stormsAdapter = createEntityAdapter()
 

@@ -1,43 +1,35 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
-  // Navigate,
+  Navigate, useNavigate, useLocation
 } from 'react-router-dom'
 import { Navbar } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'
 import { StormsList } from './features/storms/stormsList'
-// import { Counter } from './features/counter/Counter';
+import { Login } from './login/Login';
+import { history } from './components/history'
+import { PrivateRoute } from './components/PrivateRoute'
 // import './App.css';
 
 function App() {
+  history.navigate = useNavigate();
+  history.location = useLocation();
   return (
-    <Router>
+    <div className="App">
       <Navbar />
-      <div className="App">
-        <Routes>
-          {/* <Route
-            exact
-            path="/stations"
-            render={() => (
-              <React.Fragment>
-                <StationsList />
-              </React.Fragment>
-            )}
-          /> */}
-          {/* <Route exact path="/posts/:postId" component={SinglePostPage} /> */}
-          {/* <Route exact path="/editPost/:postId" component={EditPostForm} /> */}
-          {/* <Route exact path="/users" component={UsersList} /> */}
-          {/* <Route exact path="/users/:userId" component={UserPage} /> */}
-          <Route exact path="/storms" element={<StormsList />} />
-          <Route exact path="/stations" element={<StationsList />} />
-          {/* <Route path="/" element={<StationsList />} /> */}
-          {/* <Route path="/" element={<Navigate to="/" />} /> */}
-          {/* <Navigate to="/" /> */}
-        </Routes>
-      </div>
-    </Router>
+      <Routes>
+        <Route exact path="/storms" element={<StormsList />} />
+        {/* <Route exact path="/stations" element={<StationsList />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/" element={
+          <PrivateRoute>
+            <StationsList />
+          </PrivateRoute>
+          } />
+      </Routes>
+    </div>
   )
 }
 
