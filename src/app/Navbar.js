@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
-  // fetchStormsWebsocket,
   selectStormsMetadata,
   useGetStormsQuery,
 } from '../features/storms/stormsSlice'
 import { authActions } from '../features/auth/authSlice'
-// import { Login } from '../login/Login';
 
 export const Navbar = () => {
   const authUser = useSelector(x => x.auth.user);
@@ -20,12 +18,6 @@ export const Navbar = () => {
 
   const stormsMetadata = useSelector(selectStormsMetadata)
   const numUnreadStorms = stormsMetadata.filter((n) => !n.read).length
-
-  
-
-  // const fetchNewStorms = () => {
-  //   dispatch(fetchStormsWebsocket())
-  // }
 
   let unreadStormsBadge
 
@@ -40,15 +32,15 @@ export const Navbar = () => {
   return (
     <nav>
       <section>
+        <p>Пользователь: {authUser.login}</p>
         <h1>Последние шторма</h1>
-
         <div className="navContent">
           <div className="navLinks">
             <Link to="/stations">Метеостанции</Link>
-            <Link to="/storms">Шторма {unreadStormsBadge}</Link>
-            <button onClick={logout} className="btn btn-link nav-item nav-link">Logout</button>
+            <Link to="/storms" >Шторма {unreadStormsBadge}</Link>
+            <Link to="/logout" onClick={logout}>Выход</Link>
+            {/* <button onClick={logout} className="btn btn-link nav-item nav-link">Logout</button> */}
           </div>
-          {/* <Login /> */}
         </div>
       </section>
     </nav>

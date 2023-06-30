@@ -3,7 +3,6 @@ import stormsReducer from '../features/storms/stormsSlice'
 import { apiSlice } from '../features/api/apiSlice'
 import { authReducer } from '../features/auth/authSlice'
 
-// export default configureStore({
 export const store = configureStore({
   reducer: {
     storms: stormsReducer,
