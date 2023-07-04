@@ -1,10 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
-// import { history, fetchWrapper } from '_helpers';
 import { history } from '../../components/history';
 import { fetchWrapper } from '../../components/fetch-wrapper'
-
-// create slice
 
 const name = 'auth';
 const initialState = createInitialState();
@@ -14,12 +10,10 @@ const extraReducers = createExtraReducers();
 const slice = createSlice({ name, initialState, reducers, extraReducers });
 
 // exports
-
 export const authActions = { ...slice.actions, ...extraActions };
 export const authReducer = slice.reducer;
 
 // implementation
-
 function createInitialState() {
     return {
         // initialize state from local storage to enable user to stay logged in
@@ -41,7 +35,6 @@ function createReducers() {
 }
 
 function createExtraActions() {
-  // const baseUrl = `${process.env.REACT_APP_API_URL}/users`;
   const baseUrl = 'http://localhost:3000'
   return {
       login: login()
@@ -79,7 +72,6 @@ function createExtraReducers() {
             },
             [fulfilled]: (state, action) => {
                 const user = action.payload.user ? action.payload.user : null;
-                // alert(JSON.stringify(action))
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
                 state.user = user;

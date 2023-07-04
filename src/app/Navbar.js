@@ -38,8 +38,8 @@ export const Navbar = () => {
           <div className="navLinks">
             <Link to="/stations">Метеостанции</Link>
             <Link to="/storms" >Шторма {unreadStormsBadge}</Link>
+            <Link to="/synopticObservations">SYNOP</Link>
             <Link to="/logout" onClick={logout}>Выход</Link>
-            {/* <button onClick={logout} className="btn btn-link nav-item nav-link">Logout</button> */}
           </div>
         </div>
       </section>

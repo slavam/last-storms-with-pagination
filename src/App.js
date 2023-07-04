@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import { Navbar } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'
+import { SynopticsList } from './features/synoptics/synopticsList'
 import { StormsList } from './features/storms/stormsList'
 import { Login } from './login/Login';
 import { history } from './components/history'
@@ -20,7 +21,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/storms" element={<StormsList />} />
-        {/* <Route exact path="/stations" element={<StationsList />} /> */}
+        <Route exact path="/synopticObservations" element={<SynopticsList />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/" element={
