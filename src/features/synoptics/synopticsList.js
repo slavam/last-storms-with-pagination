@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetSynopticObservationsQuery } from '../api/apiSlice'
 import { useGetStationsQuery } from '../api/apiSlice'
+import Pagination from '../../components/Pagination'
 
 let Observation = ({ observation, stations }) => {
   
@@ -14,6 +15,7 @@ let Observation = ({ observation, stations }) => {
 }
 
 export const SynopticsList = () => {
+  const [currentPage, setCurrentPage] = useState(1)
   const {
     data: data = {
       pageSize: 30,
@@ -25,7 +27,7 @@ export const SynopticsList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetSynopticObservationsQuery()
+  } = useGetSynopticObservationsQuery(currentPage)
 
   const {
     data: stations = [],
@@ -50,6 +52,7 @@ export const SynopticsList = () => {
     })
 
     content = <div className={containerClassname}>
+      <p>Page {currentPage}</p>
       <table className='table table-hover'>
         <thead>
           <tr>
@@ -63,6 +66,13 @@ export const SynopticsList = () => {
           {renderedSynoptics}
         </tbody>
       </table>
+      <Pagination
+        className="pagination-bar"
+        currentPage={currentPage}
+        totalCount={data.totalCount}
+        pageSize={data.pageSize}
+        onPageChange={page => setCurrentPage(page)}
+      />
     </div>
   } else if (isError) {
     content = <div>{error.toString()}</div>

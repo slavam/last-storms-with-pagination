@@ -9,11 +9,11 @@ export const apiSlice = createApi({
       query: () => '/stations.json',
       providesTags: (result = [], error, arg) => [
         'Station',
-        ...result.map(({ id, name }) => ({ type: 'Station', id, name })),
+        ...result.map(({ id }) => ({ type: 'Station', id })),
       ],
     }),
     getSynopticObservations: builder.query({
-      query: (currentPage) => '/synoptic_observations.json?page=1', //+currentPage,
+      query: (currentPage) => '/synoptic_observations.json?page='+currentPage,
       providesTags: ['Synoptic'],
     })
   })

@@ -11,7 +11,7 @@ import { StormsList } from './features/storms/stormsList'
 import { Login } from './login/Login';
 import { history } from './components/history'
 import { PrivateRoute } from './components/PrivateRoute'
-// import './App.css';
+import './style.css';
 
 function App() {
   history.navigate = useNavigate();
