@@ -15,11 +15,16 @@ export const apiSlice = createApi({
     getSynopticObservations: builder.query({
       query: (currentPage) => '/synoptic_observations.json?page='+currentPage,
       providesTags: ['Synoptic'],
+    }),
+    getSynopticObservation: builder.query({
+      query: (observationId) => `/synoptic_observations/${observationId}.json`,
+      providesTags: ['Synoptic'],
     })
   })
 })
 
 export const {
   useGetStationsQuery,
-  useGetSynopticObservationsQuery
+  useGetSynopticObservationsQuery,
+  useGetSynopticObservationQuery
 } = apiSlice

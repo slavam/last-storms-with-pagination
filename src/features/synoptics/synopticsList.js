@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import classnames from 'classnames'
+import { Link } from 'react-router-dom'
 import { Spinner } from '../../components/Spinner'
 import { useGetSynopticObservationsQuery } from '../api/apiSlice'
 import { useGetStationsQuery } from '../api/apiSlice'
@@ -9,7 +10,12 @@ let Observation = ({ observation, stations }) => {
   
   return (
     <tr key={observation.id}>
-      <td>{observation.observed_at.substr(0,19).replace('T',' ')}</td><td>{observation.term}</td><td>{stations[observation.station_id]}</td><td>{observation.telegram}</td>
+      <td>{observation.observed_at.substr(0,19).replace('T',' ')}</td>
+      <td>{observation.term}</td>
+      <td>{stations[observation.station_id]}</td>
+      <td><Link to={`/synopticObservations/${observation.id}`} className="button muted-button" params={{observationId: observation.id}}>
+      {observation.telegram}
+      </Link></td>
     </tr>
   )
 }
