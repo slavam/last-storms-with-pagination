@@ -19,6 +19,13 @@ export const apiSlice = createApi({
     getSynopticObservation: builder.query({
       query: (observationId) => `/synoptic_observations/${observationId}.json`,
       providesTags: ['Synoptic'],
+    }),
+    deleteObservation: builder.mutation({
+      query: (id) => ({
+        url: `/synoptic_observations/${id}.json`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Synoptic"]
     })
   })
 })
@@ -26,5 +33,6 @@ export const apiSlice = createApi({
 export const {
   useGetStationsQuery,
   useGetSynopticObservationsQuery,
-  useGetSynopticObservationQuery
+  useGetSynopticObservationQuery,
+  useDeleteObservationMutation
 } = apiSlice

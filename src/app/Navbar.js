@@ -33,7 +33,7 @@ export const Navbar = () => {
     <nav>
       <section>
         <p>Пользователь: {authUser.login}</p>
-        <h1>Последние шторма</h1>
+        <h1>Исходные данные</h1>
         <div className="navContent">
           <div className="navLinks">
             <Link to="/stations">Метеостанции</Link>
