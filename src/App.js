@@ -10,87 +10,39 @@ import { SynopticsList } from './features/synoptics/synopticsList'
 import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
 import { Login } from './login/Login';
+import { Profile } from './login/profile'
 import { history } from './components/history'
 import { PrivateRoute } from './components/PrivateRoute'
-import './style.css';
+// import './style.css';
+import './App.css'
+import Layout from './app/Layout'
 
 function App() {
   history.navigate = useNavigate();
   history.location = useLocation();
   return (
-    <div className="App">
+    <div >
       <Navbar />
       <Routes>
-        <Route exact path="/storms" element={<StormsList />} />
-        <Route exact path="/synopticObservations" element={<SynopticsList />} />
-        <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/" element={
-          <PrivateRoute>
-            <StationsList />
-            {/* <SynopticsList /> */}
-            {/* <ObservationPage /> */}
-          </PrivateRoute>
-          } />
+        <Route path="/" element={<Layout />}>
+          <Route exact path="/storms" element={<StormsList />} />
+          <Route exact path="/synopticObservations" element={<SynopticsList />} />
+          <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path="/logout" element={<Login />} />
+          <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/" element={
+            <PrivateRoute>
+              <StationsList />
+              {/* <SynopticsList /> */}
+              {/* <ObservationPage /> */}
+            </PrivateRoute>
+            } />
+          </Route>
       </Routes>
     </div>
   )
 }
 
 export default App
-
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         {/* <Counter /> */}
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <span>
-//           <span>Learn </span>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             React
-//           </a>
-//           <span>, </span>
-//           <a
-//             className="App-link"
-//             href="https://redux.js.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Redux
-//           </a>
-//           <span>, </span>
-//           <a
-//             className="App-link"
-//             href="https://redux-toolkit.js.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Redux Toolkit
-//           </a>
-//           ,<span> and </span>
-//           <a
-//             className="App-link"
-//             href="https://react-redux.js.org/"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             React Redux
-//           </a>
-//         </span>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
