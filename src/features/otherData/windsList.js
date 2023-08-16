@@ -1,26 +1,28 @@
 import React, { useState } from 'react'
-import classnames from 'classnames'
-import { Link } from 'react-router-dom'
-import { Spinner } from '../../components/Spinner'
-import { useGetSynopticObservationsQuery } from '../api/apiSlice'
-import { useGetStationsQuery } from '../api/apiSlice'
+import { useGetStationsQuery, useGetGustsWindQuery, useDeleteWindMutation } from '../api/apiSlice'
 import Pagination from '../../components/Pagination'
+import { useNavigate, useParams } from 'react-router-dom'
+import classnames from 'classnames'
+// import { Link } from 'react-router-dom'
+import { Spinner } from '../../components/Spinner'
 
-let Observation = ({ observation, stations }) => {
-  
+let Wind = ({observation, stations})=>{
+  const [deleteWind] = useDeleteWindMutation()
+  const navigate = useNavigate()
   return (
     <tr key={observation.id}>
-      <td>{observation.observed_at.substr(0,19).replace('T',' ')}</td>
-      <td>{observation.term}</td>
+      <td>{observation.obs_date} {observation.period}:00</td>
+      <td>{observation.created_at.substr(0,19).replace('T',' ')}</td>
       <td>{stations[observation.station_id]}</td>
-      <td><Link to={`/synopticObservations/${observation.id}`} params={{observationId: observation.id}}>
-        {observation.telegram}
-      </Link></td>
+      <td align='center'>{parseInt(observation.value)}</td>
+      {/* <td><Link to={`/otherObservations/${observation.id}`} params={{observationId: observation.id}}>
+        Удалить
+      </Link></td> */}
+      <td><button onClick={()=>deleteWind(observation.id).then(() => navigate('/otherDataWinds'))} className="button muted-button">Удалить</button></td>
     </tr>
   )
 }
-
-export const SynopticsList = () => {
+export const WindsList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const {
     data: data = {
@@ -33,7 +35,7 @@ export const SynopticsList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetSynopticObservationsQuery(currentPage)
+  } = useGetGustsWindQuery(currentPage)
 
   const {
     data: stations = [],
@@ -43,33 +45,32 @@ export const SynopticsList = () => {
   stations.forEach(station => {
     namesStation[station.id] = station.name
   })
-  
   let content
 
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedSynoptics = data.observations.map((observation) => (
-      <Observation key={observation.id} observation={observation} stations={namesStation} />
+    const renderedWinds = data.observations.map((observation) => (
+      <Wind key={observation.id} observation={observation} stations={namesStation} />
     ))
 
     const containerClassname = classnames('synoptics-container', {
       disabled: isFetching,
     })
-
-    content = <div className={containerClassname}>
+  content = <div className={containerClassname}>
       <p>Page {currentPage}</p>
       <table className='table table-hover'>
         <thead>
           <tr>
-            <th>Дата наблюдения (UTC)</th>
-            <th>Срок</th>
+            <th>Дата и время наблюдения</th>
+            <th>Дата и время ввода (UTC)</th>
             <th>Метеостанция</th>
-            <th>Телеграмма</th>
+            <th>Скорость (м/с)</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          {renderedSynoptics}
+          {renderedWinds}
         </tbody>
       </table>
       <Pagination
@@ -86,7 +87,7 @@ export const SynopticsList = () => {
 
   return (
     <section className="posts-list">
-      <h2>Синоптические телеграммы</h2>
+      <h2>Порывы ветра</h2>
       {content}
     </section>
   )

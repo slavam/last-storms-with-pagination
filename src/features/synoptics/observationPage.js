@@ -154,6 +154,22 @@ export const ObservationPage = () => {
       <tr>
         <th>Состояние поверхности почвы без снега</th><td>{soilCondition[observation.soil_surface_condition_1]}</td>
       </tr>)
+    const tSurface = (observation.soil_surface_condition_1 === null && observation.temperature_soil === null) ? null :
+      (observation.temperature_soil === null ? 'Не определена' :
+      <tr>
+        <th>Температура подстилающей поверхности (°С)</th><td>{observation.temperature_soil}</td>
+      </tr>)
+    let group551 = observation.telegram.split(' 555 ')[1].match(/5[0|1]/)
+    group551 = group551 ? group551.input : null
+    let tAvgDayli = null
+    const sign = ['','-']
+    if(group551){
+      let i = group551.indexOf('50')>=0 ? group551.indexOf('50') : group551.indexOf('51')
+      let t = `${sign[+group551[i+1]]}${group551.substr(i+2,2)}.${group551[i+4]}`
+      tAvgDayli = <tr>
+        <th>Средняя температура воздуха за прошедшие сутки (°С)</th><td>{t}</td>
+      </tr>
+    }
     return (
       <section>
         <article className="post">
@@ -220,6 +236,8 @@ export const ObservationPage = () => {
               {cloudBaseHeight}
               {addWeatherInfo}
               {soilSurfaceConditionNoSnow}
+              {tSurface}
+              {tAvgDayli}
             </thead>
           </table>
         </article>

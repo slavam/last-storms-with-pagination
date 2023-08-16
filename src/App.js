@@ -9,6 +9,7 @@ import { StationsList } from './features/stations/stationsList'
 import { SynopticsList } from './features/synoptics/synopticsList'
 import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
+import { WindsList } from './features/otherData/windsList'
 import { Login } from './login/Login';
 import { Profile } from './login/profile'
 import { history } from './components/history'
@@ -28,6 +29,7 @@ function App() {
           <Route exact path="/storms" element={<StormsList />} />
           <Route exact path="/synopticObservations" element={<SynopticsList />} />
           <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} />
+          <Route exact path='/otherDataWinds' element={<WindsList />} />
           <Route path="/login" element={<Login />} />
           <Route path='/profile' element={<Profile />} />
           <Route path="/logout" element={<Login />} />

@@ -44,6 +44,10 @@ export const menuItems = [
         title: 'Штормовые',
         url: 'storms',
       },
+      {
+        title: 'Порывы ветра',
+        url: 'otherDataWinds',
+      },
     ]
   },
   {

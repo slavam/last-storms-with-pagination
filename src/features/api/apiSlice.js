@@ -13,7 +13,7 @@ export const apiSlice = createApi({
       ],
     }),
     getSynopticObservations: builder.query({
-      query: (currentPage) => '/synoptic_observations.json?page='+currentPage,
+      query: (currentPage) => '/synoptic_observations.json?page='+currentPage+'&page_size=15',
       providesTags: ['Synoptic'],
     }),
     getSynopticObservation: builder.query({
@@ -26,6 +26,17 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
       invalidatesTags: ["Synoptic"]
+    }),
+    getGustsWind: builder.query({
+      query:(currentPage)=>'/other_observations.json?factor=wind&page_size=15&page='+currentPage,
+      providesTags: ['Wind']
+    }),
+    deleteWind: builder.mutation({
+      query: (id)=>({
+        url: `/other_observations/${id}.json`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ['Wind']
     })
   })
 })
@@ -34,5 +45,7 @@ export const {
   useGetStationsQuery,
   useGetSynopticObservationsQuery,
   useGetSynopticObservationQuery,
-  useDeleteObservationMutation
+  useDeleteObservationMutation,
+  useGetGustsWindQuery,
+  useDeleteWindMutation
 } = apiSlice
