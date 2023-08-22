@@ -1,24 +1,24 @@
 import React, { useState } from 'react'
-import { useGetStationsQuery, useGetGustsWindQuery, useDeleteWindMutation } from '../api/apiSlice'
+import { useGetStationsQuery, useGetTemp8Query, useDeleteWindMutation } from '../api/apiSlice'
 import Pagination from '../../components/Pagination'
 import { useNavigate } from 'react-router-dom'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 
-let Wind = ({observation, stations})=>{
+let Temperature = ({observation, stations})=>{
   const [deleteWind] = useDeleteWindMutation()
   const navigate = useNavigate()
   return (
     <tr key={observation.id}>
-      <td>{observation.obs_date} {observation.period}:00</td>
+      <td>{observation.obs_date}</td>
       <td>{observation.created_at.substr(0,19).replace('T',' ')}</td>
       <td>{stations[observation.station_id]}</td>
       <td align='center'>{parseInt(observation.value)}</td>
-      <td><button onClick={()=>deleteWind(observation.id).then(() => navigate('/otherDataWinds'))} className="button muted-button">Удалить</button></td>
+      <td><button onClick={()=>deleteWind(observation.id).then(() => navigate('/otherDataTemps'))} className="button muted-button">Удалить</button></td>
     </tr>
   )
 }
-export const WindsList = () => {
+export const TempsList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const {
     data: data = {
@@ -31,7 +31,8 @@ export const WindsList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetGustsWindQuery(currentPage)
+  } = useGetTemp8Query(currentPage)
+
   const {
     data: stations = [],
   } = useGetStationsQuery()
@@ -46,8 +47,8 @@ export const WindsList = () => {
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedWinds = data.observations.map((observation) => (
-      <Wind key={observation.id} observation={observation} stations={namesStation} />
+    const renderedTemps = data.observations.map((observation) => (
+      <Temperature key={observation.id} observation={observation} stations={namesStation} />
     ))
 
     const containerClassname = classnames('stations-container', {disabled: isFetching,})
@@ -57,15 +58,15 @@ export const WindsList = () => {
       <table className='table table-hover'>
         <thead>
           <tr>
-            <th>Дата и время наблюдения</th>
+            <th>Дата наблюдения</th>
             <th>Дата и время ввода (UTC)</th>
             <th>Метеостанция</th>
-            <th>Скорость (м/с)</th>
+            <th>Температура (°С)</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {renderedWinds}
+          {renderedTemps}
         </tbody>
       </table>
       <Pagination
@@ -82,7 +83,7 @@ export const WindsList = () => {
 
   return (
     <section >
-      <h2>Порывы ветра</h2>
+      <h2>Температура на 8 часов</h2>
       {content}
     </section>
   )

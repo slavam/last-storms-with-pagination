@@ -48,6 +48,10 @@ export const menuItems = [
         title: 'Порывы ветра',
         url: 'otherDataWinds',
       },
+      {
+        title: 'Температура на 8 часов',
+        url: 'otherDataTemps',
+      },
     ]
   },
   {

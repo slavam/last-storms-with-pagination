@@ -31,6 +31,10 @@ export const apiSlice = createApi({
       query:(currentPage)=>'/other_observations.json?factor=wind&page_size=15&page='+currentPage,
       providesTags: ['Wind']
     }),
+    getTemp8: builder.query({
+      query:(currentPage)=>'/other_observations.json?factor=temp&page_size=15&page='+currentPage,
+      providesTags: ['Wind', 'Temp8']
+    }),
     deleteWind: builder.mutation({
       query: (id)=>({
         url: `/other_observations/${id}.json`,
@@ -47,5 +51,6 @@ export const {
   useGetSynopticObservationQuery,
   useDeleteObservationMutation,
   useGetGustsWindQuery,
+  useGetTemp8Query,
   useDeleteWindMutation
 } = apiSlice
