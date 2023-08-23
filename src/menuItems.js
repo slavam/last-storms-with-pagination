@@ -52,6 +52,10 @@ export const menuItems = [
         title: 'Температура на 8 часов',
         url: 'otherDataTemps',
       },
+      {
+        title: 'Осадки',
+        url: 'otherDataPrecipitation',
+      },
     ]
   },
   {
