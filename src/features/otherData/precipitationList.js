@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useGetStationsQuery, useGetPrecipitationQuery, useDeleteWindMutation } from '../api/apiSlice'
+import { useGetPrecipitationQuery, useDeleteWindMutation } from '../api/apiSlice'
 import Pagination from '../../components/Pagination'
 import { useNavigate } from 'react-router-dom'
 import classnames from 'classnames'
@@ -13,7 +13,7 @@ let Precipitation = ({observation})=>{
       <td>{observation.obs_date}/{observation.period === 'day'? 'День':'Ночь'}</td>
       <td>{observation.created_at.substr(0,19).replace('T',' ')}</td>
       <td>{observation.source}</td>
-      <td align='center'>{+observation.value>=1.0 ? parseInt(observation.value):observation.value}</td>
+      <td align='center'>{+observation.value%1.0 === 0 ? parseInt(observation.value):observation.value}</td>
       <td>{observation.description}</td>
       <td><button onClick={()=>deleteWind(observation.id).then(() => navigate('/otherDataPrecipitation'))} className="button muted-button">Удалить</button></td>
     </tr>
