@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom'
 import { Navbar } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'
+import { MeasurementsList } from './features/measurements/measurementsList'
+import { AvgTemperatures } from './features/temperatures/avgTemperatures'
 import { SynopticsList } from './features/synoptics/synopticsList'
 import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
@@ -46,6 +48,8 @@ function App() {
             </PrivateRoute>
             } />
           </Route>
+          <Route path="/measurements" element={<MeasurementsList />} />
+          <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
       </Routes>
     </div>
   )

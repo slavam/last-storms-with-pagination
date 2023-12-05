@@ -4,9 +4,10 @@ import { Spinner } from '../../components/Spinner'
 import { useGetStationsQuery } from '../api/apiSlice'
 
 let Station = ({ station }) => {
-  let s = `ID: ${station.id} ${station.code} ${station.name}`
+  let s = `${station.sindex} ${station.station_name}`
+  // let s = `ID: ${station.id} ${station.code} ${station.name}`
   return (
-    <article key={station.id}>
+    <article key={station.sindex}>
       <h3>{s}</h3>
     </article>
   )
@@ -23,8 +24,8 @@ export const StationsList = () => {
   } = useGetStationsQuery()
 
   const sortedStations = useMemo(() => {
-    // alert(stations.length)
-    const sortedStations = stations.slice()
+    const sortedStations = stations.filter((s) => s.sindex < 80000 || s.sindex > 90000)
+    // stations.slice()
     // sortedStations.sort((a, b) => a.id.localeCompare(b.id))
     return sortedStations
   }, [stations])

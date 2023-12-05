@@ -12,6 +12,10 @@ export const menuItems = [
         title: 'Гидропосты',
         url: 'hydroPosts',
       },
+      {
+        title: 'Измерения',
+        url: 'measurements',
+      },
     ],
   },
   {
@@ -51,6 +55,10 @@ export const menuItems = [
       {
         title: 'Температура на 8 часов',
         url: 'otherDataTemps',
+      },
+      {
+        title: 'Средняя температура за сутки',
+        url: 'avgDailyTemp',
       },
       {
         title: 'Осадки',
