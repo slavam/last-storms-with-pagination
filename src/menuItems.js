@@ -61,6 +61,10 @@ export const menuItems = [
         url: 'avgDailyTemp',
       },
       {
+        title: 'Синоптические данные',
+        url: 'synopticData',
+      },
+      {
         title: 'Осадки',
         url: 'otherDataPrecipitation',
       },

@@ -20,13 +20,20 @@ export const apiSlice = createApi({
         ...result.map(({id})=>({type: 'Measurement',id})),
       ],
     }),
+    getDailySynopticData: builder.query({
+      query: (qParams)=>
+      `/get?stations=34519,34524,34622,99023,34615,34712&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
+      // `/get?stations=34519,34524,34622,99023,34615,34712&codes=${qParams[1].substring(1,5)}&hashes=${qParams[1].substring(7)}&notbefore=${qParams[0]}&notafter=${qParams[0]+24*60*60}`,
+      providesTags: (result = [], error, arg) => [
+        'SynopticData',
+        ...result.map(({ id }) => ({ type: 'SynopticData', id })),
+      ],
+    }),
     getDailyTemperatures: builder.query({
       query: (reportDate) => 
-        // let d1 = Math.round(new Date(reportTime).getTime()/1000)
-        // new Date(1701248400 * 1000).toISOString()
         `/get?stations=34519,34524,34622,99023,34615,34712&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+24*60*60}`,
         providesTags: (result = [], error, arg) => [
-          'Station',
+          'Temperature',
           ...result.map(({ id }) => ({ type: 'Temperature', id })),
         ],
     }),
@@ -70,6 +77,7 @@ export const {
   useGetStationsQuery,
   useGetMeasurementsQuery,
   useGetDailyTemperaturesQuery,
+  useGetDailySynopticDataQuery,
   useGetSynopticObservationsQuery,
   useGetSynopticObservationQuery,
   useDeleteObservationMutation,

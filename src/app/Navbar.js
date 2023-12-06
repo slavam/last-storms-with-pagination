@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import { menuItems } from '../menuItems';
 import MenuItems from './MenuItems'
 
-import {
-  useGetStormsQuery,
-} from '../features/storms/stormsSlice'
+// import {
+//   useGetStormsQuery,
+// } from '../features/storms/stormsSlice'
 // import { authActions } from '../features/auth/authSlice'
 
 export const Navbar = () => {
@@ -15,7 +15,7 @@ export const Navbar = () => {
   // const logout = () => dispatch(authActions.logout());
 
   // Trigger initial fetch of notifications and keep the websocket open to receive updates
-  useGetStormsQuery()
+  // useGetStormsQuery()
 
   // const stormsMetadata = useSelector(selectStormsMetadata)
   // const numUnreadStorms = stormsMetadata.filter((n) => !n.read).length

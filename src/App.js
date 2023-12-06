@@ -21,6 +21,7 @@ import { PrivateRoute } from './components/PrivateRoute'
 // import './style.css';
 import './App.css'
 import Layout from './app/Layout'
+import { SynopticData } from './features/synopticData/synopticData'
 
 function App() {
   history.navigate = useNavigate();
@@ -43,13 +44,12 @@ function App() {
           <Route path="/" element={
             <PrivateRoute>
               <StationsList />
-              {/* <SynopticsList /> */}
-              {/* <ObservationPage /> */}
             </PrivateRoute>
             } />
           </Route>
           <Route path="/measurements" element={<MeasurementsList />} />
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
+          <Route exact path="/synopticData" element={<SynopticData />} />
       </Routes>
     </div>
   )
