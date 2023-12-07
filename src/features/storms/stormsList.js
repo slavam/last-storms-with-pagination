@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { TimeAgo } from './TimeAgo'
 // import { formatDistanceToNow, parseISO } from 'date-fns'
 // import classnames from 'classnames'

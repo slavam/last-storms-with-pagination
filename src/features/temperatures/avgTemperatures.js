@@ -50,11 +50,11 @@ export const AvgTemperatures = ()=>{
     let i,j
     let temps = [['Срок',0,3,6,9,12,15,18,21,'Средняя'],
                  ['Донецк',null,null,null,null,null,null,null,null,0,0],
-                 ['Дебальцево',,,,,,,,,0,0],
-                 ['Амвросиевка',,,,,,,,,0,0],
-                 ['Седово',,,,,,,,,0,0],
-                 ['Волноваха',,,,,,,,,0,0],
-                 ['Мариуполь',,,,,,,,,0,0]]
+                 ['Дебальцево',null,null,null,null,null,null,null,null,0,0],
+                 ['Амвросиевка',null,null,null,null,null,null,null,null,0,0],
+                 ['Седово',null,null,null,null,null,null,null,null,0,0],
+                 ['Волноваха',null,null,null,null,null,null,null,null,0,0],
+                 ['Мариуполь',null,null,null,null,null,null,null,null,0,0]]
     // if(observations && observations !== 'null' && observations !== 'undefined' && observations.length>0)
       observations.map((o) => {
         i = codeStations.indexOf(o.station)

@@ -16,7 +16,7 @@ export const ObservationPage = () => {
   } = useGetStationsQuery()
 
   const {
-    data: data = {
+    data = {
       observation: {},
     },
     isLoading,

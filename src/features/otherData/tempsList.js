@@ -21,7 +21,7 @@ let Temperature = ({observation, stations})=>{
 export const TempsList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const {
-    data: data = {
+    data = {
       pageSize: 20,
       totalCount: 0,
       observations: []

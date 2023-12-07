@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 export function Profile(){
   const authUser = useSelector(x => x.auth.user)
   return(

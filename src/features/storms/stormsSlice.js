@@ -5,7 +5,7 @@ import {
   isAnyOf,
 } from '@reduxjs/toolkit'
 import { apiSlice } from '../api/apiSlice'
-import actionCable from "actioncable"
+// import actionCable from "actioncable"
 
 const stormsReceived = createAction(
   'storms/stormsReceived'
@@ -21,7 +21,7 @@ export const extendedApi = apiSlice.injectEndpoints({
       ) {
         // create a websocket connection when the cache subscription starts
         // const ws = actionCable.createConsumer('ws://localhost:3000/cable')
-        const ws = actionCable.createConsumer('ws://10.105.24.41:8080/cable')
+        // const ws = actionCable.createConsumer('ws://10.105.24.41:8080/cable')
         try {
           // wait for the initial query to resolve before proceeding
           await cacheDataLoaded

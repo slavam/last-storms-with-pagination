@@ -37,7 +37,7 @@ const MenuItems = ({ items, depthLevel }) => {
     <li className="menu-items" ref={ref} 
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onClick={items.url=='/logout'?logout:closeDropdown}
+      onClick={items.url==='/logout'?logout:closeDropdown}
     >
       {items.submenu ? (
         <>

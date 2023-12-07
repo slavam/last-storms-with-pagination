@@ -51,11 +51,11 @@ export const SynopticData = ()=>{
     let i,j
     let temps = [['Срок',0,3,6,9,12,15,18,21],
                  ['Донецк',null,null,null,null,null,null,null,null],
-                 ['Дебальцево',,,,,,,,],
-                 ['Амвросиевка',,,,,,,,],
-                 ['Седово',,,,,,,,],
-                 ['Волноваха',,,,,,,,],
-                 ['Мариуполь',,,,,,,,]]
+                 ['Дебальцево',null,null,null,null,null,null,null,null],
+                 ['Амвросиевка',null,null,null,null,null,null,null,null],
+                 ['Седово',null,null,null,null,null,null,null,null],
+                 ['Волноваха',null,null,null,null,null,null,null,null],
+                 ['Мариуполь',null,null,null,null,null,null,null,null]]
     // if(observations && observations !== 'null' && observations !== 'undefined' && observations.length>0)
       observations.map((o) => {
         i = codeStations.indexOf(o.station)
