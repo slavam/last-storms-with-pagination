@@ -20,7 +20,8 @@ export const extendedApi = apiSlice.injectEndpoints({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
         // create a websocket connection when the cache subscription starts
-        const ws = actionCable.createConsumer('ws://localhost:3000/cable')
+        // const ws = actionCable.createConsumer('ws://localhost:3000/cable')
+        const ws = actionCable.createConsumer('ws://10.105.24.41:8080/cable')
         try {
           // wait for the initial query to resolve before proceeding
           await cacheDataLoaded
