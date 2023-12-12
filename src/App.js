@@ -22,6 +22,7 @@ import { PrivateRoute } from './components/PrivateRoute'
 import './App.css'
 import Layout from './app/Layout'
 import { SynopticData } from './features/synopticData/synopticData'
+import { BulletinsList } from './features/bulletins/bulletinsList'
 
 function App() {
   history.navigate = useNavigate();
@@ -50,6 +51,7 @@ function App() {
           <Route path="/measurements" element={<MeasurementsList />} />
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
           <Route exact path="/synopticData" element={<SynopticData />} />
+          <Route exact path="/stormBulletins" element={<BulletinsList />} />
       </Routes>
     </div>
   )

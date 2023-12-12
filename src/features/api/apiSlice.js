@@ -4,7 +4,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
-  tagTypes: ['Station','Synoptic'],
+  tagTypes: ['Station','Synoptic','Measurement'],
   endpoints: (builder) => ({
     getStations: builder.query({
       query: () => '/stations.json',
@@ -36,6 +36,12 @@ export const apiSlice = createApi({
           'Temperature',
           ...result.map(({ id }) => ({ type: 'Temperature', id })),
         ],
+    }),
+    getBulletins: builder.query({
+      // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.105.24.41:8080'}),
+      // query: (qParams)=> `http://10.105.24.41:8080/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`,
+      query: (qParams)=> `http://localhost:3000/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`,
+      providesTags: ['Bulletins'],
     }),
     getSynopticObservations: builder.query({
       query: (currentPage) => '/synoptic_observations.json?page='+currentPage+'&page_size=15',
@@ -84,5 +90,6 @@ export const {
   useGetGustsWindQuery,
   useGetTemp8Query,
   useGetPrecipitationQuery,
-  useDeleteWindMutation
+  useDeleteWindMutation,
+  useGetBulletinsQuery
 } = apiSlice

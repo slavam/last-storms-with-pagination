@@ -117,9 +117,9 @@ export const SynopticData = ()=>{
     <div className="col-md-6 offset-md-3 mt-5">
       <h2>Синоптические данные по срокам на станциях</h2>
       <div className="form-group">
-        <label for="select-type">Задайте тип данных : </label>
+        <label htmlFor="select-type">Задайте тип данных : </label>
         <Select value={dataType} onChange={val => setDataType(val)} options={dataTypes} id='select-type'/>
-        <label for="input-date">Задайте дату : </label>
+        <label htmlFor="input-date">Задайте дату : </label>
         <input type="date" id="input-date" max={maxDate} name="input-date" value={reportDate} onChange={(event) => setReportDate(event.target.value>maxDate?maxDate:event.target.value)} required={true} autoComplete="on" />
       </div>
       {hdr}

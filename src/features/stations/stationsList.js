@@ -36,7 +36,7 @@ export const StationsList = () => {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
     const renderedStations = sortedStations.map((station) => (
-      <Station key={station.id} station={station} />
+      <Station key={station.sindex} station={station} />
     ))
 
     const containerClassname = classnames('stations-container', {

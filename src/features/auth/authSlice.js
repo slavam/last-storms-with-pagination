@@ -35,8 +35,8 @@ function createReducers() {
 }
 
 function createExtraActions() {
-  // const baseUrl = 'http://localhost:3000'
-  const baseUrl = 'http://10.105.24.41:8080'
+  const baseUrl = 'http://localhost:3000'
+  // const baseUrl = 'http://10.105.24.41:8080'
   // const baseUrl = 'http://localhost:8080'
   return {
       login: login()

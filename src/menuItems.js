@@ -19,12 +19,12 @@ export const menuItems = [
     ],
   },
   {
-    title: 'Services',
-    url: '/services',
+    title: 'Бюллетени',
+    url: '/bulletins',
     submenu: [
       {
-        title: 'web design',
-        url: 'web-design',
+        title: 'Штормовые предупреждения',
+        url: 'stormBulletins',
       },
       {
         title: 'web development',
