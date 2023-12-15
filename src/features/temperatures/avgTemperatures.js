@@ -115,7 +115,7 @@ export const AvgTemperatures = ()=>{
     <div className="col-md-6 offset-md-3 mt-5">
       <h2>Среднесуточная температура воздуха</h2>
       <div className="form-group">
-        <label for="input-date">Задайте дату : </label>
+        <label htmlFor="input-date">Задайте дату : </label>
         <input type="date" id="input-date" max={maxDate} name="input-date" value={reportDate} onChange={(event) => setReportDate(event.target.value>maxDate?maxDate:event.target.value)} required={true} autoComplete="on" />
       </div>
       <h5>Температура воздуха (°С) {reportDate} в сроки наблюдений по данным метеорологических станций</h5>

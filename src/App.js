@@ -23,6 +23,7 @@ import './App.css'
 import Layout from './app/Layout'
 import { SynopticData } from './features/synopticData/synopticData'
 import { BulletinsList } from './features/bulletins/bulletinsList'
+import { NewStormBulletin } from './features/bulletins/stormForm'
 
 function App() {
   history.navigate = useNavigate();
@@ -52,6 +53,7 @@ function App() {
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
           <Route exact path="/synopticData" element={<SynopticData />} />
           <Route exact path="/stormBulletins" element={<BulletinsList />} />
+          <Route exact path='/createStormBulletin' element={<NewStormBulletin />} />
       </Routes>
     </div>
   )

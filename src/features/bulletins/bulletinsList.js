@@ -5,6 +5,7 @@ import { Spinner } from '../../components/Spinner'
 import { useGetBulletinsQuery } from '../api/apiSlice' 
 import Pagination from '../../components/Pagination'
 import Select from 'react-select'
+import { useSelector } from 'react-redux'
 
 let Bulletin = ({ bulletin }) => {
   
@@ -18,6 +19,7 @@ let Bulletin = ({ bulletin }) => {
   )
 }
 export const BulletinsList = ()=>{
+  
   const bulletinsType = [
     {label: 'Штормовые предупреждения', value: 'storm'},
     {label: 'Бюллетени ежедневные', value: 'daily'},
@@ -25,9 +27,11 @@ export const BulletinsList = ()=>{
   const [currentPage, setCurrentPage] = useState(1)
   const [bulletinType, setBulletinType] = useState(bulletinsType[0])
   let qParams = [currentPage, bulletinType.value]
+  // const authUser = useSelector(x => x.auth.user)
+  // qParams[2] = authUser.id
   const {
     data = {
-      pageSize: 20,
+      pageSize: 10,
       totalCount: 0,
       bulletins: []
     },
@@ -43,6 +47,7 @@ export const BulletinsList = ()=>{
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
+    
     const renderedBulletins = data.bulletins.map((bulletin) => (
       <Bulletin key={bulletin.id} bulletin={bulletin} />
     ))
@@ -53,6 +58,13 @@ export const BulletinsList = ()=>{
 
     content = <div className={containerClassname}>
       <p>Page {currentPage}</p>
+      <Pagination
+        className="pagination-bar"
+        currentPage={currentPage}
+        totalCount={data.totalCount}
+        pageSize={data.pageSize}
+        onPageChange={page => setCurrentPage(page)}
+      />
       <table className='table table-hover'>
         <thead>
           <tr>
@@ -71,15 +83,17 @@ export const BulletinsList = ()=>{
         pageSize={data.pageSize}
         onPageChange={page => setCurrentPage(page)}
       />
+      <Link to={'/createStormBulletin'} params={{bulletinType: 'storm'}}>Создать бюллетень</Link>
     </div>
   } else if (isError) {
     content = <div>{error.toString()}</div>
   }
+  
   return (
     <section className="posts-list">
+      <h2>{bulletinType.label}</h2>
       <label htmlFor="select-type">Задайте тип данных : </label>
       <Select value={bulletinType} onChange={val => setBulletinType(val)} options={bulletinsType} id='select-type'/>
-      <h2>{bulletinType.label}</h2>
       {content}
     </section>
   )

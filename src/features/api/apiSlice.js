@@ -4,7 +4,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
-  tagTypes: ['Station','Synoptic','Measurement'],
+  tagTypes: ['Station','Synoptic','Measurement','Bulletins'],
   endpoints: (builder) => ({
     getStations: builder.query({
       query: () => '/stations.json',
@@ -40,7 +40,7 @@ export const apiSlice = createApi({
     getBulletins: builder.query({
       // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.105.24.41:8080'}),
       // query: (qParams)=> `http://10.105.24.41:8080/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`,
-      query: (qParams)=> `http://localhost:3000/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`,
+      query: (qParams)=> `http://localhost:3000/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`, //&user_id=${qParams[2]}`,
       providesTags: ['Bulletins'],
     }),
     getSynopticObservations: builder.query({
@@ -75,6 +75,13 @@ export const apiSlice = createApi({
         method: "DELETE"
       }),
       invalidatesTags: ['Wind']
+    }),
+    createStorm: builder.mutation({
+      query: bulletin =>({
+        method: "POST",
+        url: 'http://localhost:3000/bulletins?format=json',
+        body: bulletin
+      })
     })
   })
 })
@@ -91,5 +98,6 @@ export const {
   useGetTemp8Query,
   useGetPrecipitationQuery,
   useDeleteWindMutation,
-  useGetBulletinsQuery
+  useGetBulletinsQuery,
+  useCreateStormMutation
 } = apiSlice
