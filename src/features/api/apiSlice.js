@@ -4,7 +4,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
-  tagTypes: ['Station','Synoptic','Measurement','Bulletins'],
+  tagTypes: ['Station','Synoptic','Measurement','Bulletins','Observations'],
   endpoints: (builder) => ({
     getStations: builder.query({
       query: () => '/stations.json',
@@ -19,6 +19,11 @@ export const apiSlice = createApi({
         'Measurement',
         ...result.map(({id})=>({type: 'Measurement',id})),
       ],
+    }),
+    getObservations: builder.query({
+      query: (qParams)=> 
+        `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}`,
+      providesTags: ['Observations']
     }),
     getDailySynopticData: builder.query({
       query: (qParams)=>
@@ -99,5 +104,6 @@ export const {
   useGetPrecipitationQuery,
   useDeleteWindMutation,
   useGetBulletinsQuery,
-  useCreateStormMutation
+  useCreateStormMutation,
+  useGetObservationsQuery
 } = apiSlice

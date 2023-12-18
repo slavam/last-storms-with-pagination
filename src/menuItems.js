@@ -1,7 +1,7 @@
 export const menuItems = [
   
   {
-    title: 'Справочники',
+    title: 'Данные',
     url: '/dictionaries',
     submenu: [
       {
@@ -9,12 +9,12 @@ export const menuItems = [
         url: 'stations',
       },
       {
-        title: 'Гидропосты',
-        url: 'hydroPosts',
-      },
-      {
         title: 'Измерения',
         url: 'measurements',
+      },
+      {
+        title: 'Наблюдения',
+        url: 'observations',
       },
     ],
   },

@@ -24,6 +24,7 @@ import Layout from './app/Layout'
 import { SynopticData } from './features/synopticData/synopticData'
 import { BulletinsList } from './features/bulletins/bulletinsList'
 import { NewStormBulletin } from './features/bulletins/stormForm'
+import { SelectObservations } from './features/observations/selectObservations'
 
 function App() {
   history.navigate = useNavigate();
@@ -50,6 +51,7 @@ function App() {
             } />
           </Route>
           <Route path="/measurements" element={<MeasurementsList />} />
+          <Route path="/observations" element={<SelectObservations />} />
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
           <Route exact path="/synopticData" element={<SynopticData />} />
           <Route exact path="/stormBulletins" element={<BulletinsList />} />

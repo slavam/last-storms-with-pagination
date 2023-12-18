@@ -5,7 +5,7 @@ import { Spinner } from '../../components/Spinner'
 import { useGetBulletinsQuery } from '../api/apiSlice' 
 import Pagination from '../../components/Pagination'
 import Select from 'react-select'
-import { useSelector } from 'react-redux'
+// import { Navbar } from '../../app/Navbar'
 
 let Bulletin = ({ bulletin }) => {
   
@@ -31,7 +31,7 @@ export const BulletinsList = ()=>{
   // qParams[2] = authUser.id
   const {
     data = {
-      pageSize: 10,
+      pageSize: 15,
       totalCount: 0,
       bulletins: []
     },
@@ -57,7 +57,7 @@ export const BulletinsList = ()=>{
     })
 
     content = <div className={containerClassname}>
-      <p>Page {currentPage}</p>
+      {/* <p>pageSize {data.pageSize}</p> */}
       <Pagination
         className="pagination-bar"
         currentPage={currentPage}
@@ -91,9 +91,9 @@ export const BulletinsList = ()=>{
   
   return (
     <section className="posts-list">
-      <h2>{bulletinType.label}</h2>
       <label htmlFor="select-type">Задайте тип данных : </label>
       <Select value={bulletinType} onChange={val => setBulletinType(val)} options={bulletinsType} id='select-type'/>
+      <h2>{bulletinType.label}</h2>
       {content}
     </section>
   )
