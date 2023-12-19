@@ -21,8 +21,11 @@ export const apiSlice = createApi({
       ],
     }),
     getObservations: builder.query({
-      query: (qParams)=> 
-        `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}`,
+      query: (qParams)=> {
+        let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:null;
+        let point = qParams.point ? `&point=${qParams.point}`:null;
+        return `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}${hashes}${point}`
+      },
       providesTags: ['Observations']
     }),
     getDailySynopticData: builder.query({
