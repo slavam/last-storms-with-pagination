@@ -22,9 +22,18 @@ export const apiSlice = createApi({
     }),
     getObservations: builder.query({
       query: (qParams)=> {
-        let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:null;
-        let point = qParams.point ? `&point=${qParams.point}`:null;
-        return `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}${hashes}${point}`
+        
+        let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
+        // let point = ''
+        // if(qParams.point!=='')
+        //   if(+qParams.point!==0)
+        //     point=`&point=${qParams.point}`
+        //   else
+        //     point='&point=0'
+            
+        let point = qParams.point==='' ? '' : `&point=${qParams.point}`
+        // console.log(point,qParams.point)
+        return `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}${hashes}${point}&limit=100`
       },
       providesTags: ['Observations']
     }),
