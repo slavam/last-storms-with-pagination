@@ -12,7 +12,7 @@ let Bulletin = ({ bulletin }) => {
   return (
     <tr key={bulletin.id}>
       <td>{bulletin.report_date.substr(0,10)}</td>
-      <td><Link to={`http://localhost:3000/bulletins/${bulletin.id}/bulletin_show.pdf`} params={{variant: 'warning'}}>
+      <td><Link to={`http://localhost:3000/bulletins/${bulletin.id}/bulletin_show.pdf`} target="_blank" params={{variant: 'warning'}}>
         {bulletin.curr_number}
       </Link></td>
     </tr>
@@ -27,8 +27,6 @@ export const BulletinsList = ()=>{
   const [currentPage, setCurrentPage] = useState(1)
   const [bulletinType, setBulletinType] = useState(bulletinsType[0])
   let qParams = [currentPage, bulletinType.value]
-  // const authUser = useSelector(x => x.auth.user)
-  // qParams[2] = authUser.id
   const {
     data = {
       pageSize: 15,

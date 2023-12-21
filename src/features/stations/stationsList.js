@@ -5,7 +5,6 @@ import { useGetStationsQuery } from '../api/apiSlice'
 
 let Station = ({ station }) => {
   let s = `${station.sindex} ${station.station_name}`
-  // let s = `ID: ${station.id} ${station.code} ${station.name}`
   return (
     <article key={station.sindex}>
       <h3>{s}</h3>
@@ -25,8 +24,6 @@ export const StationsList = () => {
 
   const sortedStations = useMemo(() => {
     const sortedStations = stations.filter((s) => s.sindex < 80000 || s.sindex > 90000)
-    // stations.slice()
-    // sortedStations.sort((a, b) => a.id.localeCompare(b.id))
     return sortedStations
   }, [stations])
 
