@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 // import { useGetStationsQuery } from '../api/apiSlice'
 import { useGetDailyTemperaturesQuery } from '../api/apiSlice'
-// import { Link } from 'react-router-dom'
 
 export const AvgTemperatures = ()=>{
   const d = new Date()

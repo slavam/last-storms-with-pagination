@@ -5,6 +5,7 @@ import { useGetObservationsQuery } from '../api/apiSlice'
 import { useGetMeasurementsQuery } from '../api/apiSlice'
 import Select from 'react-select'
 import ru from 'date-fns/locale/ru'
+import Table from 'react-bootstrap/Table'
 
 const stations = [
   {label:'Все',value:'34519,34524,34622,99023,34615,34712'},
@@ -148,7 +149,8 @@ export const SelectObservations = ()=>{
     <div>
       {/* <section className="posts-list"> */}
       <h4>Параметры поиска</h4>
-      <table className='table table-hover'>
+      {/* <table className='table table-hover'> */}
+      <Table striped bordered hover variant="secondary">
         <thead>
           <tr>
             <th>Метеостанция</th>
@@ -183,7 +185,7 @@ export const SelectObservations = ()=>{
             </td>
           </tr>
         </tbody>
-      </table>
+      </Table>
       {/* </section> */}
       <div>
         {content}
