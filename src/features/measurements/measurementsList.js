@@ -6,7 +6,7 @@ import { useGetMeasurementsQuery } from '../api/apiSlice'
 let Measurement = ({ measurement }) => {
   let s = `${measurement.meas_code}; ${measurement.caption}; ${measurement.unit}`
   return (
-    <article key={measurement.id}>
+    <article key={measurement.meas_hash}>
       <p>{s}</p>
     </article>
   )
@@ -33,7 +33,7 @@ export const MeasurementsList = () => {
     contentM = <Spinner text="Loading..." />
   } else if (isSuccess) {
     const renderedMeasurements = sortedMeasurements.map((measurement) => (
-      <Measurement key={measurement.id} measurement={measurement} />
+      <Measurement key={measurement.meas_hash} measurement={measurement} />
     ))
 
     const containerClassname = classnames('stations-container', {

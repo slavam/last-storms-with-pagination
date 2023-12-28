@@ -6,6 +6,7 @@ import { useGetMeasurementsQuery } from '../api/apiSlice'
 import Select from 'react-select'
 import ru from 'date-fns/locale/ru'
 import Table from 'react-bootstrap/Table'
+import Badge from 'react-bootstrap/Badge'
 
 const stations = [
   {label:'Все',value:'34519,34524,34622,99023,34615,34712'},
@@ -33,6 +34,7 @@ const Observation = ({observation, measurement})=>{
   let moment = new Date(+observation.moment*1000)
   let created = new Date(+observation.created_at*1000)
   let stationName = stations.find((s) => +s.value === +observation.station).label
+  let termPeriod = (observation.period === 600 || observation.meas_hash === 79004873)? '10 мин.' : ((observation.unit === 'ccitt ia5' || observation.unit === 'v')? '' : observation.point/3600)
   
   let value2
   switch (observation.unit) {
@@ -45,20 +47,23 @@ const Observation = ({observation, measurement})=>{
     default:
       value2 = observation.value
   }
+  let obsValue = (observation.value === value2 ? observation.value : `${observation.value}/${value2}`)
   return <tr key={observation.id}>
     <td>{observation.id}</td>
     <td>{created.toISOString().replace('T',' ').slice(0,-5)}</td>
     <td>{moment.toISOString().replace('T',' ').slice(0,-5)}</td>
-    <td>{observation.point/3600}</td>
+    <td>{termPeriod}</td>
     <td>{stationName}</td>
-    <td>{observation.value}/{value2}</td>
+    <td>{obsValue}</td>
     <td>{observation.unit}</td>
     <td>{measurement}</td>
     <td>{observation.code}@{observation.meas_hash}</td>
+    {/* <td>{observation.pkind}</td>
+    <td>{observation.rec_flag}</td> */}
   </tr>
 }
 export const SelectObservations = ()=>{
-  const [dtlEventDate, setDtlEventDate] = useState(new Date().toISOString().slice(0,-8))
+  // const [dtlEventDate, setDtlEventDate] = useState(new Date().toISOString().slice(0,-8))
   const {
     data: measurements = [],
     isSuccess: isSuccessM,
@@ -120,19 +125,21 @@ export const SelectObservations = ()=>{
     })
 
     content = <div className={containerClassname}>
-      <h4>Найденные записи ({numRecords})</h4>
+      <h4>Найденные записи <Badge bg="secondary">{numRecords}</Badge></h4>
       <table className='table table-hover'>
         <thead>
           <tr>
             <th>ID</th>
             <th>Создана (UTC)</th>
             <th>Наблюдение (UTC)</th>
-            <th>Срок</th>
+            <th>Срок/Период</th>
             <th>Станция</th>
             <th>Значение</th>
             <th>Единица измерения</th>
             <th>Измерение</th>
             <th>code@hash</th>
+            {/* <th>pkind</th>
+            <th>rec_flag</th> */}
           </tr>
         </thead>
         <tbody>
@@ -186,7 +193,6 @@ export const SelectObservations = ()=>{
           </tr>
         </tbody>
       </Table>
-      {/* </section> */}
       <div>
         {content}
       </div>

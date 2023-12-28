@@ -70,7 +70,7 @@ export const AvgTemperatures = ()=>{
         st = j === 9? (<b>{temps[i][j]}</b>) : temps[i][j]
         row.push(<td key={j}>{st}</td>)
       }
-      return <tr>{row}</tr>
+      return <tr key={i}>{row}</tr>
     }
     const createBody = ()=>{
       let body=[]
