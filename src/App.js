@@ -4,7 +4,7 @@ import {
   Route,
   Navigate, useNavigate, useLocation
 } from 'react-router-dom'
-import { Navbar } from './app/Navbar'
+import { Navbar1 } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'
 import { MeasurementsList } from './features/measurements/measurementsList'
 import { AvgTemperatures } from './features/temperatures/avgTemperatures'
@@ -31,7 +31,7 @@ function App() {
   history.location = useLocation();
   return (
     <div >
-      <Navbar />
+      <Navbar1 />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route exact path="/storms" element={<StormsList />} />
