@@ -21,7 +21,6 @@ export const AvgTemperatures = ()=>{
   const currentDate = `${d.getUTCFullYear()}-${('0'+(d.getUTCMonth()+1)).slice(-2)}-${('0'+(d.getUTCDate())).slice(-2)}`
   const [reportDate, setReportDate] = useState(currentDate);
   const [startTerm, setStartTerm] = useState(startTerms[0])
-  // const [shiftTerms, setShiftTerms] = useState(starts)
   let reportDateSec = Math.round(new Date(reportDate).getTime()/1000)+(60*60*3*startTerm.value)
 
   const {
@@ -59,25 +58,23 @@ export const AvgTemperatures = ()=>{
     
     const absoluteZero = 273.15
     const codeStations = [null,34519,34524,34622,99023,34615,34712]
-    // let terms = [null,0,3,6,9,12,15,18,21,null]
     let shiftTerms = starts.slice(startTerm.value).concat(starts.slice(0,startTerm.value))
     let row0 = ['Срок'].concat(shiftTerms).concat(['Средняя'])
     let i,j
-    let temps = [row0, //['Срок',0,3,6,9,12,15,18,21,'Средняя'],
+    let temps = [[],
                  ['Донецк',null,null,null,null,null,null,null,null,0,0],
                  ['Дебальцево',null,null,null,null,null,null,null,null,0,0],
                  ['Амвросиевка',null,null,null,null,null,null,null,null,0,0],
                  ['Седово',null,null,null,null,null,null,null,null,0,0],
                  ['Волноваха',null,null,null,null,null,null,null,null,0,0],
                  ['Мариуполь',null,null,null,null,null,null,null,null,0,0]]
-    // if(observations && observations !== 'null' && observations !== 'undefined' && observations.length>0)
+    // console.log(observations.length)
       observations.map((o) => {
         i = codeStations.indexOf(o.station)
         j = shiftTerms.indexOf(o.point/3600)+1
         temps[i][j] = (o.value-absoluteZero).toFixed(1)
         if(o.value) {temps[i][9]+=(+o.value-absoluteZero); temps[i][10]+=1}
       })
-    
     const createTr = (i) => {
       if(temps[i][10]>0)temps[i][9] = +((temps[i][9]/temps[i][10]).toFixed(2))
       let row = []
@@ -90,7 +87,7 @@ export const AvgTemperatures = ()=>{
     }
     const createBody = ()=>{
       let body=[]
-      for(let i=0; i<codeStations.length; i++){
+      for(let i=1; i<codeStations.length; i++){
         body.push(createTr(i))
       }
       return <tbody>{body}</tbody>
@@ -101,25 +98,16 @@ export const AvgTemperatures = ()=>{
     const containerClassname = classnames('synoptics-container', {
       disabled: isFetching,
     })
-
+    let liveHead = row0.map((th)=> <th>{th}</th>)
     content = <div className={containerClassname}>
-      <table className='table table-hover'>
-        {/* <thead>
+      <Table striped bordered hover variant="primary">
+        <thead>
           <tr>
-            <th>Местное время</th>
-            <th>3:00</th>
-            <th>6:00</th>
-            <th>9:00</th>
-            <th>12:00</th>
-            <th>15:00</th>
-            <th>18:00</th>
-            <th>21:00</th>
-            <th>0:00</th>
-            <th></th>
+            {liveHead}
           </tr>
-        </thead> */}
+        </thead>
         {myBody}
-      </table>
+      </Table>
       {/* <Link to={'/asPdf'} params={{tempTable: temps}}>PDF</Link> */}
     </div>
   } else if (isError) {
