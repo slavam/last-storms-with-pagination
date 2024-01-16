@@ -116,7 +116,7 @@ export const AvgTemperatures = ()=>{
   const maxDate = new Date().toISOString().substring(0,10)
   return (
     <div className="col-md-6 offset-md-3 mt-5">
-      <h2>Среднесуточная температура воздуха</h2>
+      <h2>Среднесуточная температура воздуха {maxDate} {reportDate}</h2>
       <Table striped bordered hover variant="secondary">
         <thead>
           <tr>
@@ -125,8 +125,8 @@ export const AvgTemperatures = ()=>{
           </tr>
         </thead>
           <tbody>
-            <td><input type="date" id="input-date" max={maxDate} name="input-date" value={reportDate} onChange={(event) => setReportDate(event.target.value>maxDate?maxDate:event.target.value)} required={true} autoComplete="on" /></td>
-            <td><Select value={startTerm} onChange={val => setStartTerm(val)} options={startTerms} id='select-start-term'/></td>
+            <td><input type="date" id="input-date" max={maxDate} name="input-date" value={reportDate} onChange={(event) => {setReportDate(event.target.value>maxDate?maxDate:event.target.value); setStartTerm(+startTerm.label>d.getUTCHours()? startTerms[0]:startTerm);}} required={true} autoComplete="on" /></td>
+            <td><Select value={startTerm} onChange={val => setStartTerm((reportDate>=maxDate && +val.label>d.getUTCHours())? startTerms[0]:val)} options={startTerms} id='select-start-term'/></td>
           </tbody>
       </Table>
       
