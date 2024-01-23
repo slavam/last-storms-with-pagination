@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
+  // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.32:8640'}),
   tagTypes: ['Station','Synoptic','Measurement','Bulletins','Observations'],
   endpoints: (builder) => ({
     getStations: builder.query({

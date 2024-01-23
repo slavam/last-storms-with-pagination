@@ -32,28 +32,16 @@ export const AvgTemperatures = ()=>{
     error,
   } = useGetDailyTemperaturesQuery(reportDateSec)
 
-  // const {
-  //   data: stations = [],
-  // } = useGetStationsQuery()
-
-  // const namesStation = []
-  // stations.forEach(station => {
-  //   namesStation[station.id] = station.name
-  // })
-
   let content
 
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    // alert(typeof observations)
 // Донецк		    34519																
 // Дебальцево		34524																
 // Амвросиевка	34622																
 // Седово				99023											
-// //Красноармейск																		
 // Волноваха		34615															
-// //Артемовск																		
 // Мариуполь    34712
     
     const absoluteZero = 273.15
@@ -68,13 +56,12 @@ export const AvgTemperatures = ()=>{
                  ['Седово',null,null,null,null,null,null,null,null,0,0],
                  ['Волноваха',null,null,null,null,null,null,null,null,0,0],
                  ['Мариуполь',null,null,null,null,null,null,null,null,0,0]]
-    // console.log(observations.length)
-      observations.map((o) => {
-        i = codeStations.indexOf(o.station)
-        j = shiftTerms.indexOf(o.point/3600)+1
-        temps[i][j] = (o.value-absoluteZero).toFixed(1)
-        if(o.value) {temps[i][9]+=(+o.value-absoluteZero); temps[i][10]+=1}
-      })
+    observations.map((o) => {
+      i = codeStations.indexOf(o.station)
+      j = shiftTerms.indexOf(o.point/3600)+1
+      temps[i][j] = (o.value-absoluteZero).toFixed(1)
+      if(o.value) {temps[i][9]+=(+o.value-absoluteZero); temps[i][10]+=1}
+    })
     const createTr = (i) => {
       if(temps[i][10]>0)temps[i][9] = +((temps[i][9]/temps[i][10]).toFixed(2))
       let row = []
@@ -92,9 +79,7 @@ export const AvgTemperatures = ()=>{
       }
       return <tbody>{body}</tbody>
     }
-
     let myBody = createBody()
-
     const containerClassname = classnames('synoptics-container', {
       disabled: isFetching,
     })
@@ -102,9 +87,7 @@ export const AvgTemperatures = ()=>{
     content = <div className={containerClassname}>
       <Table striped bordered hover variant="primary">
         <thead>
-          <tr>
-            {liveHead}
-          </tr>
+          <tr>{liveHead}</tr>
         </thead>
         {myBody}
       </Table>
@@ -116,7 +99,7 @@ export const AvgTemperatures = ()=>{
   const maxDate = new Date().toISOString().substring(0,10)
   return (
     <div className="col-md-6 offset-md-3 mt-5">
-      <h2>Среднесуточная температура воздуха {maxDate} {reportDate}</h2>
+      <h2>Среднесуточная температура воздуха</h2>
       <Table striped bordered hover variant="secondary">
         <thead>
           <tr>
@@ -130,7 +113,7 @@ export const AvgTemperatures = ()=>{
           </tbody>
       </Table>
       
-      <h5>Температура воздуха (°С) {reportDate} в сроки наблюдений, начиная с {startTerm.label} по данным метеорологических станций</h5>
+      <h5>Температура воздуха (°С) {reportDate} в сроки наблюдений, начиная со срока {startTerm.label} по данным метеорологических станций</h5>
       {content}
     </div>
   )
