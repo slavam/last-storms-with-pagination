@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetObservationsQuery } from '../api/apiSlice' 
-import { useGetMeasurementsQuery } from '../api/apiSlice'
+import { useGetMeasurementsQuery, useGetMessageDataQuery } from '../api/apiSlice'
 import Select from 'react-select'
 import ru from 'date-fns/locale/ru'
 import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal'
 
 const stations = [
   {label:'Все',value:'34519,34524,34622,99023,34615,34712'},
@@ -29,13 +31,35 @@ const terms = [
   {label:'18', value:'18'},
   {label:'21', value:'21'},
 ]
+
 const absoluteZero = 273.15
-const Observation = ({observation, measurement})=>{
+const Observation = ({observation, measurement, measurements})=>{
+  const [queryMessage, setQueryMessage] = useState('')
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const {
+    data: telegramData = [],
+    isSuccess,
+  } = useGetMessageDataQuery(queryMessage)
+  let tlgFields = []
+  let telegram = []
+  if(isSuccess){
+    let ms = {}
+    measurements.map(m=> {ms[m.meas_hash] = m.caption})
+    telegram = telegramData.filter((td)=> td.message_id === observation.message_id)
+    tlgFields = telegram.map(t=> {return <tr key={t.id}><th>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td>{t.value}</td></tr>})
+  }
+  let content = ""
+  const handleShow = () =>{
+    setQueryMessage(`/get?stations=${observation.station}&notbefore=${observation.moment}&notafter=${observation.moment}`)
+    setShow(true)
+  }
   let moment = new Date(+observation.moment*1000)
   let created = new Date(+observation.created_at*1000)
   let stationName = stations.find((s) => +s.value === +observation.station).label
   let termPeriod = (observation.period === 600 || observation.meas_hash === 79004873)? '10 мин.' : ((observation.unit === 'ccitt ia5' || observation.unit === 'v')? '' : observation.point/3600)
-  
+
   let value2
   switch (observation.unit) {
     case 'pa':
@@ -48,6 +72,34 @@ const Observation = ({observation, measurement})=>{
       value2 = observation.value
   }
   let obsValue = (observation.value === value2 ? observation.value : `${observation.value}/${value2}`)
+  const modal =
+    <Modal show={show} onHide={handleClose} size='lg'>
+      <Modal.Header  >
+        <Modal.Title>Идентификатор источника {observation.message_id}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body >
+        <Table striped bordered hover variant="secondary">
+          <thead>
+            <tr key="1">
+              <th>Создана (UTC)</th><td>{created.toISOString().replace('T',' ').slice(0,-5)}</td>
+            </tr>
+            <tr key="2">
+              <th>Наблюдение (UTC)</th><td>{moment.toISOString().replace('T',' ').slice(0,-5)}</td>
+            </tr>
+            <tr key="3">
+              <th>Метеостанция</th><td>{stationName}</td>
+            </tr>
+            {tlgFields}
+          </thead>
+        </Table>
+      </Modal.Body>
+      <Modal.Footer >
+        {content}
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   return <tr key={observation.id}>
     <td>{observation.id}</td>
     <td>{created.toISOString().replace('T',' ').slice(0,-5)}</td>
@@ -58,8 +110,9 @@ const Observation = ({observation, measurement})=>{
     <td>{observation.unit}</td>
     <td>{measurement}</td>
     <td>{observation.code}@{observation.meas_hash}</td>
-    {/* <td>{observation.pkind}</td>
-    <td>{observation.rec_flag}</td> */}
+    <td>{observation.message_id}</td>
+    <td><Button variant="primary" onClick={handleShow}>Source</Button></td>
+    {modal}
   </tr>
 }
 export const SelectObservations = ()=>{
@@ -116,7 +169,7 @@ export const SelectObservations = ()=>{
         numRecords += 1
         let measurement = measurements.filter((m) => +m.meas_hash === +observation.meas_hash)
         let mName = measurement[0]? measurement[0].caption : ''
-        return <Observation key={observation.id} observation={observation} measurement={mName}/>
+        return <Observation key={observation.id} observation={observation} measurement={mName} measurements={measurements}/>
       })
     }
 
@@ -138,8 +191,9 @@ export const SelectObservations = ()=>{
             <th>Единица измерения</th>
             <th>Измерение</th>
             <th>code@hash</th>
-            {/* <th>pkind</th>
-            <th>rec_flag</th> */}
+            <th>message_id</th>
+            <th></th>
+            {/* <th>rec_flag</th> */}
           </tr>
         </thead>
         <tbody>

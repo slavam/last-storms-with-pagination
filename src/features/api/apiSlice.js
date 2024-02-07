@@ -25,10 +25,19 @@ export const apiSlice = createApi({
       query: (qParams)=> {
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let point = qParams.point==='' ? '' : `&point=${qParams.point}`
-        // console.log(point,qParams.point)
+        // console.log(qParams)
         return `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}${hashes}${point}&limit=100`
       },
       providesTags: ['Observations']
+    }),
+    getMessageData: builder.query({
+      query: (queryMessage)=>  {
+        // console.log(queryMessage)
+        return `${queryMessage}`}, // '/get?stations=34519&notbefore=1707253200&notafter=1707253200'}, //queryMessage,
+        providesTags: (result = [], error, arg)=>[
+          'Telegram',
+          ...result.map(({id})=>({type: 'Telegram',id})),
+        ],
     }),
     getDailySynopticData: builder.query({
       query: (qParams)=>
@@ -110,5 +119,7 @@ export const {
   useDeleteWindMutation,
   useGetBulletinsQuery,
   useCreateStormMutation,
-  useGetObservationsQuery
+  useGetObservationsQuery,
+  useGetMessageDataQuery
+  
 } = apiSlice
