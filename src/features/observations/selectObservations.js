@@ -9,16 +9,17 @@ import Table from 'react-bootstrap/Table'
 import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
+import {stations} from '../../synopticDictionaries'
 
-const stations = [
-  {label:'Все',value:'34519,34524,34622,99023,34615,34712'},
-  {label:'Донецк',value:'34519'},
-  {label:'Дебальцево',value:'34524'},
-  {label:'Амвросиевка',value:'34622'},
-  {label:'Седово',value:'99023'},
-  {label:'Волноваха',value:'34615'},
-  {label:'Мариуполь',value:'34712'},
-]
+// const stations = [
+//   {label:'Все',value:'34519,34524,34622,99023,34615,34712'},
+//   {label:'Донецк',value:'34519'},
+//   {label:'Дебальцево',value:'34524'},
+//   {label:'Амвросиевка',value:'34622'},
+//   {label:'Седово',value:'99023'},
+//   {label:'Волноваха',value:'34615'},
+//   {label:'Мариуполь',value:'34712'},
+// ]
 
 const terms = [
   {label:'Любой',value:''},
@@ -46,7 +47,7 @@ const Observation = ({observation, measurement, measurements})=>{
   let telegram = []
   if(isSuccess){
     let ms = {}
-    measurements.map(m=> {ms[m.meas_hash] = m.caption})
+    measurements.map(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
     telegram = telegramData.filter((td)=> td.message_id === observation.message_id)
     tlgFields = telegram.map(t=> {return <tr key={t.id}><th>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td>{t.value}</td></tr>})
   }
@@ -105,18 +106,17 @@ const Observation = ({observation, measurement, measurements})=>{
     <td>{created.toISOString().replace('T',' ').slice(0,-5)}</td>
     <td>{moment.toISOString().replace('T',' ').slice(0,-5)}</td>
     <td>{termPeriod}</td>
-    <td>{stationName}</td>
+    <td>{stationName}-{observation.stream}</td>
     <td>{obsValue}</td>
     <td>{observation.unit}</td>
     <td>{measurement}</td>
-    <td>{observation.code}@{observation.meas_hash}</td>
-    <td>{observation.message_id}</td>
+    <td>{observation.bseq}:{observation.code}@{observation.meas_hash}</td>
+    <td>{observation.message_id}:{observation.packet}-{observation.source}</td>
     <td><Button variant="primary" onClick={handleShow}>Source</Button></td>
     {modal}
   </tr>
 }
 export const SelectObservations = ()=>{
-  // const [dtlEventDate, setDtlEventDate] = useState(new Date().toISOString().slice(0,-8))
   const {
     data: measurements = [],
     isSuccess: isSuccessM,
@@ -186,12 +186,12 @@ export const SelectObservations = ()=>{
             <th>Создана (UTC)</th>
             <th>Наблюдение (UTC)</th>
             <th>Срок/Период</th>
-            <th>Станция</th>
+            <th>Станция-stream</th>
             <th>Значение</th>
             <th>Единица измерения</th>
             <th>Измерение</th>
-            <th>code@hash</th>
-            <th>message_id</th>
+            <th>bsec:code@hash</th>
+            <th>message_id:packet-source</th>
             <th></th>
             {/* <th>rec_flag</th> */}
           </tr>
@@ -208,9 +208,7 @@ export const SelectObservations = ()=>{
   
   return (
     <div>
-      {/* <section className="posts-list"> */}
       <h4>Параметры поиска</h4>
-      {/* <table className='table table-hover'> */}
       <Table striped bordered hover variant="secondary">
         <thead>
           <tr>

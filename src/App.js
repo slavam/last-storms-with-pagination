@@ -8,6 +8,7 @@ import { Navbar1 } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'
 import { MeasurementsList } from './features/measurements/measurementsList'
 import { AvgTemperatures } from './features/temperatures/avgTemperatures'
+import { AvgMonthlyTemperatures } from './features/avgMonthTemperatures/avgMonthTemps'
 import { SynopticsList } from './features/synoptics/synopticsList'
 import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
@@ -35,7 +36,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route exact path="/storms" element={<StormsList />} />
-          <Route exact path="/synopticObservations" element={<SynopticsList />} />
+          {/* <Route exact path="/synopticObservations" element={<SynopticsList />} /> */}
           <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} />
           <Route exact path='/otherDataWinds' element={<WindsList />} />
           <Route exact path='/otherDataTemps' element={<TempsList />} />
@@ -52,6 +53,7 @@ function App() {
           </Route>
           <Route path="/measurements" element={<MeasurementsList />} />
           <Route path="/observations" element={<SelectObservations />} />
+          <Route path="/monthlyAvgTemp" element={<AvgMonthlyTemperatures />} />
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
           <Route exact path="/synopticData" element={<SynopticData />} />
           <Route exact path="/stormBulletins" element={<BulletinsList />} />

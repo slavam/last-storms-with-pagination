@@ -41,8 +41,8 @@ export const menuItems = [
     url: '/telegrams',
     submenu: [
       {
-        title: 'Синоптические',
-        url: 'synopticObservations',
+        title: 'Донбасстеплоэнерго',
+        url: 'monthlyAvgTemp',
       },
       {
         title: 'Штормовые',

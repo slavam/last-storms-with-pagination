@@ -4,8 +4,8 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.32:8640'}),
-  tagTypes: ['Station','Synoptic','Measurement','Bulletins','Observations'],
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.31:8640'}),
+  tagTypes: ['Station','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo'],
   endpoints: (builder) => ({
     getStations: builder.query({
       query: () => '/stations.json',
@@ -25,19 +25,26 @@ export const apiSlice = createApi({
       query: (qParams)=> {
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let point = qParams.point==='' ? '' : `&point=${qParams.point}`
-        // console.log(qParams)
         return `/get?stations=${qParams.stations}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}${hashes}${point}&limit=100`
       },
       providesTags: ['Observations']
     }),
     getMessageData: builder.query({
       query: (queryMessage)=>  {
-        // console.log(queryMessage)
-        return `${queryMessage}`}, // '/get?stations=34519&notbefore=1707253200&notafter=1707253200'}, //queryMessage,
+        return `${queryMessage}`}, 
         providesTags: (result = [], error, arg)=>[
           'Telegram',
           ...result.map(({id})=>({type: 'Telegram',id})),
         ],
+    }),
+    getAvgMonthTemp: builder.query({
+      query: (dates)=>{
+        const stations = '34519,34524,34622,99023,34615,34712'
+        // console.log(dates)
+        // return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
+        return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
+      },
+      providesTags: ['Teploenergo']
     }),
     getDailySynopticData: builder.query({
       query: (qParams)=>
@@ -120,6 +127,6 @@ export const {
   useGetBulletinsQuery,
   useCreateStormMutation,
   useGetObservationsQuery,
-  useGetMessageDataQuery
-  
+  useGetMessageDataQuery,
+  useGetAvgMonthTempQuery
 } = apiSlice
