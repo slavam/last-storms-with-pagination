@@ -26,10 +26,12 @@ import { SynopticData } from './features/synopticData/synopticData'
 import { BulletinsList } from './features/bulletins/bulletinsList'
 import { NewStormBulletin } from './features/bulletins/stormForm'
 import { SelectObservations } from './features/observations/selectObservations'
+import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
 
 function App() {
   history.navigate = useNavigate();
   history.location = useLocation();
+  
   return (
     <div >
       <Navbar1 />
@@ -58,6 +60,7 @@ function App() {
           <Route exact path="/synopticData" element={<SynopticData />} />
           <Route exact path="/stormBulletins" element={<BulletinsList />} />
           <Route exact path='/createStormBulletin' element={<NewStormBulletin />} />
+          <Route exact path='/createDtePdf' element={<DtePdf />} />
       </Routes>
     </div>
   )

@@ -6,6 +6,9 @@ import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import {stations} from '../../synopticDictionaries'
+import Button from 'react-bootstrap/Button'
+import { useNavigate } from 'react-router-dom'
+// import {useNavigate} from 'react-router-dom'
 
 export const AvgMonthlyTemperatures = ()=>{
   const months = [
@@ -49,16 +52,16 @@ export const AvgMonthlyTemperatures = ()=>{
       row[i] ||= new Array(monthLastDay)
       row[i][day] ||= new Array(8)
       row[i][day][t] = (+e.value-absoluteZero)
-      // row.push(<td>{`${}:${Math.round(+e.value-absoluteZero)}:${}`}</td>)
     });
     
     for(let i=0; i<codes.length; i++){
-      avg[i] ||= new Array(monthLastDay)
+      avg[i] ||= new Array(monthLastDay+1)
+      avg[i][0] = codes[i]
       for(let j=1; j<=monthLastDay; j++){
         if(row[i] && row[i][j]){
           let sum =row[i][j].reduce((accumulator, currentValue) => accumulator + currentValue,0)
-          // avg[i][j] = <td key={j}>{(sum/8).toFixed(1)}</td>
-          avg[i][j] = (sum/8).toFixed(1)
+          let numNotNull = (row[i][j].filter(n => n)).length
+          avg[i][j] = (sum/numNotNull).toFixed(1)
         }
       }
     }
@@ -66,7 +69,7 @@ export const AvgMonthlyTemperatures = ()=>{
     for(let d=1; d<=monthLastDay; d++){
       hdr.push(<th key={d}>{d}</th>)
     }
-    m.push(<tr>{hdr}</tr>)
+    m.push(<tr key="00">{hdr}</tr>)
     for(let i=0; i<codes.length; i++){
       let station = stations.find(s => +s.value === codes[i])
       let tds = [<td key='0'><b>{station.label}</b></td>]
@@ -76,7 +79,12 @@ export const AvgMonthlyTemperatures = ()=>{
       m.push(<tr key={i}>{tds}</tr>)
     }
   }
+  const navigate = useNavigate();
+  const toComponentB=()=>{
+    navigate('/createDtePdf', { state: { year: year, month: month.label, nDays: monthLastDay, m: avg } });
+  }
   let content = m
+  // console.log(m)
   return (
     <div>
       <Container style={{width: '400px'}}>
@@ -101,17 +109,14 @@ export const AvgMonthlyTemperatures = ()=>{
       </Table>
       </Container>
       <h4>Средняя за сутки (00:01-24:00) температура воздуха (°С) за {month.label} месяц {year} года на метеостанциях ДНР</h4>
-      <Table>
-        <thead>
-          {/* <tr>
-            <th>Месяц</th>
-            <th>Год</th>
-          </tr> */}
-        </thead>
+      <Table striped bordered hover variant="primary"  >
+        {/* <thead> */}
+        {/* </thead> */}
         <tbody>
           {content}
         </tbody>
       </Table>
+      <Button variant="secondary" onClick={toComponentB}>Создать PDF</Button>
     </div>
   )
 }

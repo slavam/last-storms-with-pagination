@@ -200,7 +200,6 @@ export const SelectObservations = ()=>{
           {renderedObservations}
         </tbody>
       </table>
-      {/* <Link to={'/createStormBulletin'} params={{bulletinType: 'storm'}}>Создать бюллетень</Link> */}
     </div>
   } else if (isError) {
     content = <div>{error.toString()}</div>
