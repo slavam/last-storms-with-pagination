@@ -2,10 +2,6 @@ import React from 'react';
 import {View, StyleSheet } from '@react-pdf/renderer';
 import DteTableHeader from './dteTableHeader'
 import DteTableRow from './dteTableRow'
-// import InvoiceTableBlankSpace from './InvoiceTableBlankSpace'
-// import InvoiceTableFooter from './InvoiceTableFooter'
-
-// const tableRowsCount = 11;
 
 const styles = StyleSheet.create({
     tableContainer: {
@@ -19,8 +15,8 @@ const styles = StyleSheet.create({
 
 const DteItemsTable = ({m,nDays}) => (
   <View style={styles.tableContainer}>
-      <DteTableHeader nDays={nDays}/>
-      <DteTableRow items={m}/>
+    <DteTableHeader nDays={nDays}/>
+    <DteTableRow items={m}/>
   </View>
-  );
+);
 export default DteItemsTable

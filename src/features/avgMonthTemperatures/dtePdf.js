@@ -3,14 +3,10 @@ import { PDFViewer, Font, Page, Image, Text, View, Document, StyleSheet } from '
 import {useLocation} from 'react-router-dom'
 import DteItemsTable from './dteItemsTable'
 import logo from '../../components/images/logo2015_2.png'
-// import Roboto from "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf"
 // import RobotoBold from "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf"
 Font.register({
   family: 'RobotoBold', 
   fonts: [{src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf", fontWeight: 'bold'}]
-//     { src: RobotoBold, fontWeight: 600 },
-//   ],
-//   format: 'truetype',
 });
 
 Font.register({
@@ -27,7 +23,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 40,
     paddingRight: 40,
-    // lineHeight: 1.5,
     flexDirection: "column"
   },
   section: {
@@ -36,14 +31,12 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   logo: {
-    // marginVertical: 15,
     width: 70,
     height: 70
   },
   mainHeader: {
     display: "flex",
     fontWeight: 700,
-    // fontWeight: 'normal',
     flexDirection: "row-reverse",
     justifyContent: "space-between",
     alignItems: "center"
