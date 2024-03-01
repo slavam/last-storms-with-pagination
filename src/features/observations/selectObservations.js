@@ -88,7 +88,7 @@ const Observation = ({observation, measurement, measurements})=>{
               <th>Наблюдение (UTC)</th><td>{moment.toISOString().replace('T',' ').slice(0,-5)}</td>
             </tr>
             <tr key="3">
-              <th>Метеостанция</th><td>{stationName}</td>
+              <th>Станция/пост</th><td>{stationName}</td>
             </tr>
             {tlgFields}
           </thead>
@@ -125,7 +125,7 @@ export const SelectObservations = ()=>{
   if(isSuccessM)
     measurements.map(m => {parameters.push({label: m.caption, value: m.meas_hash})})
 
-  const [station, setStation] = useState(stations[1])
+  const [station, setStation] = useState(stations[3])
   const [date1, setDate1] = useState(new Date().toISOString().substring(0,11)+'00:00')
   const [date2, setDate2] = useState(new Date().toISOString().substring(0,16))
   const [param, setParam] = useState(parameters[0])
@@ -211,7 +211,7 @@ export const SelectObservations = ()=>{
       <Table striped bordered hover variant="secondary">
         <thead>
           <tr>
-            <th>Метеостанция</th>
+            <th>Станция/пост</th>
             <th>Измерение</th>
             <th>Начальная дата</th>
             <th>Конечная дата</th>

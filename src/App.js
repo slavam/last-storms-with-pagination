@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import { Navbar1 } from './app/Navbar'
 import { StationsList } from './features/stations/stationsList'
+import { HydropostsList } from './features/hydroposts/hydropostsList'
 import { MeasurementsList } from './features/measurements/measurementsList'
 import { AvgTemperatures } from './features/temperatures/avgTemperatures'
 import { AvgMonthlyTemperatures } from './features/avgMonthTemperatures/avgMonthTemps'
@@ -18,7 +19,7 @@ import { PrecipitationList } from './features/otherData/precipitationList'
 import { Login } from './login/Login';
 import { Profile } from './login/profile'
 import { history } from './components/history'
-import { PrivateRoute } from './components/PrivateRoute'
+// import { PrivateRoute } from './components/PrivateRoute'
 // import './style.css';
 import './App.css'
 import Layout from './app/Layout'
@@ -47,12 +48,14 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path="/logout" element={<Login />} />
           <Route path="*" element={<Navigate to="/" />} />
-          <Route path="/" element={
+          {/* <Route path="/" element={
             <PrivateRoute>
               <StationsList />
             </PrivateRoute>
-            } />
+            } /> */}
           </Route>
+          <Route path="/stations" element={<StationsList />} />
+          <Route path="/hydroposts" element={<HydropostsList />} />
           <Route path="/measurements" element={<MeasurementsList />} />
           <Route path="/observations" element={<SelectObservations />} />
           <Route path="/monthlyAvgTemp" element={<AvgMonthlyTemperatures />} />

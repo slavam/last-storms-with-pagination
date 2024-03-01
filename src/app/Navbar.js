@@ -11,13 +11,13 @@ export const Navbar1 = () => {
   const authUser = useSelector(x => x.auth.user);
   
   // only show nav when logged in
-  if (!authUser) return null;
+  // if (!authUser) return null;
 
   return (
     <>
     <nav>
       <section>
-        <p>Пользователь: {authUser.login}</p>
+        <p>Пользователь: {authUser? authUser.login:'Unknown'}</p>
         <h1>Гидрометцентр ДНР</h1>
       </section>
       <div className="nav-area">

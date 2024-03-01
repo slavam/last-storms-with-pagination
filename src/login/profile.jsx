@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 export function Profile(){
   const authUser = useSelector(x => x.auth.user)
-  return(
+  let content = authUser?
     <section>
       <h3>Пользователь</h3>
       <table className='table table-hover'>
@@ -33,5 +33,7 @@ export function Profile(){
         </thead>
       </table>
     </section>
-  )
+    :
+    <h1>Unknown</h1>
+  return <div>{content}</div>
 }

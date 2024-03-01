@@ -5,13 +5,20 @@ export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.31:8640'}),
-  tagTypes: ['Station','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo'],
+  tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo'],
   endpoints: (builder) => ({
     getStations: builder.query({
       query: () => '/stations.json',
       providesTags: (result = [], error, arg) => [
         'Station',
         ...result.map(({ id }) => ({ type: 'Station', id })),
+      ],
+    }),
+    getHydroposts: builder.query({
+      query: ()=>'/stations.json',
+      providesTags: (result = [], error, arg) => [
+        'Hydropost',
+        ...result.map(({ id }) => ({ type: 'Hydropost', id })),
       ],
     }),
     getMeasurements: builder.query({
@@ -128,5 +135,6 @@ export const {
   useCreateStormMutation,
   useGetObservationsQuery,
   useGetMessageDataQuery,
-  useGetAvgMonthTempQuery
+  useGetAvgMonthTempQuery,
+  useGetHydropostsQuery
 } = apiSlice

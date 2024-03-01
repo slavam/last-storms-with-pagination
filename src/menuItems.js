@@ -9,6 +9,10 @@ export const menuItems = [
         url: 'stations',
       },
       {
+        title: 'Гидропосты',
+        url: 'hydroposts',
+      },
+      {
         title: 'Измерения',
         url: 'measurements',
       },
