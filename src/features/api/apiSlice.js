@@ -14,6 +14,10 @@ export const apiSlice = createApi({
         ...result.map(({ id }) => ({ type: 'Station', id })),
       ],
     }),
+    getSoapMeteoStations: builder.query({
+      query: ()=> 'http://localhost:3000/stations/meteostations?format=json',
+      providesTags: ['SoapMeteoStations'],
+    }),
     getHydroposts: builder.query({
       query: ()=>'/stations.json',
       providesTags: (result = [], error, arg) => [
@@ -136,5 +140,6 @@ export const {
   useGetObservationsQuery,
   useGetMessageDataQuery,
   useGetAvgMonthTempQuery,
-  useGetHydropostsQuery
+  useGetHydropostsQuery,
+  useGetSoapMeteoStationsQuery
 } = apiSlice

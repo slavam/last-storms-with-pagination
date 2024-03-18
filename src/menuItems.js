@@ -20,6 +20,10 @@ export const menuItems = [
         title: 'Наблюдения',
         url: 'observations',
       },
+      {
+        title: 'SOAP',
+        url: 'stationsSoap'
+      },
     ],
   },
   {

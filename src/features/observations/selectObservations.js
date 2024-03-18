@@ -106,7 +106,7 @@ const Observation = ({observation, measurement, measurements})=>{
     <td>{created.toISOString().replace('T',' ').slice(0,-5)}</td>
     <td>{moment.toISOString().replace('T',' ').slice(0,-5)}</td>
     <td>{termPeriod}</td>
-    <td>{stationName}-{observation.stream}</td>
+    <td>{stationName}-{observation.stream}/{observation.qlty?observation.alarm:''}</td>
     <td>{obsValue}</td>
     <td>{observation.unit}</td>
     <td>{measurement}</td>
@@ -186,7 +186,7 @@ export const SelectObservations = ()=>{
             <th>Создана (UTC)</th>
             <th>Наблюдение (UTC)</th>
             <th>Срок/Период</th>
-            <th>Станция-stream</th>
+            <th>Станция-stream/alarm</th>
             <th>Значение</th>
             <th>Единица измерения</th>
             <th>Измерение</th>
