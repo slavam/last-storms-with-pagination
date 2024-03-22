@@ -21,9 +21,13 @@ export const menuItems = [
         url: 'observations',
       },
       {
-        title: 'SOAP',
+        title: 'Метеостанции SOAP',
         url: 'stationsSoap'
       },
+      {
+        title: 'Observations SOAP',
+        url: 'observationsSoap'
+      }
     ],
   },
   {

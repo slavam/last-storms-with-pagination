@@ -28,6 +28,7 @@ import { SynopticData } from './features/synopticData/synopticData'
 import { BulletinsList } from './features/bulletins/bulletinsList'
 import { NewStormBulletin } from './features/bulletins/stormForm'
 import { SelectObservations } from './features/observations/selectObservations'
+import { SelectSoapObservations } from './features/observations/selectSoapObservations'
 import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
 
 function App() {
@@ -60,6 +61,7 @@ function App() {
           <Route path="/hydroposts" element={<HydropostsList />} />
           <Route path="/measurements" element={<MeasurementsList />} />
           <Route path="/observations" element={<SelectObservations />} />
+          <Route path="/observationsSoap" element={<SelectSoapObservations />} />
           <Route path="/monthlyAvgTemp" element={<AvgMonthlyTemperatures />} />
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
           <Route exact path="/synopticData" element={<SynopticData />} />
