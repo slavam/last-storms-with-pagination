@@ -54,6 +54,7 @@ const Observation = ({observation, measurement, measurements})=>{
   let content = ""
   const handleShow = () =>{
     setQueryMessage(`/get?stations=${observation.station}&notbefore=${observation.moment}&notafter=${observation.moment}`)
+    
     setShow(true)
   }
   let moment = new Date(+observation.moment*1000)

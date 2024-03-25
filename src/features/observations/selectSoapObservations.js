@@ -32,20 +32,23 @@ const Observation = ({observation, measurement, measurements})=>{
     data: telegramData = [],
     isSuccess,
   } = useGetMessageDataQuery(queryMessage)
-  
   let tlgFields = []
   let telegram = []
   if(isSuccess){
     let ms = {}
     measurements.map(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
-    telegram = telegramData.filter((td)=> td.message_id === observation.message_id)
+    
+    telegram = telegramData.filter(td => +td.message_id === +observation.message_id) 
+    // alert(telegram.length)
+    
     tlgFields = telegram.map(t=> {return <tr key={t.id}><th>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td>{t.value}</td></tr>})
   }
   let content = ""
   const handleShow = () =>{
     const d = new Date(observation.meas_time);
-    let sec = d.getTime()/1000;
-    // setQueryMessage(`/get?stations=34524&notbefore=1704873900&notafter=1704873900`)
+    let sec = d.getTime()/1000 //+ 60*60*3;
+    // setQueryMessage(`/get?stations=34519&notbefore=1711334100&notafter=1711334100`)
+    // console.log(queryMessage)
     setQueryMessage(`/get?stations=${observation.station}&notbefore=${sec}&notafter=${sec}`)
     
     setShow(true)
@@ -146,7 +149,7 @@ export const SelectSoapObservations = ()=>{
     isError,
     error,
   } = useGetSoapObservationsQuery(qParams)
-  console.log(observations)
+  // console.log(observations)
 
   const eventDate1Changed = (e)=>{
     if (!e.target['validity'].valid) return;
@@ -168,7 +171,7 @@ export const SelectSoapObservations = ()=>{
   } else if (isSuccess) {
     let renderedObservations = null
     
-    if(observations){
+    if(observations && observations[0]){
       renderedObservations = observations.map((observation) => {
         numRecords += 1
         let measurement = measurements.filter((m) => +m.meas_hash === +observation.meashash)
