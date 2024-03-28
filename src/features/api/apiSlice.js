@@ -34,6 +34,7 @@ export const apiSlice = createApi({
     }),
     getSoapObservations: builder.query({
       query: (qParams)=> {
+        // alert(JSON.stringify(qParams))
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let sources = +qParams.sources===0 ? '' : `&sources=${qParams.sources}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
