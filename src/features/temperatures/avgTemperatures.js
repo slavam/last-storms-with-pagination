@@ -105,7 +105,6 @@ export const AvgTemperatures = ()=>{
         </thead>
         {myBody}
       </Table>
-      {/* <Link to={'/asPdf'} params={{tempTable: temps}}>PDF</Link> */}
     </div>
   } else if (isError) {
     content = <div>{error.toString()}</div>
@@ -113,12 +112,8 @@ export const AvgTemperatures = ()=>{
   const maxDate = new Date().toISOString().substring(0,10)
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () =>{
-    // don = temps[1].slice(1,6)
-    
-    setShow(true)
-  }
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
   ChartJS.register(
     CategoryScale,
     LinearScale,

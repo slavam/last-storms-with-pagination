@@ -9,6 +9,20 @@ import Badge from 'react-bootstrap/Badge'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
 import {stations} from '../../synopticDictionaries'
+import { Bubble } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+  TimeScale
+} from 'chart.js';
+// import {ru} from 'date-fns/locale'
+// import {de} from 'date-fns/locale';
+// import 'chartjs-adapter-date-fns'
+
+ChartJS.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
 const absoluteZero = 273.15
 const terms = [
@@ -131,6 +145,10 @@ export const SelectSoapObservations = ()=>{
   const [term, setTerm] = useState(terms[0])
   const [limit, setLimit] = useState(10)
   const [source, setSource] = useState(100)
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   let qParams = {
     stations: station.value,
@@ -211,7 +229,89 @@ export const SelectSoapObservations = ()=>{
   } else if (isError) {
     content = <div>{error.toString()}</div>
   }
-  
+  const options = {
+    scales: {
+      // adapters: {
+      //   date: {
+      //       locale: de
+      //   }
+      // },
+      x: {
+          type: 'time',
+          // time: {
+            // parser: 'dd-MM-YYYY HH:mm',
+          //     unit: 'hour'
+          // }
+      }
+  }
+    // scales: {
+    //   y: {
+    //     beginAtZero: false,
+    //   },
+    // },
+  };
+  const codes = [34519,34524,34622,99023,34615,34712]
+  let ds = [[],[],[],[],[],[]]
+  observations.forEach(o => {
+    let i = codes.indexOf(+o.station)
+    if(i>=0)
+      ds[i].push({
+        // x: new Date(o.meas_time.replace('T',' ').slice(0,16)).getTime()/1000000, 
+        x: o.created_at, //new Date(o.created_at.replace('T',' ').slice(0,16)).getTime()/1000000, 
+        y: +o.value,
+        r: +(o.syn_hour.substring(0,2))>0? +o.syn_hour.substring(0,2) : 2,
+      })
+    }
+  );
+  const bubleChartData = {
+    datasets: [
+      {
+        label: 'Донецк',
+        data: ds[0],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Дебальцево',
+        data: ds[1],
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+      {
+        label: 'Амвросиевка',
+        data: ds[2],
+        backgroundColor: 'rgba(53, 162, 35, 0.5)',
+      },
+      {
+        label: 'Седово',
+        data: ds[3],
+        backgroundColor: 'rgba(153, 162, 35, 0.5)',
+      },
+      {
+        label: 'Волноваха',
+        data: ds[4],
+        backgroundColor: 'rgba(253, 62, 35, 0.5)',
+      },
+      {
+        label: 'Мариуполь',
+        data: ds[5],
+        backgroundColor: 'rgba(253, 162, 135, 0.5)',
+      },
+    ],
+  };
+  const modal =
+    <Modal show={show} onHide={handleClose} size='lg'>
+      <Modal.Header  >
+        <Modal.Title>{param.label}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body >
+        <Bubble options={options} data={bubleChartData} />
+      </Modal.Body>
+      <Modal.Footer >
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
+    const disabled = param.label === 'Все'? true: false
   return (
     <div>
       <h4>Параметры поиска</h4>
@@ -259,6 +359,10 @@ export const SelectSoapObservations = ()=>{
           </tr>
         </tbody>
       </Table>
+      <Button variant="secondary" onClick={handleShow} disabled={disabled}>
+        Chart
+      </Button>
+      {modal}
       <div>
         {content}
       </div>
