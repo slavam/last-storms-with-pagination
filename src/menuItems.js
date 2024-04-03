@@ -65,8 +65,8 @@ export const menuItems = [
         url: 'otherDataWinds',
       },
       {
-        title: 'Температура на 8 часов',
-        url: 'otherDataTemps',
+        title: 'Радиация',
+        url: 'radiation',
       },
       {
         title: 'Средняя температура за сутки',

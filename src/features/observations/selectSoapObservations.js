@@ -18,9 +18,7 @@ import {
   Legend,
   TimeScale
 } from 'chart.js';
-// import {ru} from 'date-fns/locale'
-// import {de} from 'date-fns/locale';
-// import 'chartjs-adapter-date-fns'
+import 'chartjs-adapter-date-fns'
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
@@ -50,21 +48,15 @@ const Observation = ({observation, measurement, measurements})=>{
   let telegram = []
   if(isSuccess){
     let ms = {}
-    measurements.map(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
-    
+    measurements.forEach(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
     telegram = telegramData.filter(td => +td.message_id === +observation.message_id) 
-    // alert(telegram.length)
-    
     tlgFields = telegram.map(t=> {return <tr key={t.id}><th>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td>{t.value}</td></tr>})
   }
   let content = ""
   const handleShow = () =>{
     const d = new Date(observation.meas_time);
     let sec = d.getTime()/1000 //+ 60*60*3;
-    // setQueryMessage(`/get?stations=34519&notbefore=1711334100&notafter=1711334100`)
-    // console.log(queryMessage)
     setQueryMessage(`/get?stations=${observation.station}&notbefore=${sec}&notafter=${sec}`)
-    
     setShow(true)
   }
   // let moment = new Date(+observation.moment*1000)
@@ -136,7 +128,8 @@ export const SelectSoapObservations = ()=>{
   } = useGetMeasurementsQuery()
   let parameters = [{label: 'Все', value: null}]
   if(isSuccessM)
-    measurements.map(m => {parameters.push({label: m.caption, value: m.meas_hash})})
+    // parameters = measurements.map(m => ({label: m.caption, value: m.meas_hash}))
+    measurements.forEach(m => {parameters.push({label: m.caption, value: m.meas_hash})})
 
   const [station, setStation] = useState(stations[3])
   const [date1, setDate1] = useState(new Date().toISOString().substring(0,11)+'00:00')
@@ -231,38 +224,102 @@ export const SelectSoapObservations = ()=>{
   }
   const options = {
     scales: {
-      // adapters: {
-      //   date: {
-      //       locale: de
-      //   }
-      // },
       x: {
           type: 'time',
           // time: {
-            // parser: 'dd-MM-YYYY HH:mm',
           //     unit: 'hour'
           // }
       }
-  }
-    // scales: {
-    //   y: {
-    //     beginAtZero: false,
-    //   },
-    // },
+    }
   };
+  const hydroCodes = [83026,83028,83035,83036,83040,83045,83048,83050,83056,83060,83068,83074,83083]
   const codes = [34519,34524,34622,99023,34615,34712]
-  let ds = [[],[],[],[],[],[]]
+  let ds = [[],[],[],[],[],[],[],[],[],[],[],[],[]]
+  const isMeteo = !(+(station.value[0])===8)
   observations.forEach(o => {
-    let i = codes.indexOf(+o.station)
-    if(i>=0)
+    let i = isMeteo? codes.indexOf(+o.station): hydroCodes.indexOf(+o.station)
+    if(i>=0){
+      let radius=0
+      if(o.syn_hour)
+        radius = +(o.syn_hour.substring(0,2))>0? +o.syn_hour.substring(0,2) : 2
+      else
+        radius = +(o.meas_time.substring(11,13))>0? +o.meas_time.substring(11,13):2
       ds[i].push({
-        // x: new Date(o.meas_time.replace('T',' ').slice(0,16)).getTime()/1000000, 
-        x: o.created_at, //new Date(o.created_at.replace('T',' ').slice(0,16)).getTime()/1000000, 
+        x: o.created_at,
         y: +o.value,
-        r: +(o.syn_hour.substring(0,2))>0? +o.syn_hour.substring(0,2) : 2,
+        r: radius,
       })
     }
-  );
+  });
+  const hydroPostData = {
+    datasets: [
+      {
+        label: 'Захаровка',
+        data: ds[0],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Донецк',
+        data: ds[1],
+        backgroundColor: 'rgba(155, 99, 132, 0.5)',
+      },
+      {
+        label: 'Раздольное',
+        data: ds[2],
+        backgroundColor: 'rgba(55, 99, 132, 0.5)',
+      },
+      {
+        label: 'Сартана',
+        data: ds[3],
+        backgroundColor: 'rgba(255, 199, 132, 0.5)',
+      },
+      {
+        label: 'Николаевка',
+        data: ds[4],
+        backgroundColor: 'rgba(255, 99, 32, 0.5)',
+      },
+      {
+        label: 'Кремневка, р.Кальчик',
+        data: ds[5],
+        backgroundColor: 'rgba(255, 99, 232, 0.5)',
+      },
+      {
+        label: 'Мариуполь',
+        data: ds[6],
+        backgroundColor: 'rgba(55, 199, 132, 0.5)',
+      },
+      {
+        label: 'Кременевка, р. Малый Кальчик',
+        data: ds[7],
+        backgroundColor: 'rgba(55, 99, 232, 0.5)',
+      },
+      {
+        label: 'Стрюково',
+        data: ds[8],
+        backgroundColor: 'rgba(155, 199, 32, 0.5)',
+      },
+      {
+        label: 'Дмитровка',
+        data: ds[9],
+        backgroundColor: 'rgba(55, 99, 32, 0.5)',
+      },
+      {
+        label: 'Новоселовка',
+        data: ds[10],
+        backgroundColor: 'rgba(155, 199, 132, 0.5)',
+      },
+      {
+        label: 'Благодатное',
+        data: ds[11],
+        backgroundColor: 'rgba(55, 9, 132, 0.5)',
+      },
+      {
+        label: 'Алексеево-Орловка',
+        data: ds[12],
+        backgroundColor: 'rgba(155, 199, 62, 0.5)',
+      },
+    ]
+  }
   const bubleChartData = {
     datasets: [
       {
@@ -303,7 +360,7 @@ export const SelectSoapObservations = ()=>{
         <Modal.Title>{param.label}</Modal.Title>
       </Modal.Header>
       <Modal.Body >
-        <Bubble options={options} data={bubleChartData} />
+        <Bubble options={options} data={isMeteo?bubleChartData:hydroPostData} />
       </Modal.Body>
       <Modal.Footer >
         <Button variant="secondary" onClick={handleClose}>

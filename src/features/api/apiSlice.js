@@ -5,7 +5,8 @@ export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.31:8640'}),
-  tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo','SoapObservations'],
+  tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
+    'SoapObservations','SoapRadiation'],
   endpoints: (builder) => ({
     getStations: builder.query({
       query: () => '/stations.json',
@@ -32,9 +33,14 @@ export const apiSlice = createApi({
         ...result.map(({id})=>({type: 'Measurement',id})),
       ],
     }),
+    getSoapRadiation: builder.query({
+      query: (qParams)=>{
+        return `http://localhost:3000/observations/observations?sources=1300&hashes=-1881179977&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}`
+      },
+      providesTags: ['SoapRadiation']
+    }),
     getSoapObservations: builder.query({
       query: (qParams)=> {
-        // alert(JSON.stringify(qParams))
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let sources = +qParams.sources===0 ? '' : `&sources=${qParams.sources}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
@@ -152,5 +158,6 @@ export const {
   useGetAvgMonthTempQuery,
   useGetHydropostsQuery,
   useGetSoapMeteoStationsQuery,
-  useGetSoapObservationsQuery
+  useGetSoapObservationsQuery,
+  useGetSoapRadiationQuery
 } = apiSlice
