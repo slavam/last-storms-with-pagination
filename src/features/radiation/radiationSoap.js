@@ -19,7 +19,7 @@ const RadiationObservation = ({observation})=>{
     </tr>
 }
 export const RadiationSoap = ()=>{
-  const [station, setStation] = useState(stations[3])
+  const [station, setStation] = useState(stations[1])
   const [date1, setDate1] = useState(new Date().toISOString().substring(0,11)+'00:00')
   const [date2, setDate2] = useState(new Date().toISOString().substring(0,16))
   const [limit, setLimit] = useState(10)
@@ -99,7 +99,7 @@ export const RadiationSoap = ()=>{
       <Table striped bordered hover variant="secondary" >
         <thead>
           <tr>
-            <th>Станция/пост</th>
+            <th>Станция</th>
             <th>Начальная дата</th>
             <th>Конечная дата</th>
             <th>Лимит</th>
@@ -128,10 +128,6 @@ export const RadiationSoap = ()=>{
           </tr>
         </tbody>
       </Table>
-      {/* <Button variant="secondary" onClick={handleShow} disabled={disabled}>
-        Chart
-      </Button>
-      {modal} */}
       <div>
         {content}
       </div>
