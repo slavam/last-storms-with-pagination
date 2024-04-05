@@ -4,7 +4,7 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.31:8640'}),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
     'SoapObservations','SoapRadiation'],
   endpoints: (builder) => ({

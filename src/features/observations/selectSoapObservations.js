@@ -45,12 +45,15 @@ const Observation = ({observation, measurement, measurements})=>{
     isSuccess,
   } = useGetMessageDataQuery(queryMessage)
   let tlgFields = []
-  let telegram = []
   if(isSuccess){
     let ms = {}
     measurements.forEach(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
-    telegram = telegramData.filter(td => +td.message_id === +observation.message_id) 
-    tlgFields = telegram.map(t=> {return <tr key={t.id}><th>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td>{t.value}</td></tr>})
+    tlgFields = telegramData.map((t)=> {
+      return ((+t.message_id) === (+observation.message_id)) ? <tr key={t.id}>
+        <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td key={t.id}>{t.value}</td>
+      </tr> 
+      : null
+    })
   }
   let content = ""
   const handleShow = () =>{
@@ -59,8 +62,6 @@ const Observation = ({observation, measurement, measurements})=>{
     setQueryMessage(`/get?stations=${observation.station}&notbefore=${sec}&notafter=${sec}`)
     setShow(true)
   }
-  // let moment = new Date(+observation.moment*1000)
-  // let created = new Date(+observation.created_at*1000)
   
   let stationName = stations.find((s) => +s.value === +observation.station).label
   // let termPeriod = (observation.period === 600 || observation.meas_hash === 79004873)? '10 мин.' : ((observation.unit === 'ccitt ia5' || observation.unit === 'v')? '' : observation.point/3600)
