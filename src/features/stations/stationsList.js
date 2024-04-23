@@ -21,7 +21,6 @@ export const StationsList = () => {
     isError,
     error,
   } = useGetStationsQuery()
-
   const sortedStations = useMemo(() => {
     const sortedStations = stations.filter((s) => s.sindex < 80000 || s.sindex > 90000)
     return sortedStations
@@ -40,7 +39,10 @@ export const StationsList = () => {
       disabled: isFetching,
     })
 
-    content = <div className={containerClassname}>{renderedStations}</div>
+    content = <div className={containerClassname}>
+      {renderedStations}
+    </div>
+
   } else if (isError) {
     content = <div>{error.toString()}</div>
   }
