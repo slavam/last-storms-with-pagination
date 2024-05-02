@@ -5,7 +5,7 @@ import {
   Navigate, useNavigate, useLocation
 } from 'react-router-dom'
 import { Navbar1 } from './app/Navbar'
-import { StationsList } from './features/stations/stationsList'
+import { WmoStationsList } from './features/stations/stationsList'
 import { StationsListSoap } from './features/stations/stationsListSoap'
 import { HydropostsList } from './features/hydroposts/hydropostsList'
 import { MeasurementsList } from './features/measurements/measurementsList'
@@ -13,9 +13,9 @@ import { AvgTemperatures } from './features/temperatures/avgTemperatures'
 import { AvgMonthlyTemperatures } from './features/avgMonthTemperatures/avgMonthTemps'
 import { RadiationSoap } from './features/radiation/radiationSoap'
 // import { SynopticsList } from './features/synoptics/synopticsList'
-import { ObservationPage } from './features/synoptics/observationPage'
+// import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
-import { WindsList } from './features/otherData/windsList'
+// import { WindsList } from './features/otherData/windsList'
 // import { TempsList } from './features/otherData/tempsList'
 import { PrecipitationList } from './features/otherData/precipitationList'
 import { Login } from './login/Login';
@@ -43,8 +43,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route exact path="/storms" element={<StormsList />} />
           {/* <Route exact path="/synopticObservations" element={<SynopticsList />} /> */}
-          <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} />
-          <Route exact path='/otherDataWinds' element={<WindsList />} />
+          {/* <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} /> */}
+          {/* <Route exact path='/otherDataWinds' element={<WindsList />} /> */}
           {/* <Route exact path='/otherDataTemps' element={<TempsList />} /> */}
           <Route exact path='/radiation' element={<RadiationSoap />} />
           <Route exact path='/otherDataPrecipitation' element={<PrecipitationList />} />
@@ -58,7 +58,7 @@ function App() {
             </PrivateRoute>
             } /> */}
           </Route>
-          <Route path="/stations" element={<StationsList />} />
+          <Route path="/stations" element={<WmoStationsList />} />
           <Route path='/stationsSoap' element={<StationsListSoap />} />
           <Route path="/hydroposts" element={<HydropostsList />} />
           <Route path="/measurements" element={<MeasurementsList />} />

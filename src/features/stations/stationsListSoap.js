@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetSoapMeteoStationsQuery } from '../api/apiSlice'
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps'
+import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
 
 let Station = ({ station }) => {
   let s = `${station.index} ${station.name}`
@@ -23,14 +23,30 @@ export const StationsListSoap = ()=>{
   } = useGetSoapMeteoStationsQuery()
 
   let content
-
+  const clusterPoints = []
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedStations = stations.meteostations.map((station) => (
-      <Station key={station.index} station={station} />
-    ))
-
+    let stationCoordinates = {
+      '34519': [48.0161457, 37.8057165],
+      '34524': [48.35, 38.4333],
+      '34622': [47.8, 38.5167],
+      '99023': [47.067221, 38.160801],
+      '34615': [47.6167, 	37.35],
+      '34712': [47.0333, 37.5]
+    }
+    const renderedStations = stations.meteostations.map((station) => 
+      {clusterPoints.push(<Placemark key={station.index} defaultGeometry={stationCoordinates[station.index]} 
+        properties={{
+          iconContent: station.index,
+          hintContent: station.name,
+        }} 
+        modules = {
+          ['geoObject.addon.hint']
+        }
+        options={{preset: "islands#grayStretchyIcon"}}/>)
+      return (<Station key={station.index} station={station} />)}
+    )
     const containerClassname = classnames('stations-container', {
       disabled: isFetching,
     })
@@ -41,17 +57,32 @@ export const StationsListSoap = ()=>{
         <Map
           defaultState={{
             center: [47.7, 38.0],
-            zoom: 8
+            zoom: 8,
+            controls: ['zoomControl']
           }}
           width={600}
           height={600}
+          modules={['control.ZoomControl']}
         >
-          <Placemark defaultGeometry={[48.0161457, 37.8057165]} />
-          <Placemark defaultGeometry={[47.6167, 	37.35]} />         {/* Vol*/}
-          <Placemark defaultGeometry={[47.8, 	38.5167]} />           {/* Am*/}
-          <Placemark defaultGeometry={[48.35, 	38.4333]} />         {/* Deb*/}
-          <Placemark defaultGeometry={[47.0333, 	37.5]} />          {/* Mar*/}
-          <Placemark defaultGeometry={[47.067221, 	38.160801]} />   {/* Sed*/}
+        <Clusterer
+          options={{
+            groupByCoordinates: false,
+          }}>{clusterPoints}</Clusterer>
+          {/* <Placemark
+        geometry={{
+          coordinates: [48.0161457, 37.8057165]
+        }}
+        properties={{
+          hintContent: 'Собственный значок метки',
+          balloonContent: 'Это красивая метка'
+        }}
+        options={{
+          iconLayout: 'default#image',
+          // iconImageHref: 'images/myIcon.gif',
+          iconImageSize: [30, 42],
+          iconImageOffset: [-3, -42]
+        }}
+      /> */}
         </Map>
       </YMaps>
     </div>

@@ -6,13 +6,13 @@ export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
-    'SoapObservations','SoapRadiation'],
+    'SoapObservations','SoapRadiation','WmoStation'],
   endpoints: (builder) => ({
-    getStations: builder.query({
-      query: () => '/stations.json',
+    getWmoStations: builder.query({
+      query: () => 'http://10.54.1.6:8080/wmo_stations/wmo_stations.json',
       providesTags: (result = [], error, arg) => [
-        'Station',
-        ...result.map(({ id }) => ({ type: 'Station', id })),
+        'WmoStation',
+        ...result.map(({ id }) => ({ type: 'WmoStation', id })),
       ],
     }),
     getSoapMeteoStations: builder.query({
@@ -67,8 +67,6 @@ export const apiSlice = createApi({
     getAvgMonthTemp: builder.query({
       query: (dates)=>{
         const stations = '34519,34524,34622,99023,34615,34712'
-        // console.log(dates)
-        // return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
         return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
       },
       providesTags: ['Teploenergo']
@@ -76,7 +74,6 @@ export const apiSlice = createApi({
     getDailySynopticData: builder.query({
       query: (qParams)=>
       `/get?stations=34519,34524,34622,99023,34615,34712&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
-      // `/get?stations=34519,34524,34622,99023,34615,34712&codes=${qParams[1].substring(1,5)}&hashes=${qParams[1].substring(7)}&notbefore=${qParams[0]}&notafter=${qParams[0]+24*60*60}`,
       providesTags: (result = [], error, arg) => [
         'SynopticData',
         ...result.map(({ id }) => ({ type: 'SynopticData', id })),
@@ -140,7 +137,7 @@ export const apiSlice = createApi({
 })
 
 export const {
-  useGetStationsQuery,
+  useGetWmoStationsQuery,
   useGetMeasurementsQuery,
   useGetDailyTemperaturesQuery,
   useGetDailySynopticDataQuery,

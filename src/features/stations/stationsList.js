@@ -1,18 +1,20 @@
 import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
-import { useGetStationsQuery } from '../api/apiSlice'
+import { useGetWmoStationsQuery } from '../api/apiSlice'
+import Table from 'react-bootstrap/Table'
+import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
+// import ru from 'date-fns/locale/ru'
 
 let Station = ({ station }) => {
-  let s = `${station.sindex} ${station.station_name}`
   return (
-    <article key={station.sindex}>
-      <h3>{s}</h3>
-    </article>
+    <tr key={station.id}>
+      <td>{station.code}</td><td>{station.name}</td><td>{station.country}</td>
+    </tr>
   )
 }
 
-export const StationsList = () => {
+export const WmoStationsList = () => {
   const {
     data: stations = [],
     isLoading,
@@ -20,19 +22,16 @@ export const StationsList = () => {
     isSuccess,
     isError,
     error,
-  } = useGetStationsQuery()
-  const sortedStations = useMemo(() => {
-    const sortedStations = stations.filter((s) => s.sindex < 80000 || s.sindex > 90000)
-    return sortedStations
-  }, [stations])
+  } = useGetWmoStationsQuery()
 
   let content
-
+  const clusterPoints = [<Placemark key={99023} defaultGeometry={[47.067221, 	38.160801]}/>]
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedStations = sortedStations.map((station) => (
-      <Station key={station.sindex} station={station} />
+    const renderedStations = stations.map((station) => (
+      clusterPoints.push(<Placemark key={station.id} defaultGeometry={[+station.latitude, 	+station.longitude]} />)
+      // <Station key={station.id} station={station} />
     ))
 
     const containerClassname = classnames('stations-container', {
@@ -40,7 +39,34 @@ export const StationsList = () => {
     })
 
     content = <div className={containerClassname}>
-      {renderedStations}
+      <YMaps query={{ apikey: process.env.REACT_APP_YANDEX_API_KEY }}>
+        <Map
+          defaultState={{
+            center: [47.7, 38.0],
+            zoom: 7
+          }}
+          width={800}
+          height={600}
+        >
+          <Clusterer
+            options={{
+              preset: "islands#invertedVioletClusterIcons",
+              groupByCoordinates: false,
+            }}
+          >{clusterPoints}</Clusterer>
+        </Map>
+      </YMaps>
+      {/* <Table>
+        <thead>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Country</th>
+        </thead>
+        <tbody>
+          {renderedStations}
+        </tbody>
+      </Table> */}
+      
     </div>
 
   } else if (isError) {
@@ -49,7 +75,7 @@ export const StationsList = () => {
 
   return (
     <section className="posts-list">
-      <h2>Метеостанции</h2>
+      <h2>WMO-станции</h2>
       {content}
     </section>
   )

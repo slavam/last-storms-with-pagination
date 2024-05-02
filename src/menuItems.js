@@ -56,14 +56,14 @@ export const menuItems = [
         title: 'Донбасстеплоэнерго',
         url: 'monthlyAvgTemp',
       },
-      {
-        title: 'Штормовые',
-        url: 'storms',
-      },
-      {
-        title: 'Порывы ветра',
-        url: 'otherDataWinds',
-      },
+      // {
+      //   title: 'Штормовые',
+      //   url: 'storms',
+      // },
+      // {
+      //   title: 'Порывы ветра',
+      //   url: 'otherDataWinds',
+      // },
       {
         title: 'Радиация',
         url: 'radiation',
@@ -72,14 +72,14 @@ export const menuItems = [
         title: 'Средняя температура за сутки',
         url: 'avgDailyTemp',
       },
-      {
-        title: 'Синоптические данные',
-        url: 'synopticData',
-      },
-      {
-        title: 'Осадки',
-        url: 'otherDataPrecipitation',
-      },
+      // {
+      //   title: 'Синоптические данные',
+      //   url: 'synopticData',
+      // },
+      // {
+      //   title: 'Осадки',
+      //   url: 'otherDataPrecipitation',
+      // },
     ]
   },
   {
