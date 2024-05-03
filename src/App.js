@@ -12,7 +12,7 @@ import { MeasurementsList } from './features/measurements/measurementsList'
 import { AvgTemperatures } from './features/temperatures/avgTemperatures'
 import { AvgMonthlyTemperatures } from './features/avgMonthTemperatures/avgMonthTemps'
 import { RadiationSoap } from './features/radiation/radiationSoap'
-// import { SynopticsList } from './features/synoptics/synopticsList'
+import { FireDanger } from './features/fireDanger/fireDanger'
 // import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
 // import { WindsList } from './features/otherData/windsList'
@@ -59,6 +59,7 @@ function App() {
             } /> */}
           </Route>
           <Route path="/stations" element={<WmoStationsList />} />
+          <Route path="/fireDanger" element={<FireDanger />} />
           <Route path='/stationsSoap' element={<StationsListSoap />} />
           <Route path="/hydroposts" element={<HydropostsList />} />
           <Route path="/measurements" element={<MeasurementsList />} />

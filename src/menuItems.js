@@ -56,10 +56,10 @@ export const menuItems = [
         title: 'Донбасстеплоэнерго',
         url: 'monthlyAvgTemp',
       },
-      // {
-      //   title: 'Штормовые',
-      //   url: 'storms',
-      // },
+      {
+        title: 'Пожароопасность',
+        url: 'fireDanger',
+      },
       // {
       //   title: 'Порывы ветра',
       //   url: 'otherDataWinds',

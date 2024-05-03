@@ -1,18 +1,18 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetWmoStationsQuery } from '../api/apiSlice'
-import Table from 'react-bootstrap/Table'
+// import Table from 'react-bootstrap/Table'
 import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
 // import ru from 'date-fns/locale/ru'
 
-let Station = ({ station }) => {
-  return (
-    <tr key={station.id}>
-      <td>{station.code}</td><td>{station.name}</td><td>{station.country}</td>
-    </tr>
-  )
-}
+// let Station = ({ station }) => {
+//   return (
+//     <tr key={station.id}>
+//       <td>{station.code}</td><td>{station.name}</td><td>{station.country}</td>
+//     </tr>
+//   )
+// }
 
 export const WmoStationsList = () => {
   const {

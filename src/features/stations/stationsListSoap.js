@@ -64,25 +64,10 @@ export const StationsListSoap = ()=>{
           height={600}
           modules={['control.ZoomControl']}
         >
-        <Clusterer
-          options={{
-            groupByCoordinates: false,
-          }}>{clusterPoints}</Clusterer>
-          {/* <Placemark
-        geometry={{
-          coordinates: [48.0161457, 37.8057165]
-        }}
-        properties={{
-          hintContent: 'Собственный значок метки',
-          balloonContent: 'Это красивая метка'
-        }}
-        options={{
-          iconLayout: 'default#image',
-          // iconImageHref: 'images/myIcon.gif',
-          iconImageSize: [30, 42],
-          iconImageOffset: [-3, -42]
-        }}
-      /> */}
+          <Clusterer
+            options={{
+              groupByCoordinates: false,
+            }}>{clusterPoints}</Clusterer>
         </Map>
       </YMaps>
     </div>

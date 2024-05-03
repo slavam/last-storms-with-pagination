@@ -1,13 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+const hmcDnrIp = 'http://10.54.1.6:8080'
 export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
-    'SoapObservations','SoapRadiation','WmoStation'],
+    'SoapObservations','SoapRadiation','WmoStation','FireDanger'],
   endpoints: (builder) => ({
+    getFireDanger: builder.query({
+      query: (reportDate)=>{
+        return `${hmcDnrIp}/fire_dangers/daily_fire_danger?format=json&report_date=${reportDate}`},
+      providesTags: ['FireDanger']
+    }),
     getWmoStations: builder.query({
       query: () => 'http://10.54.1.6:8080/wmo_stations/wmo_stations.json',
       providesTags: (result = [], error, arg) => [
@@ -156,5 +162,6 @@ export const {
   useGetHydropostsQuery,
   useGetSoapMeteoStationsQuery,
   useGetSoapObservationsQuery,
-  useGetSoapRadiationQuery
+  useGetSoapRadiationQuery,
+  useGetFireDangerQuery
 } = apiSlice
