@@ -7,7 +7,7 @@ export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
-    'SoapObservations','SoapRadiation','WmoStation','FireDanger'],
+    'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram'],
   endpoints: (builder) => ({
     getFireDanger: builder.query({
       query: (reportDate)=>{
@@ -132,6 +132,21 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ['Wind']
     }),
+    saveHydroData: builder.query({
+      query: hydroData=>{
+        let s = ''
+        Object.keys(hydroData).forEach(key=>{s+=(`${key}=${h[key]}&`)})
+        return `http://localhost:3000/conservations/conservations?${s.slice(0,-1)}`
+      },
+    }),
+    // saveHydroData: builder.mutation({
+    //   query: hydroData=>({
+    //     method: "POST",
+    //     url: 'http://localhost:3000/conservations/save_hydro_data?format=json',
+    //     body: hydroData
+    //   }),
+    //   invalidatesTags: ['NewHydroTelegram']
+    // }),
     createStorm: builder.mutation({
       query: bulletin =>({
         method: "POST",
@@ -163,5 +178,6 @@ export const {
   useGetSoapMeteoStationsQuery,
   useGetSoapObservationsQuery,
   useGetSoapRadiationQuery,
-  useGetFireDangerQuery
+  useGetFireDangerQuery,
+  useSaveHydroDataQuery
 } = apiSlice

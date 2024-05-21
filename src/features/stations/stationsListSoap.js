@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetSoapMeteoStationsQuery } from '../api/apiSlice'
+import { stationCoordinates } from '../../synopticDictionaries'
 import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
 
 let Station = ({ station }) => {
@@ -27,14 +28,6 @@ export const StationsListSoap = ()=>{
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    let stationCoordinates = {
-      '34519': [48.0161457, 37.8057165],
-      '34524': [48.35, 38.4333],
-      '34622': [47.8, 38.5167],
-      '99023': [47.067221, 38.160801],
-      '34615': [47.6167, 	37.35],
-      '34712': [47.0333, 37.5]
-    }
     const renderedStations = stations.meteostations.map((station) => 
       {clusterPoints.push(<Placemark key={station.index} defaultGeometry={stationCoordinates[station.index]} 
         properties={{

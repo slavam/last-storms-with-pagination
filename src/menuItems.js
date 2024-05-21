@@ -31,26 +31,26 @@ export const menuItems = [
     ],
   },
   {
-    title: 'Бюллетени',
-    url: '/bulletins',
+    title: 'Телеграммы',
+    url: '/telegrams',
     submenu: [
       {
         title: 'Штормовые предупреждения',
         url: 'stormBulletins',
       },
       {
-        title: 'web development',
-        url: 'web-dev',
+        title: 'Ввод гидротелеграмм',
+        url: '/inputHydroTelegram',
       },
-      {
-        title: 'SEO',
-        url: 'seo',
-      },
+      // {
+      //   title: 'SEO',
+      //   url: 'seo',
+      // },
     ],
   },
   {
-    title: 'Телеграммы',
-    url: '/telegrams',
+    title: 'Отчеты',
+    url: '/reports',
     submenu: [
       {
         title: 'Донбасстеплоэнерго',

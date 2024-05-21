@@ -31,6 +31,7 @@ import { NewStormBulletin } from './features/bulletins/stormForm'
 import { SelectObservations } from './features/observations/selectObservations'
 import { SelectSoapObservations } from './features/observations/selectSoapObservations'
 import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
+import { InputHydroTelegram } from './features/hydro/inputTelegram'
 
 function App() {
   history.navigate = useNavigate();
@@ -42,6 +43,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route exact path="/storms" element={<StormsList />} />
+          <Route path='/inputHydroTelegram' element={<InputHydroTelegram />} />
           {/* <Route exact path="/synopticObservations" element={<SynopticsList />} /> */}
           {/* <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} /> */}
           {/* <Route exact path='/otherDataWinds' element={<WindsList />} /> */}
