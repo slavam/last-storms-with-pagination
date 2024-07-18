@@ -38,7 +38,7 @@ export const AvgMonthlyTemperatures = ()=>{
     data: airTemperatures = [],
     isSuccess,
   } = useGetAvgMonthTempQuery(dates)
-  const codes = [34519,34524,34622,99023,34615,34712]
+  const codes = [34519,34524,34622,34721,34615,34712]
   const terms = [0,3,6,9,12,15,18,21]
   let row = new Array(codes.length)
   let avg = new Array(codes.length)

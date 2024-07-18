@@ -234,7 +234,7 @@ export const SelectSoapObservations = ()=>{
     }
   };
   const hydroCodes = [83026,83028,83035,83036,83040,83045,83048,83050,83056,83060,83068,83074,83083]
-  const codes = [34519,34524,34622,99023,34615,34712]
+  const codes = [34519,34524,34622,34721,34615,34712]
   let ds = [[],[],[],[],[],[],[],[],[],[],[],[],[]]
   const isMeteo = !(+(station.value[0])===8)
   observations.forEach(o => {

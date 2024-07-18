@@ -46,7 +46,7 @@ export const SynopticData = ()=>{
 // Мариуполь    34712
 // [0,3,6,9,12,15,18,21]
     // const absoluteZero = 273.15
-    const codeStations = [null,34519,34524,34622,99023,34615,34712]
+    const codeStations = [null,34519,34524,34622,34721,34615,34712]
     let terms = [null,0,3,6,9,12,15,18,21]
     let i,j
     let temps = [['Срок',0,3,6,9,12,15,18,21],

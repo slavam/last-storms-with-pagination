@@ -59,7 +59,7 @@ export const AvgTemperatures = ()=>{
 // Мариуполь    34712
     
     const absoluteZero = 273.15
-    const codeStations = [null,34519,34524,34622,99023,34615,34712]
+    const codeStations = [null,34519,34524,34622,34721,34615,34712]
     let shiftTerms = starts.slice(startTerm.value).concat(starts.slice(0,startTerm.value))
     let row0 = ['Срок'].concat(shiftTerms).concat(['Средняя'])
     let i,j

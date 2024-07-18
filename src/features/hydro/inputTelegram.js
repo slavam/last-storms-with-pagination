@@ -103,7 +103,7 @@ export const InputHydroTelegram = ()=>{
     // reset()
     // navigate('/stormBulletins')
     // response = client.call(:set_data, message:{user: 'test',pass: 'test',
-    // 'Report'=>{station:'99023','meas_time_utc'=>'2024-05-14T05:00'},
+    // 'Report'=>{station:'34721','meas_time_utc'=>'2024-05-14T05:00'},
     // data_list:{item:[{id:"1",'rec_flag'=>1,code:'360021',proc:'21',period:'1',pkind:'10'},
                     //  {id:"2",'rec_flag'=>3,code:'10004',value:'98594.44',units:'pa',block:"1"}]}})
   }

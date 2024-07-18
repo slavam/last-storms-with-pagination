@@ -13,7 +13,7 @@ let clusterPoints = []
 const stations = [null,'Донецк','Амвросиевка','Дебальцево','Волноваха','Мариуполь',null,null,null,null,'Седово']
 
 export const FireDanger = ()=>{
-  const codes = [null,34519,34622,34524,34615,34712,null,null,null,null,99023]
+  const codes = [null,34519,34622,34524,34615,34712,null,null,null,null,34721]
   const maxDate = new Date().toISOString().substring(0,10)
   const d = new Date()
   const currentDate = `${d.getUTCFullYear()}-${('0'+(d.getUTCMonth()+1)).slice(-2)}-${('0'+(d.getUTCDate())).slice(-2)}`

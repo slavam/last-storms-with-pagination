@@ -25,7 +25,7 @@ export const WmoStationsList = () => {
   } = useGetWmoStationsQuery()
 
   let content
-  const clusterPoints = [<Placemark key={99023} defaultGeometry={[47.067221, 	38.160801]}/>]
+  const clusterPoints = [<Placemark key={34721} defaultGeometry={[47.067221, 	38.160801]}/>]
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {

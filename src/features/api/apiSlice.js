@@ -72,14 +72,14 @@ export const apiSlice = createApi({
     }),
     getAvgMonthTemp: builder.query({
       query: (dates)=>{
-        const stations = '34519,34524,34622,99023,34615,34712'
+        const stations = '34519,34524,34622,34721,34615,34712'
         return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
       },
       providesTags: ['Teploenergo']
     }),
     getDailySynopticData: builder.query({
       query: (qParams)=>
-      `/get?stations=34519,34524,34622,99023,34615,34712&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
+      `/get?stations=34519,34524,34622,34721,34615,34712&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
       providesTags: (result = [], error, arg) => [
         'SynopticData',
         ...result.map(({ id }) => ({ type: 'SynopticData', id })),
@@ -87,7 +87,7 @@ export const apiSlice = createApi({
     }),
     getDailyTemperatures: builder.query({
       query: (reportDate) => 
-        `/get?stations=34519,34524,34622,99023,34615,34712&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+24*60*60}`,
+        `/get?stations=34519,34524,34622,34721,34615,34712&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+24*60*60}`,
         providesTags: (result = [], error, arg) => [
           'Temperature',
           ...result.map(({ id }) => ({ type: 'Temperature', id })),
@@ -135,7 +135,7 @@ export const apiSlice = createApi({
     saveHydroData: builder.query({
       query: hydroData=>{
         let s = ''
-        Object.keys(hydroData).forEach(key=>{s+=(`${key}=${h[key]}&`)})
+        Object.keys(hydroData).forEach(key=>{s+=(`${key}=${hydroData[key]}&`)})
         return `http://localhost:3000/conservations/conservations?${s.slice(0,-1)}`
       },
     }),
