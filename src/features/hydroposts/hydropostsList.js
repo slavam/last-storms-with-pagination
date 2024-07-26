@@ -23,7 +23,7 @@ export const HydropostsList = () => {
   } = useGetHydropostsQuery()
 
   const sortedPosts = useMemo(() => {
-    const sortedPosts = posts.filter((s) => s.sindex > 80000 && s.sindex < 90000)
+    const sortedPosts = posts.filter((s) => s.sindex > 80000 && s.sindex < 100000)
     return sortedPosts
   }, [posts])
 
