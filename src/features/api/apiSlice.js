@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const hmcDnrIp = 'http://10.54.1.6:8080'
+let url = window.location.href
+const soapApiIp = ((url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))? '10.54.1.11:8083':'31.133.32.14:8083')
 export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
@@ -15,14 +17,15 @@ export const apiSlice = createApi({
       providesTags: ['FireDanger']
     }),
     getWmoStations: builder.query({
-      query: () => 'http://10.54.1.6:8080/wmo_stations/wmo_stations.json',
+      query: () => `${hmcDnrIp}/wmo_stations/wmo_stations.json`,
       providesTags: (result = [], error, arg) => [
         'WmoStation',
         ...result.map(({ id }) => ({ type: 'WmoStation', id })),
       ],
     }),
     getSoapMeteoStations: builder.query({
-      query: ()=> 'http://localhost:3000/stations/meteostations?format=json',
+      // query: ()=> 'http://localhost:3000/stations/meteostations?format=json',
+      query: ()=> `http://${soapApiIp}/stations/meteostations?format=json`,
       providesTags: ['SoapMeteoStations'],
     }),
     getHydroposts: builder.query({
@@ -41,7 +44,7 @@ export const apiSlice = createApi({
     }),
     getSoapRadiation: builder.query({
       query: (qParams)=>{
-        return `http://localhost:3000/observations/observations?sources=1300&hashes=-1881179977&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}`
+        return `http://${soapApiIp}/observations/observations?mode=no-cors&sources=1300&hashes=-1881179977&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}`
       },
       providesTags: ['SoapRadiation']
     }),
@@ -50,7 +53,7 @@ export const apiSlice = createApi({
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let sources = +qParams.sources===0 ? '' : `&sources=${qParams.sources}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
-        return `http://localhost:3000/observations/observations?limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}`
+        return `http://${soapApiIp}/observations/observations?mode=no-cors&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}`
       },
       providesTags: ['SoapObservations']
     }),
@@ -96,7 +99,7 @@ export const apiSlice = createApi({
     getBulletins: builder.query({
       // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.105.24.41:8080'}),
       // query: (qParams)=> `http://10.105.24.41:8080/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`,
-      query: (qParams)=> `http://localhost:3000/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`, //&user_id=${qParams[2]}`,
+      query: (qParams)=> `${hmcDnrIp}/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`, //&user_id=${qParams[2]}`,
       providesTags: ['Bulletins'],
     }),
     getSynopticObservations: builder.query({
@@ -136,7 +139,7 @@ export const apiSlice = createApi({
       query: hydroData=>{
         let s = ''
         Object.keys(hydroData).forEach(key=>{s+=(`${key}=${hydroData[key]}&`)})
-        return `http://localhost:3000/conservations/conservations?${s.slice(0,-1)}`
+        return `http://${soapApiIp}/conservations/conservations?${s.slice(0,-1)}`
       },
     }),
     // saveHydroData: builder.mutation({
@@ -150,7 +153,7 @@ export const apiSlice = createApi({
     createStorm: builder.mutation({
       query: bulletin =>({
         method: "POST",
-        url: 'http://localhost:3000/bulletins?format=json',
+        url: `${hmcDnrIp}/bulletins?format=json`,
         body: bulletin
       })
     })
