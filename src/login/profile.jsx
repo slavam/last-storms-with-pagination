@@ -35,5 +35,8 @@ export function Profile(){
     </section>
     :
     <h1>Unknown</h1>
-  return <div>{content}</div>
+  return <div>
+    <h4>Build date 2024-08-07</h4>
+    {content}
+  </div>
 }

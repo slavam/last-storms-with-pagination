@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm, Controller } from "react-hook-form"
 // import classnames from 'classnames'
 // import { Spinner } from '../../components/Spinner'
+import Accordion from 'react-bootstrap/Accordion'
 import { useSaveHydroDataQuery } from '../api/apiSlice'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
@@ -50,62 +51,41 @@ export const InputHydroTelegram = ()=>{
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    // defaultValues: {
-    //   report_date: new Date().toISOString().substr(0, 10),
-    //   storm_hour: new Date().getHours(),
-    //   storm_minute: 0,
-    //   curr_number: 'ШТОРМОВОЕ ПРЕДУПРЕЖДЕНИЕ №',
-    //   storm: '',
-    //   synoptic1: synoptics[0],
-    //   chief: chiefs[0],
-    // },
-    // formOptions
-  })
-  const onSubmit = (data) => {
-    let hydroData = {
-      hydroPostCode,
-      waterLevel,
-      waterLevelDeviation
-    }
-    setHydroData(hydroData)
-    // alert(JSON.stringify(data))
-    // let currDate = new Date()
+  } = useForm({})
+  const onSubmit = () => {
     // let hydroData = {
-    //   'Report': {
-    //     station: hydroPostCode,
-    //     meas_time_utc: `${currDate.toISOString().split('T')[0]}T${term}:00:00`
-    //   },
-    //   data_list: {
-    //     item: [
-    //       {
-    //         id: 1,
-    //         rec_flag: 1,
-    //         code: 360101,
-    //         proc: 21,
-    //         period: 1,
-    //         pkind: 10
-    //       },
-    //       { // water level
-    //         id: 2,
-    //         rec_flag: 3,
-    //         code: 13205,
-    //         unit: 'm',
-    //         value: waterLevel/100,
-    //         block:1
-    //       }
-    //     ]
-    //   }
+    //   hydroPostCode,
+    //   waterLevel,
+    //   waterLevelDeviation
     // }
     // setHydroData(hydroData)
-    
-    // console.log(data); 
-    // reset()
-    // navigate('/stormBulletins')
-    // response = client.call(:set_data, message:{user: 'test',pass: 'test',
-    // 'Report'=>{station:'34721','meas_time_utc'=>'2024-05-14T05:00'},
-    // data_list:{item:[{id:"1",'rec_flag'=>1,code:'360021',proc:'21',period:'1',pkind:'10'},
-                    //  {id:"2",'rec_flag'=>3,code:'10004',value:'98594.44',units:'pa',block:"1"}]}})
+    setActiveKeys([])
+  }
+  const [activeKeys, setActiveKeys] = useState(["0"])
+  const handleSelect = (eventKey) => setActiveKeys(eventKey)
+  const showA1=()=>{
+    setTelegram(telegram.slice(0,-1)+' A1=')
+  }
+  const showA2=()=>{
+    setTelegram(telegram.slice(0,-1)+' A2=')
+  }
+  const showA3=()=>{
+    setTelegram(telegram.slice(0,-1)+' A3=')
+  }
+  const hideA1=()=>{
+    setTelegram(telegram.slice(0,28)+'=')
+    let result = activeKeys.filter(ak => +ak < 2);
+    setActiveKeys(result)
+  }
+  const hideA2=()=>{
+    if(telegram.indexOf(' A2')>0)
+      setTelegram(telegram.slice(0,31)+'=')
+    let result = activeKeys.filter(ak => ak != '3');
+    setActiveKeys(result)
+  }
+  const hideA3=()=>{
+    if(telegram.indexOf(' A3')>0)
+      setTelegram(telegram.slice(0,34)+'=')
   }
   const myForm =
     <Form onSubmit={handleSubmit(onSubmit)} onReset={reset}> 
@@ -124,7 +104,30 @@ export const InputHydroTelegram = ()=>{
           Изменение уровня воды в сантиметрах
         </Form.Text>
       </Form.Group>
-
+      <Accordion alwaysOpen activeKey={activeKeys}  onSelect={handleSelect}>
+        <Accordion.Item eventKey="1">
+          <Accordion.Header>Экземпляр 1</Accordion.Header>
+          <Accordion.Body onEnter={showA1} onExited={hideA1}>
+            <p>Экземпляр 1</p>
+            <Accordion alwaysOpen activeKey={activeKeys}  onSelect={handleSelect}>
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>Экземпляр 2</Accordion.Header>
+                <Accordion.Body onEnter={showA2} onExited={hideA2}>
+                  <p>Экземпляр 2</p>
+                  <Accordion alwaysOpen activeKey={activeKeys}  onSelect={handleSelect}>
+                    <Accordion.Item eventKey="3">
+                      <Accordion.Header>Экземпляр 3</Accordion.Header>
+                      <Accordion.Body onEnter={showA3} onExited={hideA3}>
+                        <p>Экземпляр 3</p>
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
       <Button variant="primary" type="submit">
         Сохранить
       </Button>
@@ -140,6 +143,7 @@ export const InputHydroTelegram = ()=>{
   return (
     <section>
       <h2>Ввод гидротелеграмм</h2>
+      <h3>{activeKeys}</h3>
       {content}
     </section>
   )

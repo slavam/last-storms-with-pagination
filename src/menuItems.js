@@ -5,49 +5,45 @@ export const menuItems = [
     url: '/dictionaries',
     submenu: [
       {
+        title: 'Гидропосты',
+        url: 'hydroposts',
+      },
+      {
         title: 'Метеостанции',
         url: 'stations',
       },
+      // {
+      //   title: 'Наблюдения',
+      //   url: 'observations',
+      // },
       {
-        title: 'Гидропосты',
-        url: 'hydroposts',
+        title: 'Метеостанции ДНР',
+        url: 'stationsSoap'
+      },
+      {
+        title: 'Наблюдения',
+        url: 'observationsSoap'
       },
       {
         title: 'Измерения',
         url: 'measurements',
       },
-      {
-        title: 'Наблюдения',
-        url: 'observations',
-      },
-      {
-        title: 'Метеостанции SOAP',
-        url: 'stationsSoap'
-      },
-      {
-        title: 'Observations SOAP',
-        url: 'observationsSoap'
-      }
     ],
   },
-  {
-    title: 'Телеграммы',
-    url: '/telegrams',
-    submenu: [
-      {
-        title: 'Штормовые предупреждения',
-        url: 'stormBulletins',
-      },
-      {
-        title: 'Ввод гидротелеграмм',
-        url: '/inputHydroTelegram',
-      },
-      // {
-      //   title: 'SEO',
-      //   url: 'seo',
-      // },
-    ],
-  },
+  // {
+  //   title: 'Телеграммы',
+  //   url: '/telegrams',
+  //   submenu: [
+  //     {
+  //       title: 'Штормовые предупреждения',
+  //       url: 'stormBulletins',
+  //     },
+  //     {
+  //       title: 'Ввод гидротелеграмм',
+  //       url: '/inputHydroTelegram',
+  //     },
+  //   ],
+  // },
   {
     title: 'Отчеты',
     url: '/reports',
