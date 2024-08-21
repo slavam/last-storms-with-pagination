@@ -44,7 +44,7 @@ export const apiSlice = createApi({
     }),
     getSoapRadiation: builder.query({
       query: (qParams)=>{
-        return `http://${soapApiIp}/observations/observations?mode=no-cors&min_quality=0&sources=1300&hashes=-1881179977&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}`
+        return `http://${soapApiIp}/observations/observations?mode=no-cors&min_quality=1&sources=1300&hashes=-1881179977&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}`
       },
       providesTags: ['SoapRadiation']
     }),
