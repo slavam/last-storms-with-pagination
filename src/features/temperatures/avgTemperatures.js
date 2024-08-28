@@ -54,14 +54,14 @@ export const AvgTemperatures = ()=>{
 // Донецк		    34519																
 // Дебальцево		34524																
 // Амвросиевка	34622																
-// Седово				99023											
+// Седово				99023		34721									
 // Волноваха		34615															
 // Мариуполь    34712
     
     const absoluteZero = 273.15
     const codeStations = [null,34519,34524,34622,34721,34615,34712]
-    let shiftTerms = starts.slice(startTerm.value).concat(starts.slice(0,startTerm.value))
-    let row0 = ['Срок'].concat(shiftTerms).concat(['Средняя'])
+    let shiftTerms = starts.slice(+startTerm.value).concat(starts.slice(0,startTerm.value))
+    let row0 = ['Срок (UTC)'].concat(shiftTerms).concat(['Средняя'])
     let i,j
     temps = [[],
                  ['Донецк',null,null,null,null,null,null,null,null,0,0],
@@ -74,7 +74,8 @@ export const AvgTemperatures = ()=>{
       i = codeStations.indexOf(o.station)
       j = shiftTerms.indexOf(o.point/3600)+1
       temps[i][j] = (o.value-absoluteZero).toFixed(1)
-      if(o.value) {temps[i][9]+=(+o.value-absoluteZero); temps[i][10]+=1}
+      if(o.value) {temps[i][9]+=(+o.value-absoluteZero); temps[i][10]+=1;
+      }
     })
     const createTr = (i) => {
       if(temps[i][10]>0)temps[i][9] = +((temps[i][9]/temps[i][10]).toFixed(2))
@@ -123,8 +124,11 @@ export const AvgTemperatures = ()=>{
     Tooltip,
     Legend
   );
+  let termLabels = []
+  starts.forEach(s=> termLabels.push((+startTerm.label+s)>=24?(+startTerm.label+s)-24:(+startTerm.label+s)))
+  // alert(JSON.stringify(termLabels))
   const data = {
-    labels: starts,
+    labels: termLabels, // starts.map(s=>(s+startTerm)>=24?(s+startTerm)-24:(s+startTerm)),
     datasets: [
       {
         label: 'Донецк',
@@ -180,7 +184,7 @@ export const AvgTemperatures = ()=>{
   const modal =
     <Modal show={show} onHide={handleClose} size='lg'>
       <Modal.Header  >
-        <Modal.Title>Температура за сутки {reportDate}</Modal.Title>
+        <Modal.Title>Температура за сутки с {reportDate} {startTerm.label}:00</Modal.Title>
       </Modal.Header>
       <Modal.Body >
         <Line options={options} data={data} />

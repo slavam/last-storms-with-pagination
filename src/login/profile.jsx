@@ -36,7 +36,7 @@ export function Profile(){
     :
     <h1>Unknown</h1>
   return <div>
-    <h4>Build date 2024-08-21</h4>
+    <h4>Build date 2024-08-28</h4>
     {content}
   </div>
 }

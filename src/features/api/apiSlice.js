@@ -52,8 +52,10 @@ export const apiSlice = createApi({
       query: (qParams)=> {
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let sources = +qParams.sources===0 ? '' : `&sources=${qParams.sources}`
+        let stream = qParams.stream.value===null ? '' : `&streams=${qParams.stream.value}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
-        return `http://${soapApiIp}/observations/observations?mode=no-cors&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}`
+        return `http://${soapApiIp}/observations/observations?min_quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}${stream}`
+        // return `http://localhost:3000/observations/observations?min_quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}${stream}`
       },
       providesTags: ['SoapObservations']
     }),
@@ -90,7 +92,7 @@ export const apiSlice = createApi({
     }),
     getDailyTemperatures: builder.query({
       query: (reportDate) => 
-        `/get?stations=34519,34524,34622,34721,34615,34712&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+24*60*60}`,
+        `/get?stations=34519,34524,34622,34721,34615,34712&quality=null&streams=0&source=100&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+22*60*60}`,
         providesTags: (result = [], error, arg) => [
           'Temperature',
           ...result.map(({ id }) => ({ type: 'Temperature', id })),

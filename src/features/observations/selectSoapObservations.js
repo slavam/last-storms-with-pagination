@@ -67,8 +67,9 @@ const Observation = ({observation, measurement, measurements})=>{
   // let termPeriod = (observation.period === 600 || observation.meas_hash === 79004873)? '10 мин.' : ((observation.unit === 'ccitt ia5' || observation.unit === 'v')? '' : observation.point/3600)
   
 
-  let value2
-  switch (observation.unit) {
+  let value2 = null
+  // alert(JSON.stringify(observation))
+  switch (observation.units) {
     case 'pa':
       value2 = +observation.value/100
       break
@@ -96,6 +97,9 @@ const Observation = ({observation, measurement, measurements})=>{
             <tr key="3">
               <th>Станция/пост</th><td>{stationName}</td>
             </tr>
+            {/* <tr key="4">
+              <th>stream</th><td>{observation.stream}</td>
+            </tr> */}
             {tlgFields}
           </thead>
         </Table>
@@ -112,13 +116,13 @@ const Observation = ({observation, measurement, measurements})=>{
     <td>{observation.created_at.replace('T',' ').slice(0,-10)}</td>
     <td>{observation.meas_time.replace('T',' ').slice(0,-10)}</td>
     <td>{observation.syn_hour}/{observation.period?observation.period/60:''}</td>
-    <td>{stationName}-{observation.place}/{observation.qlty?observation.alarm:''}</td>
+    <td>{stationName}-{observation.place}{observation.quality?`/${observation.quality}`:''}</td>
     <td>{obsValue}</td>
     <td>{observation.units}</td>
     <td>{measurement}</td>
     <td>{observation.bseq}:{observation.code}@{observation.meashash}</td>
     <td>{observation.message_id}:{observation.block}-{observation.source}</td>
-    <td><Button variant="primary" onClick={handleShow}>Source</Button></td>
+    <td><Button variant="primary" onClick={handleShow}>Первоисточник</Button></td>
     {modal}
   </tr>
 }
@@ -139,6 +143,8 @@ export const SelectSoapObservations = ()=>{
   const [term, setTerm] = useState(terms[0])
   const [limit, setLimit] = useState(10)
   const [source, setSource] = useState(100)
+  const [stream, setStream] = useState({value: null, label: 'Любой'})
+  const [quality, setQuality] = useState({value: 0, label: 'Любое'})
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false)
@@ -150,6 +156,8 @@ export const SelectSoapObservations = ()=>{
     notafter: date2, //Math.round(new Date(date2).getTime()/1000),
     limit: limit,
     sources: source,
+    stream,
+    quality: quality.value,
     syn_hours: term.value==='' ? '' : term.label,
     measurement: param.value,
   }
@@ -205,7 +213,7 @@ export const SelectSoapObservations = ()=>{
             <th>Создана (UTC)</th>
             <th>Наблюдение (UTC)</th>
             <th>Срок/Период(мин.)</th>
-            <th>Станция-place/alarm</th>
+            <th>Станция-place/qlty</th>
             <th>Значение</th>
             <th>Единица измерения</th>
             <th>Измерение</th>
@@ -382,6 +390,8 @@ export const SelectSoapObservations = ()=>{
             <th>Конечная дата</th>
             <th>Срок</th>
             <th>Source</th>
+            <th>Поток</th>
+            <th>Качество</th>
             <th>Лимит</th>
           </tr>
         </thead>
@@ -410,6 +420,12 @@ export const SelectSoapObservations = ()=>{
             </td>
             <td>
               <input size="4" type='number' value={source} onChange={sourceChanged} id='select-source'/>
+            </td>
+            <td>
+              <Select value={stream} onChange={val => setStream(val)} options={[{value:null,label:'Любой'},{value:0,label:'0 - основной'},{value:1,label:'1 - автоматический'}]} id='select-stream'/>
+            </td>
+            <td>
+              <Select value={quality} onChange={val => setQuality(val)} options={[{value:0,label:'Любое'},{value:1,label:'Актуальные'}]} id='select-йгфдшен'/>
             </td>
             <td>
               <input size="4" type='number' value={limit} onChange={limitChanged} id='select-limit'/>
