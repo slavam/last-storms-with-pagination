@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const hmcDnrIp = 'http://10.54.1.6:8080'
+const stations = '34519,34524,34622,34721,34615,34712'
+const points = '0,10800,21600,32400,43200,54000,64800,75600'
 let url = window.location.href
 const soapApiIp = ((url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))? '10.54.1.11:8083':'31.133.32.14:8083')
 export const apiSlice = createApi({
@@ -77,26 +79,27 @@ export const apiSlice = createApi({
     }),
     getAvgMonthTemp: builder.query({
       query: (dates)=>{
-        const stations = '34519,34524,34622,34721,34615,34712'
+        // const stations = '34519,34524,34622,34721,34615,34712'
         return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
       },
       providesTags: ['Teploenergo']
     }),
     getDailySynopticData: builder.query({
       query: (qParams)=>
-      `/get?stations=34519,34524,34622,34721,34615,34712&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
+      `/get?stations=${stations}&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
       providesTags: (result = [], error, arg) => [
         'SynopticData',
         ...result.map(({ id }) => ({ type: 'SynopticData', id })),
       ],
     }),
-    getDailyTemperatures: builder.query({
-      query: (reportDate) => 
-        `/get?stations=34519,34524,34622,34721,34615,34712&quality=null&streams=0&source=100&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+22*60*60}`,
-        providesTags: (result = [], error, arg) => [
-          'Temperature',
-          ...result.map(({ id }) => ({ type: 'Temperature', id })),
-        ],
+    getDailyTemperatures: builder.query({query: (reportDate) => 
+        // `/get?stations=${stations}&quality=null&streams=0&source=100&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+22*60*60}`,
+        `/get?stations=${stations}&quality=1&source=100,10202&hashes=795976906,1451382247&point=${points}&notbefore=${reportDate}&notafter=${reportDate+22*60*60}`,
+      
+      providesTags: (result = [], error, arg) => [
+        'Temperature',
+        ...result.map(({ id }) => ({ type: 'Temperature', id })),
+      ],
     }),
     getBulletins: builder.query({
       // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.105.24.41:8080'}),

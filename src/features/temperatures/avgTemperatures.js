@@ -64,24 +64,47 @@ export const AvgTemperatures = ()=>{
     let row0 = ['Срок (UTC)'].concat(shiftTerms).concat(['Средняя'])
     let i,j
     temps = [[],
-                 ['Донецк',null,null,null,null,null,null,null,null,0,0],
-                 ['Дебальцево',null,null,null,null,null,null,null,null,0,0],
-                 ['Амвросиевка',null,null,null,null,null,null,null,null,0,0],
-                 ['Седово',null,null,null,null,null,null,null,null,0,0],
-                 ['Волноваха',null,null,null,null,null,null,null,null,0,0],
-                 ['Мариуполь',null,null,null,null,null,null,null,null,0,0]]
+                 ['Донецк',null,null,null,null,null,null,null,null,0,0,0],
+                 ['Дебальцево',null,null,null,null,null,null,null,null,0,0,0],
+                 ['Амвросиевка',null,null,null,null,null,null,null,null,0,0,0],
+                 ['Седово',null,null,null,null,null,null,null,null,0,0,0],
+                 ['Волноваха',null,null,null,null,null,null,null,null,0,0,0],
+                 ['Мариуполь',null,null,null,null,null,null,null,null,0,0,0]]
     observations.map((o) => {
       i = codeStations.indexOf(o.station)
       j = shiftTerms.indexOf(o.point/3600)+1
-      temps[i][j] = (o.value-absoluteZero).toFixed(1)
-      if(o.value) {temps[i][9]+=(+o.value-absoluteZero); temps[i][10]+=1;
+      let tempC = Number.parseFloat(+o.value-absoluteZero).toFixed(1)
+      if(temps[i][j]===null){ 
+        if(+o.meas_hash===795976906){ // synoptic telegram
+          temps[i][j] = +tempC
+          if(o.value) {
+            temps[i][9]+= +tempC
+            temps[i][10]+=1;
+            temps[i][11]=+o.created_at
+          }
+        }else if(+o.station===34622){
+          temps[i][j] = +tempC
+          temps[i][9]+= +tempC
+          temps[i][10]+=1;
+          temps[i][11]=+o.created_at
+        }
+      }else if((+tempC!== +temps[i][j]) && (+o.created_at> +temps[i][11])){ // обновление
+        if(+o.meas_hash===795976906){
+          temps[i][9]= (+temps[i][9]-(+temps[i][j]))+(+o.value-absoluteZero)
+          temps[i][j] = tempC
+          temps[i][11]=+o.created_at
+        }else if(+o.station===34622){
+          temps[i][9]= (+temps[i][9]-(+temps[i][j]))+(+o.value-absoluteZero)
+          temps[i][j] = tempC
+          temps[i][11]=+o.created_at
+        }
       }
     })
     const createTr = (i) => {
       if(temps[i][10]>0)temps[i][9] = +((temps[i][9]/temps[i][10]).toFixed(2))
       let row = []
       let st 
-      for(let j=0; j<starts.length+2; j++){
+      for(let j=0; j<starts.length+3; j++){
         st = j === 9? (<b>{temps[i][j]}</b>) : temps[i][j]
         row.push(<td key={j}>{st}</td>)
       }
