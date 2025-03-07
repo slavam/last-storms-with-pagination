@@ -6,7 +6,8 @@ import MenuItems from './MenuItems'
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
 // import NavDropdown from 'react-bootstrap/NavDropdown'
-
+let url = window.location.href
+const isMenu = true //url.indexOf('?menu=on')>-1
 export const Navbar1 = () => {
   const authUser = useSelector(x => x.auth.user);
   
@@ -24,9 +25,8 @@ export const Navbar1 = () => {
         <ul className="menus">
           {menuItems.map((menu, index) => {
             const depthLevel = 0;
-            return (
-              <MenuItems items={menu} key={index} depthLevel={depthLevel}/>
-            );
+            return isMenu? <MenuItems items={menu} key={index} depthLevel={depthLevel}/> : null
+            ;
           })}
         </ul>
       </div>

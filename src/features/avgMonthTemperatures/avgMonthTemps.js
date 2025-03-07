@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import classnames from 'classnames'
-import { Spinner } from '../../components/Spinner'
 import { useGetAvgMonthTempQuery } from '../api/apiSlice'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
@@ -8,7 +6,6 @@ import Container from 'react-bootstrap/Container'
 import {stations} from '../../synopticDictionaries'
 import Button from 'react-bootstrap/Button'
 import { useNavigate } from 'react-router-dom'
-// import {useNavigate} from 'react-router-dom'
 
 export const AvgMonthlyTemperatures = ()=>{
   const months = [
@@ -51,7 +48,23 @@ export const AvgMonthlyTemperatures = ()=>{
       let day = d.getUTCDate()
       row[i] ||= new Array(monthLastDay)
       row[i][day] ||= new Array(8)
-      row[i][day][t] = (+e.value-absoluteZero)
+      if(+e.meas_hash===795976906){
+        if(row[i][day][t]===null){
+          row[i][day][t] = (+e.value-absoluteZero)
+          // row[i][day][8] = e.created_at
+        }else if(row[i][day][t]!==(+e.value-absoluteZero)){ // && (+e.created_at>row[i][day][8])){
+          row[i][day][t] = (+e.value-absoluteZero)
+          // row[i][day][8] = e.created_at
+        }
+      }else if(+e.station===34622){
+        if(row[i][day][t]===null){
+          row[i][day][t] = (+e.value-absoluteZero)
+          // row[i][day][8] = e.created_at
+        }else if(row[i][day][t]!==(+e.value-absoluteZero)){ // && (+e.created_at>row[i][day][8])){
+          row[i][day][t] = (+e.value-absoluteZero)
+          // row[i][day][8] = e.created_at
+        }
+      }
     });
     
     for(let i=0; i<codes.length; i++){

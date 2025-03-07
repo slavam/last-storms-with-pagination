@@ -27,10 +27,12 @@ const terms = [
   {label:'Любой',value:''},
   {label:'00:00', value:'0'},
   {label:'03:00', value:'3'},
+  {label:'05:00', value:'5'},
   {label:'06:00', value:'6'},
   {label:'09:00', value:'9'},
   {label:'12:00', value:'12'},
   {label:'15:00', value:'15'},
+  {label:'17:00', value:'17'},
   {label:'18:00', value:'18'},
   {label:'21:00', value:'21'},
 ]
@@ -389,7 +391,7 @@ export const SelectSoapObservations = ()=>{
             <th>Начальная дата</th>
             <th>Конечная дата</th>
             <th>Срок</th>
-            <th>Source</th>
+            <th>Источник</th>
             <th>Поток</th>
             <th>Качество</th>
             <th>Лимит</th>

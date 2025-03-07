@@ -79,8 +79,7 @@ export const apiSlice = createApi({
     }),
     getAvgMonthTemp: builder.query({
       query: (dates)=>{
-        // const stations = '34519,34524,34622,34721,34615,34712'
-        return `/get?stations=${stations}&hashes=795976906&notbefore=${dates[0]}&notafter=${dates[1]}`
+        return `/get?stations=${stations}&quality=1&source=100,10202&hashes=795976906,1451382247&point=${points}&notbefore=${dates[0]}&notafter=${dates[1]}`
       },
       providesTags: ['Teploenergo']
     }),
@@ -93,9 +92,7 @@ export const apiSlice = createApi({
       ],
     }),
     getDailyTemperatures: builder.query({query: (reportDate) => 
-        // `/get?stations=${stations}&quality=null&streams=0&source=100&codes=12101&hashes=795976906&notbefore=${reportDate}&notafter=${reportDate+22*60*60}`,
         `/get?stations=${stations}&quality=1&source=100,10202&hashes=795976906,1451382247&point=${points}&notbefore=${reportDate}&notafter=${reportDate+22*60*60}`,
-      
       providesTags: (result = [], error, arg) => [
         'Temperature',
         ...result.map(({ id }) => ({ type: 'Temperature', id })),

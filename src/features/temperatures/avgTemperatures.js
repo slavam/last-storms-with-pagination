@@ -61,7 +61,7 @@ export const AvgTemperatures = ()=>{
     const absoluteZero = 273.15
     const codeStations = [null,34519,34524,34622,34721,34615,34712]
     let shiftTerms = starts.slice(+startTerm.value).concat(starts.slice(0,startTerm.value))
-    let row0 = ['Срок (UTC)'].concat(shiftTerms).concat(['Средняя'])
+    let row0 = ['Срок (UTC)'].concat(shiftTerms).concat(['Средняя','N'])
     let i,j
     temps = [[],
                  ['Донецк',null,null,null,null,null,null,null,null,0,0,0],
