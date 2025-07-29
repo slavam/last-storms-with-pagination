@@ -83,6 +83,7 @@ export const FireDanger = ()=>{
             }}>{clusterPoints}</Clusterer>
         </Map>
       </YMaps>
+      <br/>
       <Table striped bordered hover variant="secondary" >
         <thead>
           <tr>
@@ -103,12 +104,12 @@ export const FireDanger = ()=>{
     content = <div>{error.toString()}</div>
   }
   return(
-    <div>
+    <section className="posts-list">
       <h1>Пожароопасность</h1>
       <h4>Задайте дату</h4>
       <input type="date" id="input-date" max={maxDate} name="input-date" value={reportDate} onChange={(event) => setReportDate(event.target.value>maxDate?maxDate:event.target.value)} required={true} autoComplete="on" />
-      
+      <br/>
       {content}
-    </div>
+    </section>
   )
 }
