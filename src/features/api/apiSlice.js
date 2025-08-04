@@ -79,13 +79,13 @@ export const apiSlice = createApi({
     }),
     getAvgMonthTemp: builder.query({
       query: (dates)=>{
-        return `/get?stations=${stations}&quality=1&source=100,10202&hashes=795976906,1451382247&point=${points}&notbefore=${dates[0]}&notafter=${dates[1]}`
+        return `/get?stations=${stations}&quality=1&source=100,10202&streams=0,1&hashes=795976906,1451382247&point=${points}&notbefore=${dates[0]}&notafter=${dates[1]}`
       },
       providesTags: ['Teploenergo']
     }),
     getAvgMonthTemperature15Hours: builder.query({
       query: params=>
-        `/get?stations=${stations}&quality=1&streams=0&hashes=-1152096796&notbefore=${params[0]}&notafter=${params[1]}`,
+        `/get?stations=${stations}&quality=1&source=100,10202&streams=0&hashes=-1152096796&notbefore=${params[0]}&notafter=${params[1]}`,
       providesTags: ['AvgTemp15Hours']
     }),
     getDailySynopticData: builder.query({

@@ -13,7 +13,7 @@ export const AvgMonthlyTemperatures = ()=>{
   const [year, setYear] = useState(d.getFullYear())
   const [month, setMonth] = useState(months[d.getMonth()])
   const [startDate, setStartDate] = useState(`${year}-${month.value}-1`)
-  const date1 = Math.round(new Date(startDate).getTime()/1000)
+  const date1 = Math.round(new Date(startDate).getTime()/1000)+3*3600
   const monthLastDay = new Date(year, month.value, 0).getDate()
   const date2 = date1+monthLastDay*24*60*60
   const dates = [date1,date2]
@@ -65,6 +65,7 @@ export const AvgMonthlyTemperatures = ()=>{
         }
       }
     }
+    
     let hdr = [<th key='0'>Метеостанции</th>]
     for(let d=1; d<=monthLastDay; d++){
       hdr.push(<th key={d}>{d}</th>)
@@ -78,6 +79,7 @@ export const AvgMonthlyTemperatures = ()=>{
       }
       m.push(<tr key={i}>{tds}</tr>)
     }
+    
   }
   const navigate = useNavigate();
   const toComponentB=()=>{
