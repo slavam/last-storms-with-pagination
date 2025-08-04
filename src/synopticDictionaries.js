@@ -6,7 +6,20 @@ export const stationCoordinates = {
   '34615': [47.6167, 	37.35],
   '34712': [47.0333, 37.5]
 }
-
+export const months = [
+  {label:'Январь',value: 1},
+  {label:'Февраль',value: 2},
+  {label:'Март',value: 3},
+  {label:'Апрель',value: 4},
+  {label:'Май',value: 5},
+  {label:'Июнь',value: 6},
+  {label:'Июль',value: 7},
+  {label:'Август',value: 8},
+  {label:'Сентябрь',value: 9},
+  {label:'Октябрь',value: 10},
+  {label:'Ноябрь',value: 11},
+  {label:'Декабрь',value: 12},
+]
 export const stations = [
   {label:'Все',value:'34519,34524,34622,34721,34615,34712,83026,83028,83035,83036,83040,83045,83048,83050,83056,83060,83068,83074,83083,99999'},
   {label:'Все МС',value:'34519,34524,34622,34721,34615,34712'},

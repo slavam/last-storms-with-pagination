@@ -11,7 +11,7 @@ export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
   baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
-    'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram'],
+    'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram','HydroPrecipitation','MeteoPrecipitation','AvgTemp15Hours'],
   endpoints: (builder) => ({
     getFireDanger: builder.query({
       query: (reportDate)=>{
@@ -83,6 +83,11 @@ export const apiSlice = createApi({
       },
       providesTags: ['Teploenergo']
     }),
+    getAvgMonthTemperature15Hours: builder.query({
+      query: params=>
+        `/get?stations=${stations}&quality=1&streams=0&hashes=-1152096796&notbefore=${params[0]}&notafter=${params[1]}`,
+      providesTags: ['AvgTemp15Hours']
+    }),
     getDailySynopticData: builder.query({
       query: (qParams)=>
       `/get?stations=${stations}&codes=${qParams[1].substring(1,6)}&hashes=${qParams[1].substring(7,100)}&notbefore=${+qParams[0]}&notafter=${+qParams[0]+24*60*60}`,
@@ -127,8 +132,20 @@ export const apiSlice = createApi({
       query:(currentPage)=>'/other_observations.json?factor=temp&page_size=15&page='+currentPage,
       providesTags: ['Wind', 'Temp8']
     }),getPrecipitation: builder.query({
-      query:(currentPage)=>'/other_observations.json?factor=perc&page_size=15&page='+currentPage,
+      query:(currentPage)=>`${hmcDnrIp}/other_observations.json?factor=perc&page_size=15&page=${currentPage}`,
       providesTags: ['Wind', 'Precipitation']
+    }),
+    getOtherPrecipitation: builder.query({
+      query: (monthYear)=> `http://10.54.1.6:8080/other_observations/monthly_precipitation?format=json&month=${monthYear[0]}&year=${monthYear[1]}`,
+      providesTags: ['Precipitation']
+    }),
+    getHydroPostPrecipitation: builder.query({
+      query: (params)=>`/get?stations=83026,83028,83035,83040,83050,83056,83060,83068,83074,83083&hashes=869481287&quality=1&notbefore=${params[0]}&notafter=${params[1]}`,
+      providesTags: ['HydroPrecipitation']
+    }),
+    getMeteoStationPrecipitation: builder.query({
+      query: params=>`/get?stations=${stations}&hashes=870717212&quality=1&streams=0&notbefore=${params[0]}&notafter=${params[1]}`,
+      providesTags: ['MeteoPrecipitation']
     }),
     deleteWind: builder.mutation({
       query: (id)=>({
@@ -173,6 +190,7 @@ export const {
   useGetGustsWindQuery,
   useGetTemp8Query,
   useGetPrecipitationQuery,
+  useGetOtherPrecipitationQuery,
   useDeleteWindMutation,
   useGetBulletinsQuery,
   useCreateStormMutation,
@@ -184,5 +202,8 @@ export const {
   useGetSoapObservationsQuery,
   useGetSoapRadiationQuery,
   useGetFireDangerQuery,
-  useSaveHydroDataQuery
+  useSaveHydroDataQuery,
+  useGetHydroPostPrecipitationQuery,
+  useGetMeteoStationPrecipitationQuery,
+  useGetAvgMonthTemperature15HoursQuery
 } = apiSlice

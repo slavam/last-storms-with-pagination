@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { useGetAvgMonthTempQuery } from '../api/apiSlice'
+import { useGetAvgMonthTemperature15HoursQuery } from '../api/apiSlice'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
 import Container from 'react-bootstrap/Container'
 import {stations} from '../../synopticDictionaries'
-import Button from 'react-bootstrap/Button'
-import { useNavigate } from 'react-router-dom'
 import { months } from '../../synopticDictionaries'
 
-export const AvgMonthlyTemperatures = ()=>{
+export const AvgMonthTemperature15Hours = ()=>{
   let d = new Date()
   const [year, setYear] = useState(d.getFullYear())
   const [month, setMonth] = useState(months[d.getMonth()])
@@ -19,52 +17,21 @@ export const AvgMonthlyTemperatures = ()=>{
   const dates = [date1,date2]
   const absoluteZero = 273.15
   const {
-    data: airTemperatures = [],
+    data: avgDailyTemp = [],
     isSuccess,
-  } = useGetAvgMonthTempQuery(dates)
+  } = useGetAvgMonthTemperature15HoursQuery(dates)
   const codes = [34519,34524,34622,34721,34615,34712]
-  const terms = [0,3,6,9,12,15,18,21]
   let row = new Array(codes.length)
-  let avg = new Array(codes.length)
   let m = []
-  if(isSuccess && airTemperatures){
-    airTemperatures.forEach(e => {
+  if(isSuccess && avgDailyTemp){
+    avgDailyTemp.forEach(e => {
       let i = codes.indexOf(e.station)
-      let t = terms.indexOf(e.point/3600)
       let d = new Date(e.moment*1000)
       let day = d.getUTCDate()
       row[i] ||= new Array(monthLastDay)
-      row[i][day] ||= new Array(8)
-      if(+e.meas_hash===795976906){
-        if(row[i][day][t]===null){
-          row[i][day][t] = (+e.value-absoluteZero)
-          // row[i][day][8] = e.created_at
-        }else if(row[i][day][t]!==(+e.value-absoluteZero)){ // && (+e.created_at>row[i][day][8])){
-          row[i][day][t] = (+e.value-absoluteZero)
-          // row[i][day][8] = e.created_at
-        }
-      }else if(+e.station===34622){
-        if(row[i][day][t]===null){
-          row[i][day][t] = (+e.value-absoluteZero)
-          // row[i][day][8] = e.created_at
-        }else if(row[i][day][t]!==(+e.value-absoluteZero)){ // && (+e.created_at>row[i][day][8])){
-          row[i][day][t] = (+e.value-absoluteZero)
-          // row[i][day][8] = e.created_at
-        }
-      }
+      row[i][day] = Math.round((+e.value-absoluteZero)*100)/100
     });
     
-    for(let i=0; i<codes.length; i++){
-      avg[i] ||= new Array(monthLastDay+1)
-      avg[i][0] = codes[i]
-      for(let j=1; j<=monthLastDay; j++){
-        if(row[i] && row[i][j]){
-          let sum =row[i][j].reduce((accumulator, currentValue) => accumulator + currentValue,0)
-          let numNotNull = (row[i][j].filter(n => n)).length
-          avg[i][j] = (sum/numNotNull).toFixed(1)
-        }
-      }
-    }
     let hdr = [<th key='0'>Метеостанции</th>]
     for(let d=1; d<=monthLastDay; d++){
       hdr.push(<th key={d}>{d}</th>)
@@ -74,17 +41,13 @@ export const AvgMonthlyTemperatures = ()=>{
       let station = stations.find(s => +s.value === codes[i])
       let tds = [<td key='0'><b>{station.label}</b></td>]
       for(let j=1; j<=monthLastDay; j++){
-        tds.push(<td key={j}>{avg[i][j]}</td>)
+        tds.push(<td key={j}>{row[i][j]}</td>)
       }
       m.push(<tr key={i}>{tds}</tr>)
     }
   }
-  const navigate = useNavigate();
-  const toComponentB=()=>{
-    navigate('/createDtePdf', { state: { year: year, month: month.label, nDays: monthLastDay, m: avg } });
-  }
+
   let content = m
-  // console.log(m)
   return (
     <div className="col-md-10 offset-md-1 mt-1">
       <Container style={{width: '400px'}}>
@@ -108,13 +71,12 @@ export const AvgMonthlyTemperatures = ()=>{
         </tbody>
       </Table>
       </Container>
-      <h4>Средняя за сутки (00:01-24:00) температура воздуха (°С) за {month.label} месяц {year} года на метеостанциях ДНР</h4>
+      <h4>Средняя за сутки (18-15) температура воздуха (°С) за {month.label} месяц {year} года на метеостанциях ДНР</h4>
       <Table striped bordered hover variant="primary"  >
         <tbody>
           {content}
         </tbody>
       </Table>
-      <Button variant="secondary" onClick={toComponentB}>Создать PDF</Button>
     </div>
   )
 }

@@ -36,6 +36,18 @@ const terms = [
   {label:'18:00', value:'18'},
   {label:'21:00', value:'21'},
 ]
+const sources =[
+  {label:'Любой',value:''},                                                                                     
+  {label:'100 SYNOP',value:'100'},
+  {label:'200 SEA',value:'200'},                                                                                
+  {label:'1300 радиация',value:'1300'},
+  {label:'1500 гидрология',value:'1500'},                                                                       
+  {label:'2100 агро',value:'2100'},
+  {label:'2400 снег',value:'2400'},                                                                             
+  {label:'10100 SOAP',value:'10100'},
+  {label:'10101 шторма',value:'10101'},                                                                         
+  {label:'10202 Common XML',value:'10202'},
+] 
 
 const Observation = ({observation, measurement, measurements})=>{
   const [queryMessage, setQueryMessage] = useState('')
@@ -123,8 +135,8 @@ const Observation = ({observation, measurement, measurements})=>{
     <td>{observation.units}</td>
     <td>{measurement}</td>
     <td>{observation.bseq}:{observation.code}@{observation.meashash}</td>
-    <td>{observation.message_id}:{observation.block}-{observation.source}</td>
-    <td><Button variant="primary" onClick={handleShow}>Первоисточник</Button></td>
+    <td>{observation.message_id}:{observation.source}</td>
+    <td><Button variant="primary" onClick={handleShow}>Комплект</Button></td>
     {modal}
   </tr>
 }
@@ -135,7 +147,6 @@ export const SelectSoapObservations = ()=>{
   } = useGetMeasurementsQuery()
   let parameters = [{label: 'Все', value: null}]
   if(isSuccessM)
-    // parameters = measurements.map(m => ({label: m.caption, value: m.meas_hash}))
     measurements.forEach(m => {parameters.push({label: m.caption, value: m.meas_hash})})
 
   const [station, setStation] = useState(stations[3])
@@ -144,7 +155,7 @@ export const SelectSoapObservations = ()=>{
   const [param, setParam] = useState(parameters[0])
   const [term, setTerm] = useState(terms[0])
   const [limit, setLimit] = useState(10)
-  const [source, setSource] = useState(100)
+  const [source, setSource] = useState(sources[0])
   const [stream, setStream] = useState({value: null, label: 'Любой'})
   const [quality, setQuality] = useState({value: 0, label: 'Любое'})
   const [show, setShow] = useState(false);
@@ -157,7 +168,7 @@ export const SelectSoapObservations = ()=>{
     notbefore: date1, //Math.round(new Date(date1).getTime()/1000),
     notafter: date2, //Math.round(new Date(date2).getTime()/1000),
     limit: limit,
-    sources: source,
+    sources: source.value,
     stream,
     quality: quality.value,
     syn_hours: term.value==='' ? '' : term.label,
@@ -171,7 +182,6 @@ export const SelectSoapObservations = ()=>{
     isError,
     error,
   } = useGetSoapObservationsQuery(qParams)
-  // console.log(observations)
 
   const eventDate1Changed = (e)=>{
     if (!e.target['validity'].valid) return;
@@ -184,7 +194,6 @@ export const SelectSoapObservations = ()=>{
     setDate2(dt);
   }
   const limitChanged =(e) => setLimit(e.target.value)
-  const sourceChanged=(e)=>setSource(e.target.value)
   
   let content
   let numRecords = 0
@@ -220,7 +229,7 @@ export const SelectSoapObservations = ()=>{
             <th>Единица измерения</th>
             <th>Измерение</th>
             <th>bsec:code@hash</th>
-            <th>message_id:block-source</th>
+            <th>message_id:source</th>
             <th></th>
             {/* <th>rec_flag</th> */}
           </tr>
@@ -421,7 +430,8 @@ export const SelectSoapObservations = ()=>{
               <Select value={term} onChange={val => setTerm(val)} options={terms} id='select-term'/>
             </td>
             <td>
-              <input size="4" type='number' value={source} onChange={sourceChanged} id='select-source'/>
+              {/* <input size="4" type='number' value={source} onChange={sourceChanged} id='select-source'/> */}
+              <Select value={source} onChange={val => setSource(val)} options={sources} id='select-source'/>
             </td>
             <td>
               <Select value={stream} onChange={val => setStream(val)} options={[{value:null,label:'Любой'},{value:0,label:'0 - основной'},{value:1,label:'1 - автоматический'}]} id='select-stream'/>

@@ -11,13 +11,14 @@ import { HydropostsList } from './features/hydroposts/hydropostsList'
 import { MeasurementsList } from './features/measurements/measurementsList'
 import { AvgTemperatures } from './features/temperatures/avgTemperatures'
 import { AvgMonthlyTemperatures } from './features/avgMonthTemperatures/avgMonthTemps'
+import { AvgMonthTemperature15Hours } from './features/avgMonthTemp15/avgMonthTemp15Hours'
 import { RadiationSoap } from './features/radiation/radiationSoap'
 import { FireDanger } from './features/fireDanger/fireDanger'
 // import { ObservationPage } from './features/synoptics/observationPage'
 import { StormsList } from './features/storms/stormsList'
 // import { WindsList } from './features/otherData/windsList'
 // import { TempsList } from './features/otherData/tempsList'
-import { PrecipitationList } from './features/otherData/precipitationList'
+// import { PrecipitationList } from './features/otherData/precipitationList'
 import { Login } from './login/Login';
 import { Profile } from './login/profile'
 import { history } from './components/history'
@@ -32,6 +33,7 @@ import { SelectObservations } from './features/observations/selectObservations'
 import { SelectSoapObservations } from './features/observations/selectSoapObservations'
 import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
 import { InputHydroTelegram } from './features/hydro/inputTelegram'
+import {Precipitation} from './features/otherData/precipitation'
 
 function App() {
   history.navigate = useNavigate();
@@ -49,7 +51,8 @@ function App() {
           {/* <Route exact path='/otherDataWinds' element={<WindsList />} /> */}
           {/* <Route exact path='/otherDataTemps' element={<TempsList />} /> */}
           <Route exact path='/radiation' element={<RadiationSoap />} />
-          <Route exact path='/otherDataPrecipitation' element={<PrecipitationList />} />
+          {/* <Route exact path='/otherDataPrecipitation' element={<PrecipitationList />} /> */}
+          <Route exact path='/precipitation' element={<Precipitation />} />
           <Route path="/login" element={<Login />} />
           <Route path='/profile' element={<Profile />} />
           <Route path="/logout" element={<Login />} />
@@ -68,6 +71,7 @@ function App() {
           <Route path="/observations" element={<SelectObservations />} />
           <Route path="/observationsSoap" element={<SelectSoapObservations />} />
           <Route path="/monthlyAvgTemp" element={<AvgMonthlyTemperatures />} />
+          <Route path='/monthlyAvgTemp15Hours' element={<AvgMonthTemperature15Hours />} />
           <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
           <Route exact path="/synopticData" element={<SynopticData />} />
           <Route exact path="/stormBulletins" element={<BulletinsList />} />

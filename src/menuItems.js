@@ -49,8 +49,12 @@ export const menuItems = [
     url: '/reports',
     submenu: [
       {
-        title: 'Донбасстеплоэнерго',
+        title: 'Среднесуточная температура за месяц',
         url: 'monthlyAvgTemp',
+      },
+      {
+        title: 'Среднесуточная температура за месяц (на 15 часов)',
+        url: 'monthlyAvgTemp15Hours'
       },
       {
         title: 'Пожароопасность',
@@ -72,10 +76,10 @@ export const menuItems = [
       //   title: 'Синоптические данные',
       //   url: 'synopticData',
       // },
-      // {
-      //   title: 'Осадки',
-      //   url: 'otherDataPrecipitation',
-      // },
+      {
+        title: 'Осадки',
+        url: 'precipitation',
+      },
     ]
   },
   {
