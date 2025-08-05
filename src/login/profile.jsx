@@ -35,7 +35,7 @@ export function Profile(){
     </section>
     :
     <h1>Unknown</h1>
-  return <div>
+  return <div className="col-md-2 offset-md-5 mt-1">
     <h4>Build date 2025-08-05</h4>
     {content}
   </div>

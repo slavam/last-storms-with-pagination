@@ -32,8 +32,8 @@ export const NewStormBulletin = ()=>{
     register,
     control,
     handleSubmit,
-    reset,
-    formState: { errors },
+    // reset,
+    // formState: { errors },
   } = useForm({
     defaultValues: {
       report_date: new Date().toISOString().substr(0, 10),

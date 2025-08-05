@@ -6,8 +6,7 @@ import { stationCoordinates } from '../../synopticDictionaries'
 import Table from 'react-bootstrap/Table'
 import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
 
-{/* <h6>0-400 зеленый; 401-1000 синий; 1001-3000 желтый; 3001-5000 оранж
-евый; более 5000 красный.</h6> */}
+// <h6>0-400 зеленый; 401-1000 синий; 1001-3000 желтый; 3001-5000 оранжевый; более 5000 красный.</h6> 
 const markerColor = [null,'islands#darkGreenStretchyIcon','islands#darkBlueStretchyIcon','islands#yellowStretchyIcon','islands#darkOrangeStretchyIcon','islands#redStretchyIcon']
 let clusterPoints = []
 const stations = [null,'Донецк','Амвросиевка','Дебальцево','Волноваха','Мариуполь',null,null,null,null,'Седово']

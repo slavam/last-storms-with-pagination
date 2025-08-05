@@ -33,7 +33,7 @@ import { NewStormBulletin } from './features/bulletins/stormForm'
 import { SelectObservations } from './features/observations/selectObservations'
 import { SelectSoapObservations } from './features/observations/selectSoapObservations'
 import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
-import { InputHydroTelegram } from './features/hydro/inputTelegram'
+// import { InputHydroTelegram } from './features/hydro/inputTelegram'
 import {Precipitation} from './features/otherData/precipitation'
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route exact path="/storms" element={<StormsList />} />
-          <Route path='/inputHydroTelegram' element={<InputHydroTelegram />} />
+          {/* <Route path='/inputHydroTelegram' element={<InputHydroTelegram />} /> */}
           {/* <Route exact path="/synopticObservations" element={<SynopticsList />} /> */}
           {/* <Route exact path="/synopticObservations/:observationId" element={<ObservationPage />} /> */}
           {/* <Route exact path='/otherDataWinds' element={<WindsList />} /> */}

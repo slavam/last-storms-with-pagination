@@ -6,7 +6,7 @@ import MenuItems from './MenuItems'
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
 // import NavDropdown from 'react-bootstrap/NavDropdown'
-let url = window.location.href
+// let url = window.location.href
 const isMenu = true //url.indexOf('?menu=on')>-1
 export const Navbar1 = () => {
   const authUser = useSelector(x => x.auth.user);
