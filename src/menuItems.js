@@ -80,6 +80,10 @@ export const menuItems = [
         title: 'Осадки',
         url: 'precipitation',
       },
+      {
+        title: 'Уровень воды',
+        url: 'waterLevel'
+      }
     ]
   },
   {

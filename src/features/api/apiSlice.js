@@ -147,6 +147,10 @@ export const apiSlice = createApi({
       query: params=>`/get?stations=${stations}&hashes=870717212&quality=1&streams=0&notbefore=${params[0]}&notafter=${params[1]}`,
       providesTags: ['MeteoPrecipitation']
     }),
+    getWaterLevel: builder.query({
+      // let query = `http://10.54.1.30:8640/get?quality=1&sources=1500,10202&hashes=-1334432274,622080813,751364125&stations=83026,83028,83036,83040,83045,83048,83050,83060&notbefore=${dateSec1}&notafter=${dateSec1+24*3600}`
+      query: reportDate=>`/get?quality=1&sources=1500,10100&hashes=-1334432274,-521391231,622080813&stations=83026,83028,83035,83036,83040,83045,83048,83050,83056,83060,83068,83074,83083&notbefore=${reportDate}&notafter=${reportDate+24*3600}`
+    }),
     deleteWind: builder.mutation({
       query: (id)=>({
         url: `/other_observations/${id}.json`,
@@ -205,5 +209,6 @@ export const {
   useSaveHydroDataQuery,
   useGetHydroPostPrecipitationQuery,
   useGetMeteoStationPrecipitationQuery,
-  useGetAvgMonthTemperature15HoursQuery
+  useGetAvgMonthTemperature15HoursQuery,
+  useGetWaterLevelQuery
 } = apiSlice
