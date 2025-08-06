@@ -64,9 +64,11 @@ const Observation = ({observation, measurement, measurements})=>{
     measurements.forEach(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
     tlgFields = telegramData.map((t)=> {
       return ((+t.message_id) === (+observation.message_id)) ? <tr key={t.id}>
-        <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td key={t.id}>{t.value}</td>
+        <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]:`${t.meas_hash} (${t.unit})`}</th><td key={t.id}>{t.value}</td>
       </tr> 
-      : null
+      : <tr key={t.id}>
+        <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]: `${t.meas_hash} (${t.unit})`}</th><td key={t.id}>{t.value}</td>
+      </tr>
     })
   }
   let content = ""
