@@ -8,8 +8,8 @@ const soapApiIp = ((url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))?
 export const apiSlice = createApi({
   reducerPath: 'api',
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000', mode: "cors" }),
-  // baseQuery: fetchBaseQuery({ baseUrl: 'http://31.133.32.14:8640'}),
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
+  baseQuery: fetchBaseQuery({ baseUrl: (url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))? 'http://10.54.1.30:8640':'http://31.133.32.14:8640'}),
+  // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
     'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram','HydroPrecipitation','MeteoPrecipitation','AvgTemp15Hours'],
   endpoints: (builder) => ({
@@ -136,7 +136,7 @@ export const apiSlice = createApi({
       providesTags: ['Wind', 'Precipitation']
     }),
     getOtherPrecipitation: builder.query({
-      query: (monthYear)=> `http://10.54.1.6:8080/other_observations/monthly_precipitation?format=json&month=${monthYear[0]}&year=${monthYear[1]}`,
+      query: (monthYear)=> `http://10.54.1.6:8080/other_observations/monthly_precipitation_data?format=json&month=${monthYear[0]}&year=${monthYear[1]}`,
       providesTags: ['Precipitation']
     }),
     getHydroPostPrecipitation: builder.query({

@@ -29,10 +29,10 @@ export const HpPrecipitation = ({year, month, monthName})=>{
     let row = [<td key={i+100} >{postName[i]}</td>]
     let j = 1
     while (j < perc[i]?.length) {
-      row.push(<td key={i} >{perc[i][j]?perc[i][j]:''}</td>);
+      row.push(<td key={j} >{perc[i][j]?perc[i][j]:''}</td>);
       j+=1
     }
-    body.push(<tr key={i} className="group">{row}</tr>)
+    body.push(<tr key={i+200} className="group">{row}</tr>)
   }
   let header = []
   for(let i = 1; i <= lastDay; i++){

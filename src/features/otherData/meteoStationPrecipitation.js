@@ -26,7 +26,7 @@ export function MsPrecipitation({year, month,monthName}) {
     let row = [<td key={i+100} >{mStations[i]}</td>]
     let j = 1
     while (j < prec[i]?.length) {
-      row.push(<td key={i} >{prec[i][j]?prec[i][j]:''}/{prec[i][j+1]?prec[i][j+1]:''}</td>);
+      row.push(<td key={j} >{prec[i][j]?prec[i][j]:''}/{prec[i][j+1]?prec[i][j+1]:''}</td>);
       j+=2
     }
     body.push(<tr key={i} className="group">{row}</tr>)

@@ -8,18 +8,33 @@ export const OtherPrecipitation = ({year, month, lastDay,monthName})=>{
   // const observations = data
   let body = []
   const mStations = ['Авдотьино','Раздольное','Николаевка','Стрюково','Дмитровка','Новоселовка','Благодатное','Алексеево-Орловка','Кременевка','Захаровка']
+  let observations = new Array(mStations.length)
   if(isSuccess && data){
-    const observations = data.precipitation
+    
+    data.forEach((p) => {
+      let j = mStations.indexOf(p.source)
+      if(j>=0){
+        observations[j] ||= new Array(lastDay)
+        let i = +p.obs_date.slice(-2)
+        observations[j][i] ||= [null,null]
+        let k = p.period === 'day'? 1:0
+        observations[j][i][k] = p.value
+      }
+    })
+  }
+  // let row = [<td key={j}>{mStations[j]}</td>]
+    // console.log(observations[0])
+    // const observations = data.precipitation
     for (let j = 0; j < mStations.length; j++) {
       let row = [<td key={j} >{mStations[j]}</td>]
       for (let i = 1; i <= lastDay; i++) {
         // let bgColor = i%2===0? '#666':'#888'
-        let val = (observations[i] && observations[i][j])? `${observations[i][j][0]===null?'':observations[i][j][0]}/${observations[i][j][1]===null?'':observations[i][j][1]}`:''
+        let val = (observations[j] && observations[j][i])? `${observations[j][i][0]===null?'':observations[j][i][0]}/${observations[j][i][1]===null?'':observations[j][i][1]}`:''
         row.push(<td key={1000+i} >{val}</td>)
       }
-      body.push(<tr key={100+j}  className="group">{row}</tr>)
+      body.push(<tr key={j+100}  className="group">{row}</tr>)
     }
-  }
+  // }
   let header = []
   for(let i = 1; i <= lastDay; i++){
     header.push(<th key={i} scope="col" className="px-3 py-5 font-medium">{i}</th>)
