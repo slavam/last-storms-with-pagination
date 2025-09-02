@@ -49,7 +49,7 @@ const sources =[
   {label:'10202 Common XML',value:'10202'},
 ] 
 
-const Observation = ({observation, measurement, measurements})=>{
+const Observation = ({observation, measurement, measurements, stream})=>{
   const [queryMessage, setQueryMessage] = useState('')
   const [show, setShow] = useState(false);
 
@@ -63,28 +63,29 @@ const Observation = ({observation, measurement, measurements})=>{
     let ms = {}
     measurements.forEach(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
     tlgFields = telegramData.map((t)=> {
-      return ((+t.message_id) === (+observation.message_id)) ? <tr key={t.id}>
-        <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]:`${t.meas_hash} (${t.unit})`}</th><td key={t.id}>{t.value}</td>
-      </tr> 
-      : <tr key={t.id}>
-        <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]: `${t.meas_hash} (${t.unit})`}</th><td key={t.id}>{t.value}</td>
-      </tr>
+      if(t.message_id)
+        return ((+t.message_id) === (+observation.message_id)) ? <tr key={t.id}>
+          <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]:`${t.meas_hash} (${t.unit})`}</th><td key={t.id}>{t.value}</td>
+        </tr> : null
+      else
+        return <tr key={t.id}>
+          <th key={t.id+t.value}>{ms[t.meas_hash]?ms[t.meas_hash]: `${t.meas_hash} (${t.unit})`}</th><td key={t.id}>{t.value}</td>
+        </tr>
     })
   }
   let content = ""
   const handleShow = () =>{
     const d = new Date(observation.meas_time);
-    let sec = d.getTime()/1000 //+ 60*60*3;
-    setQueryMessage(`/get?stations=${observation.station}&notbefore=${sec}&notafter=${sec}`)
+    let sec = d.getTime()/1000
+    // console.log(observation)
+    let streams = stream===null ? '' : `&streams=${stream}`
+    setQueryMessage(`/get?stations=${observation.station}&notbefore=${sec}&notafter=${sec}&sources=${observation.source}${streams}`)
     setShow(true)
   }
   
   let stationName = stations.find((s) => +s.value === +observation.station).label
   // let termPeriod = (observation.period === 600 || observation.meas_hash === 79004873)? '10 мин.' : ((observation.unit === 'ccitt ia5' || observation.unit === 'v')? '' : observation.point/3600)
-  
-
   let value2 = null
-  // alert(JSON.stringify(observation))
   switch (observation.units) {
     case 'pa':
       value2 = +observation.value/100
@@ -99,16 +100,18 @@ const Observation = ({observation, measurement, measurements})=>{
   const modal =
     <Modal show={show} onHide={handleClose} size='lg'>
       <Modal.Header  >
-        <Modal.Title>Идентификатор источника {observation.message_id}</Modal.Title>
+        <Modal.Title>Идентификатор источника {observation.message_id? observation.message_id : "(Протокол SOAP)"}</Modal.Title>
       </Modal.Header>
       <Modal.Body >
         <Table striped bordered hover variant="secondary">
           <thead>
             <tr key="1">
               <th>Создана (UTC)</th><td>{observation.created_at.replace('T',' ').slice(0,-10)}</td>
+              {/* <th>Создана (UTC)</th><td>{observation.created_at}</td> */}
             </tr>
             <tr key="2">
               <th>Наблюдение (UTC)</th><td>{observation.meas_time.replace('T',' ').slice(0,-10)}</td>
+              {/* <th>Наблюдение (UTC)</th><td>{observation.meas_time}</td> */}
             </tr>
             <tr key="3">
               <th>Станция/пост</th><td>{stationName}</td>
@@ -130,7 +133,9 @@ const Observation = ({observation, measurement, measurements})=>{
   return <tr key={observation.id}>
     <td>{observation.id}/{observation.rec_flag}</td>
     <td>{observation.created_at.replace('T',' ').slice(0,-10)}</td>
+    {/* <td>{observation.created_at}</td> */}
     <td>{observation.meas_time.replace('T',' ').slice(0,-10)}</td>
+    {/* <td>{observation.meas_time}</td> */}
     <td>{observation.syn_hour}/{observation.period?observation.period/60:''}</td>
     <td>{stationName}-{observation.place}{observation.quality?`/${observation.quality}`:''}</td>
     <td>{obsValue}</td>
@@ -171,7 +176,7 @@ export const SelectSoapObservations = ()=>{
     notafter: date2, //Math.round(new Date(date2).getTime()/1000),
     limit: limit,
     sources: source.value,
-    stream,
+    stream: stream.value,
     quality: quality.value,
     syn_hours: term.value==='' ? '' : term.label,
     measurement: param.value,
@@ -184,6 +189,7 @@ export const SelectSoapObservations = ()=>{
     isError,
     error,
   } = useGetSoapObservationsQuery(qParams)
+  // console.log(observations.length)
 
   const eventDate1Changed = (e)=>{
     if (!e.target['validity'].valid) return;
@@ -195,7 +201,7 @@ export const SelectSoapObservations = ()=>{
     const dt= e.target['value'] + ':00';
     setDate2(dt);
   }
-  const limitChanged =(e) => setLimit(e.target.value)
+  const limitChanged =(e) => setLimit(+e.target.value)
   
   let content
   let numRecords = 0
@@ -205,11 +211,13 @@ export const SelectSoapObservations = ()=>{
     let renderedObservations = null
     
     if(observations && observations[0]){
+      
       renderedObservations = observations.map((observation) => {
         numRecords += 1
         let measurement = measurements.filter((m) => +m.meas_hash === +observation.meashash)
+        // let measurement = measurements.filter((m) => +m.meas_hash === +observation.meas_hash)
         let mName = measurement[0]? measurement[0].caption : ''
-        return <Observation key={observation.id} observation={observation} measurement={mName} measurements={measurements}/>
+        return <Observation key={observation.id} observation={observation} measurement={mName} measurements={measurements} stream={stream.value}/>
       })
     }
 
@@ -261,11 +269,11 @@ export const SelectSoapObservations = ()=>{
   observations.forEach(o => {
     let i = isMeteo? codes.indexOf(+o.station): hydroCodes.indexOf(+o.station)
     if(i>=0){
-      let radius=0
-      if(o.syn_hour)
-        radius = +(o.syn_hour.substring(0,2))>0? +o.syn_hour.substring(0,2) : 2
-      else
-        radius = +(o.meas_time.substring(11,13))>0? +o.meas_time.substring(11,13):2
+      let radius= 2 //0
+      // if(o.syn_hour)
+      //   radius = +(o.syn_hour.substring(0,2))>0? +o.syn_hour.substring(0,2) : 2
+      // else
+      //   radius = +(o.meas_time.substring(11,13))>0? +o.meas_time.substring(11,13):2
       ds[i].push({
         x: o.created_at,
         y: +o.value,

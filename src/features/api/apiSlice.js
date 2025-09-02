@@ -52,12 +52,19 @@ export const apiSlice = createApi({
     }),
     getSoapObservations: builder.query({
       query: (qParams)=> {
+        // let d = new Date(qParams.notbefore.replace('T',' '));
+        // let date1 = d.getTime()/1000
+        // d = new Date(qParams.notafter.replace('T',' '));
+        // let date2 = d.getTime()/1000
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let sources = +qParams.sources===0 ? '' : `&sources=${qParams.sources}`
-        let stream = qParams.stream.value===null ? '' : `&streams=${qParams.stream.value}`
+        // let source = +qParams.sources===0 ? '' : `&source=${qParams.sources}`
+        let stream = qParams.stream===null ? '' : `&streams=${qParams.stream}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
+        // let point = qParams.point==='' ? '' : `&point=${+qParams.syn_hours*3600}`
         return `http://${soapApiIp}/observations/observations?min_quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}${stream}`
-        // return `http://localhost:3000/observations/observations?min_quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}${stream}`
+        // console.log(`/get?quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&notbefore=${date1}&notafter=${date2}${source}${hashes}${point}${stream}`)
+        // return `/get?quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&notbefore=${date1}&notafter=${date2}${source}${hashes}${point}${stream}`
       },
       providesTags: ['SoapObservations']
     }),
