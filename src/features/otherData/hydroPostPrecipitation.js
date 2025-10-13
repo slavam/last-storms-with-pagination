@@ -12,7 +12,8 @@ export const HpPrecipitation = ({year, month, monthName})=>{
   } = useGetHydroPostPrecipitationQuery([date1,date2])
   const posts =    [83026,      83028,   83035,       83040,       83050,               83056,     83060,      83068,        83074,        83083]
   const postName = ['Захаровка','Донецк','Раздольное','Николаевка','Кременевка, Кальчик','Стрюково','Дмитровка','Новоселовка','Благодатное','Алексеево-Орловка']
-  let perc = new Array(8).fill(null)
+  const nPost = posts.length
+  let perc = new Array(nPost).fill(null)
   if(isSuccess && observations){
     observations.forEach(o => {
       let i = posts.indexOf(o.station)
@@ -25,7 +26,7 @@ export const HpPrecipitation = ({year, month, monthName})=>{
   }
   let body = []
   
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < nPost; i++) {
     let row = [<td key={i+100} >{postName[i]}</td>]
     let j = 1
     while (j < perc[i]?.length) {

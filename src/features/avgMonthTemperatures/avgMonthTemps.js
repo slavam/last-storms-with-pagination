@@ -31,7 +31,7 @@ export const AvgMonthlyTemperatures = ()=>{
     airTemperatures.forEach(e => {
       let i = codes.indexOf(e.station)
       let t = terms.indexOf(e.point/3600)
-      let d = new Date(e.moment*1000)
+      let d = new Date(e.moment*1000) //+10800)
       let day = d.getUTCDate()
       row[i] ||= new Array(monthLastDay)
       row[i][day] ||= new Array(8)
