@@ -128,17 +128,20 @@ export const ShowById = ()=>{
   } 
   return(
     <div className="col-md-8 offset-md-2 mt-5">
+      <h1>Задайте идентификатор записи</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row">
           <div className="col-6 mb-3">
-            <label>ID</label>
+            <label><b>ID</b></label>
             <br/>
-            <input type="text" style={{width:740+'px'}} id="id" {...register("id")} required/>
+            <input type="text" style={{width:140+'px'}} id="id" {...register("id")} required/>
           </div>
         </div>
-        <input type="submit" />
+        <input type="submit" value='Выбрать' />
       </form>
-    {content}
-  </div>
+      <br/>
+      <h1>Значения полей</h1>
+      {content}
+    </div>
   )
 }
