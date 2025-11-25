@@ -11,7 +11,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: (url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))? 'http://10.54.1.30:8640':'http://31.133.32.14:8640'}),
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
-    'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram','HydroPrecipitation','MeteoPrecipitation','AvgTemp15Hours'],
+    'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram','HydroPrecipitation','MeteoPrecipitation','AvgTemp15Hours','DataById'],
   endpoints: (builder) => ({
     getFireDanger: builder.query({
       query: (reportDate)=>{
@@ -131,6 +131,10 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Synoptic"]
     }),
+    dataById: builder.query({
+      query:id=>'http://10.54.1.30:8640/get?limit=1&nulls=1&lastid='+id,
+      providesTags: ['DataById']
+    }),
     getGustsWind: builder.query({
       query:(currentPage)=>'/other_observations.json?factor=wind&page_size=15&page='+currentPage,
       providesTags: ['Wind']
@@ -217,5 +221,6 @@ export const {
   useGetHydroPostPrecipitationQuery,
   useGetMeteoStationPrecipitationQuery,
   useGetAvgMonthTemperature15HoursQuery,
-  useGetWaterLevelQuery
+  useGetWaterLevelQuery,
+  useDataByIdQuery
 } = apiSlice

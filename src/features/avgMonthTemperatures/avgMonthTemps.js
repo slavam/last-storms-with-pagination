@@ -16,12 +16,12 @@ export const AvgMonthlyTemperatures = ()=>{
   const date1 = Math.round(new Date(startDate).getTime()/1000)+3*3600
   const monthLastDay = new Date(year, month.value, 0).getDate()
   const date2 = date1+monthLastDay*24*60*60
-  const dates = [date1,date2]
+  const startStopDate = [date1,date2]
   const absoluteZero = 273.15
   const {
     data: airTemperatures = [],
     isSuccess,
-  } = useGetAvgMonthTempQuery(dates)
+  } = useGetAvgMonthTempQuery(startStopDate)
   const codes = [34519,34524,34622,34721,34615,34712]
   const terms = [0,3,6,9,12,15,18,21]
   let row = new Array(codes.length)

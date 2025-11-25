@@ -32,6 +32,7 @@ import { BulletinsList } from './features/bulletins/bulletinsList'
 import { NewStormBulletin } from './features/bulletins/stormForm'
 import { SelectObservations } from './features/observations/selectObservations'
 import { SelectSoapObservations } from './features/observations/selectSoapObservations'
+import { ShowById } from './features/observations/getDataById'
 import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
 // import { InputHydroTelegram } from './features/hydro/inputTelegram'
 import {Precipitation} from './features/otherData/precipitation'
@@ -58,27 +59,23 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path="/logout" element={<Login />} />
           <Route path="*" element={<Navigate to="/" />} />
-          {/* <Route path="/" element={
-            <PrivateRoute>
-              <StationsList />
-            </PrivateRoute>
-            } /> */}
-          </Route>
-          <Route path="/stations" element={<WmoStationsList />} />
-          <Route path="/fireDanger" element={<FireDanger />} />
-          <Route path='/stationsSoap' element={<StationsListSoap />} />
-          <Route path="/hydroposts" element={<HydropostsList />} />
-          <Route path='/waterLevel' element={<WaterLevel />} />
-          <Route path="/measurements" element={<MeasurementsList />} />
-          <Route path="/observations" element={<SelectObservations />} />
-          <Route path="/observationsSoap" element={<SelectSoapObservations />} />
-          <Route path="/monthlyAvgTemp" element={<AvgMonthlyTemperatures />} />
-          <Route path='/monthlyAvgTemp15Hours' element={<AvgMonthTemperature15Hours />} />
-          <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
-          <Route exact path="/synopticData" element={<SynopticData />} />
-          <Route exact path="/stormBulletins" element={<BulletinsList />} />
-          <Route exact path='/createStormBulletin' element={<NewStormBulletin />} />
-          <Route exact path='/createDtePdf' element={<DtePdf />} />
+        </Route>
+        <Route path="/stations" element={<WmoStationsList />} />
+        <Route path="/fireDanger" element={<FireDanger />} />
+        <Route path='/stationsSoap' element={<StationsListSoap />} />
+        <Route path="/hydroposts" element={<HydropostsList />} />
+        <Route path='/waterLevel' element={<WaterLevel />} />
+        <Route path="/measurements" element={<MeasurementsList />} />
+        <Route path="/observations" element={<SelectObservations />} />
+        <Route path="/observationsSoap" element={<SelectSoapObservations />} />
+        <Route path="/monthlyAvgTemp" element={<AvgMonthlyTemperatures />} />
+        <Route path='/monthlyAvgTemp15Hours' element={<AvgMonthTemperature15Hours />} />
+        <Route exact path="/avgDailyTemp" element={<AvgTemperatures />} />
+        <Route exact path="/synopticData" element={<SynopticData />} />
+        <Route exact path="/stormBulletins" element={<BulletinsList />} />
+        <Route exact path='/createStormBulletin' element={<NewStormBulletin />} />
+        <Route exact path='/createDtePdf' element={<DtePdf />} />
+        <Route exact path='/getDataById' element={<ShowById />} />
       </Routes>
     </div>
   )

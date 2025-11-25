@@ -28,6 +28,10 @@ export const menuItems = [
         title: 'Измерения',
         url: 'measurements',
       },
+      {
+        title: 'Поиск по ID',
+        url: 'getDataById'
+      }
     ],
   },
   // {

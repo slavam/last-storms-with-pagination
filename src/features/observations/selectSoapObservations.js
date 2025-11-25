@@ -107,11 +107,9 @@ const Observation = ({observation, measurement, measurements, stream})=>{
           <thead>
             <tr key="1">
               <th>Создана (UTC)</th><td>{observation.created_at.replace('T',' ').slice(0,-10)}</td>
-              {/* <th>Создана (UTC)</th><td>{observation.created_at}</td> */}
             </tr>
             <tr key="2">
               <th>Наблюдение (UTC)</th><td>{observation.meas_time.replace('T',' ').slice(0,-10)}</td>
-              {/* <th>Наблюдение (UTC)</th><td>{observation.meas_time}</td> */}
             </tr>
             <tr key="3">
               <th>Станция/пост</th><td>{stationName}</td>
