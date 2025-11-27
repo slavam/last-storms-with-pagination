@@ -9,6 +9,7 @@ export const ShowById = ()=>{
       data: obs = [],
       isSuccess,
     } = useDataByIdQuery(id)
+  
   let content = null
   if(isSuccess && obs){
     let observation = obs[0]
@@ -53,6 +54,7 @@ export const ShowById = ()=>{
     let meas_hash = observation.meas_hash? <tr key="27">
           <th>Хэш измерения/meas_hash</th><td>{observation.meas_hash}</td>
         </tr> : null
+    // let toParentLink = <Link to={`/getDataById/${observation.packet}`}>{observation.packet}</Link>
     content = <Table striped bordered hover variant="secondary">
       <thead>
         <tr key="1">
@@ -124,7 +126,7 @@ export const ShowById = ()=>{
       },
     })
   const onSubmit = (data) => {
-    setId(+data.id-1)
+    setId(+data.id)
   } 
   return(
     <div className="col-md-8 offset-md-2 mt-5">

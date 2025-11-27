@@ -30,7 +30,7 @@ export const menuItems = [
       },
       {
         title: 'Поиск по ID',
-        url: 'getDataById'
+        url: 'getDataById/1'
       }
     ],
   },

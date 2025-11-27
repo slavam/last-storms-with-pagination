@@ -131,9 +131,7 @@ const Observation = ({observation, measurement, measurements, stream})=>{
   return <tr key={observation.id}>
     <td>{observation.id}/{observation.rec_flag}</td>
     <td>{observation.created_at.replace('T',' ').slice(0,-10)}</td>
-    {/* <td>{observation.created_at}</td> */}
     <td>{observation.meas_time.replace('T',' ').slice(0,-10)}</td>
-    {/* <td>{observation.meas_time}</td> */}
     <td>{observation.syn_hour}/{observation.period?observation.period/60:''}</td>
     <td>{stationName}-{observation.place}{observation.quality?`/${observation.quality}`:''}</td>
     <td>{obsValue}</td>
@@ -170,7 +168,7 @@ export const SelectSoapObservations = ()=>{
 
   let qParams = {
     stations: station.value,
-    notbefore: date1, //Math.round(new Date(date1).getTime()/1000),
+    notbefore: date1,
     notafter: date2, //Math.round(new Date(date2).getTime()/1000),
     limit: limit,
     sources: source.value,

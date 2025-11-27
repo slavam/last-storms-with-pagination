@@ -132,7 +132,7 @@ export const apiSlice = createApi({
       invalidatesTags: ["Synoptic"]
     }),
     dataById: builder.query({
-      query:id=>'http://10.54.1.30:8640/get?limit=1&nulls=1&lastid='+id,
+      query:id=>`http://10.54.1.30:8640/get?limit=1&nulls=1&lastid=${+id-1}`,
       providesTags: ['DataById']
     }),
     getGustsWind: builder.query({

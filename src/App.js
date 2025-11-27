@@ -75,7 +75,7 @@ function App() {
         <Route exact path="/stormBulletins" element={<BulletinsList />} />
         <Route exact path='/createStormBulletin' element={<NewStormBulletin />} />
         <Route exact path='/createDtePdf' element={<DtePdf />} />
-        <Route exact path='/getDataById' element={<ShowById />} />
+        <Route exact path='/getDataById/:observationId' element={<ShowById />} />
       </Routes>
     </div>
   )
