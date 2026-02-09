@@ -64,10 +64,10 @@ export const menuItems = [
         title: 'Пожароопасность',
         url: 'fireDanger',
       },
-      // {
-      //   title: 'Порывы ветра',
-      //   url: 'otherDataWinds',
-      // },
+      {
+        title: 'Текущая погода',
+        url: 'currentWeather',
+      },
       {
         title: 'Радиация',
         url: 'radiation',
