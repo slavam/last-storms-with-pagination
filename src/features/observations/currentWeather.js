@@ -33,41 +33,41 @@ export const CurrentWeather = ()=>{
   let content
   if (isLoading) {
       content = <Spinner text="Loading..." />
-    } else if (isSuccess) {
-      observations.map((data) => {
-        let measurement = data.meas_hash
-        switch (measurement) {
-          case 1451382247:
-            temperature = (+data.value - absoluteZero).toFixed(1)                                              
-            break
-          case -789901366:
-            windDirection = data.value
-            break
-          case 1345858116:
-            windSpeed = data.value
-            break
-          case -996973625:
-            humidity = data.value
-            break
-        }
-      })
-      content = <div className='font-bold text-lg'>
-        <ul className="list-disc pl-4" >
-          <li key='1' className="whitespace-nowrap">
-            Температура: <b>{temperature}°C</b>
-          </li>
-          <li key='2' className="whitespace-nowrap">
-            Направление ветра: <b>{windDirection}°</b>
-          </li>
-          <li key='3' className="whitespace-nowrap">
-            Скорость ветра: <b>{windSpeed}м/с</b>
-          </li>
-          <li key='4' className="whitespace-nowrap">
-            Относительная влажность: <b>{humidity}%</b>
-          </li>
-        </ul>
-      </div>
-    }
+  } else if (isSuccess && observations) {
+    observations.map((data) => {
+      let measurement = data.meas_hash
+      switch (measurement) {
+        case 1451382247:
+          temperature = (+data.value - absoluteZero).toFixed(1)                                              
+          break
+        case -789901366:
+          windDirection = data.value
+          break
+        case 1345858116:
+          windSpeed = data.value
+          break
+        case -996973625:
+          humidity = data.value
+          break
+      }
+    })
+    content = <div className='font-bold text-lg'>
+      <ul className="list-disc pl-4" >
+        <li key='1' className="whitespace-nowrap">
+          Температура: <b>{temperature}°C</b>
+        </li>
+        <li key='2' className="whitespace-nowrap">
+          Направление ветра: <b>{windDirection}°</b>
+        </li>
+        <li key='3' className="whitespace-nowrap">
+          Скорость ветра: <b>{windSpeed}м/с</b>
+        </li>
+        <li key='4' className="whitespace-nowrap">
+          Относительная влажность: <b>{humidity}%</b>
+        </li>
+      </ul>
+    </div>
+  } else content = <h1>Данные не найдены</h1>
   return (
     <div className="col-md-6 offset-md-3 mt-5">
       <h4>Погода на метеостанции {station.label} по состоянию на {s} UTC</h4>
