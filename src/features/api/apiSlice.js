@@ -137,7 +137,8 @@ export const apiSlice = createApi({
       providesTags: ['DataById']
     }),
     currentWeather: builder.query({
-      query:(qParams)=>`http://10.54.1.30:8640/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&streams=1&source=10202`,
+      // query:(qParams)=>`http://10.54.1.30:8640/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&streams=1&source=10202`,
+      query:(qParams)=>`/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&streams=1&source=10202`,
       providesTags: ['CurrentWeather']
     }),
     getGustsWind: builder.query({
