@@ -63,6 +63,7 @@ export const apiSlice = createApi({
         let stream = qParams.stream===null ? '' : `&streams=${qParams.stream}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
         // let point = qParams.point==='' ? '' : `&point=${+qParams.syn_hours*3600}`
+        console.log(`http://${soapApiIp}/observations/observations?min_quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}${stream}`)
         return `http://${soapApiIp}/observations/observations?min_quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&after=${qParams.notbefore}&before=${qParams.notafter}${sources}${hashes}${term}${stream}`
         // console.log(`/get?quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&notbefore=${date1}&notafter=${date2}${source}${hashes}${point}${stream}`)
         // return `/get?quality=${qParams.quality}&limit=${qParams.limit}&stations=${qParams.stations}&notbefore=${date1}&notafter=${date2}${source}${hashes}${point}${stream}`
@@ -138,7 +139,9 @@ export const apiSlice = createApi({
     }),
     currentWeather: builder.query({
       // query:(qParams)=>`http://10.54.1.30:8640/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&streams=1&source=10202`,
-      query:(qParams)=>`/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&streams=1&source=10202`,
+      query:(qParams)=>{
+        console.log(`/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&streams=1&source=10202`)
+        return`/get?limit=100&stations=${qParams.station}&notbefore=${qParams.notbefore}&notafter=${qParams.notafter}&streams=1&source=10202`},
       providesTags: ['CurrentWeather']
     }),
     getGustsWind: builder.query({

@@ -16,6 +16,7 @@ export const CurrentWeather = ()=>{
   let qParams = {
     station: station.value,
     notbefore: observedAt(),
+    notafter: observedAt()+600
   }
   const {
     data: observations = [],
@@ -34,6 +35,7 @@ export const CurrentWeather = ()=>{
   if (isLoading) {
       content = <Spinner text="Loading..." />
   } else if (isSuccess && observations) {
+    // console.log(JSON.stringify(observations))
     observations.map((data) => {
       let measurement = data.meas_hash
       switch (measurement) {
