@@ -34,6 +34,7 @@ import { SelectObservations } from './features/observations/selectObservations'
 import { SelectSoapObservations } from './features/observations/selectSoapObservations'
 import { ShowById } from './features/observations/getDataById'
 import { CurrentWeather } from './features/observations/currentWeather'
+import { Forecast3days } from './features/forecast/forecast3days'
 import { DtePdf } from './features/avgMonthTemperatures/dtePdf'
 // import { InputHydroTelegram } from './features/hydro/inputTelegram'
 import {Precipitation} from './features/otherData/precipitation'
@@ -78,6 +79,7 @@ function App() {
         <Route exact path='/createDtePdf' element={<DtePdf />} />
         <Route exact path='/getDataById/:observationId' element={<ShowById />} />
         <Route exact path='/currentWeather' element={<CurrentWeather />} />
+        <Route exact path='/forecast3days' element={<Forecast3days />} />
       </Routes>
     </div>
   )

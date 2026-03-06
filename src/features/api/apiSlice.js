@@ -12,7 +12,7 @@ export const apiSlice = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: 'http://10.54.1.30:8640'}),
   tagTypes: ['Station','Hydropost','Synoptic','Measurement','Bulletins','Observations','Telegram','Teploenergo',
     'SoapObservations','SoapRadiation','WmoStation','FireDanger','NewHydroTelegram','HydroPrecipitation','MeteoPrecipitation','AvgTemp15Hours','DataById',
-    'CurrentWeather'],
+    'CurrentWeather','Forecast3days'],
   endpoints: (builder) => ({
     getFireDanger: builder.query({
       query: (reportDate)=>{
@@ -117,6 +117,10 @@ export const apiSlice = createApi({
       // query: (qParams)=> `http://10.105.24.41:8080/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`,
       query: (qParams)=> `${hmcDnrIp}/bulletins/list?format=json&page=${qParams[0]}&bulletin_type=${qParams[1]}`, //&user_id=${qParams[2]}`,
       providesTags: ['Bulletins'],
+    }),
+    forecast3days: builder.query({
+      query: reportDate=>`${hmcDnrIp}/bulletins/get_total_forecast?format=json&report_date=${reportDate}`,
+      providesTags: ['Forecast3days']
     }),
     getSynopticObservations: builder.query({
       query: (currentPage) => '/synoptic_observations.json?page='+currentPage+'&page_size=15',
@@ -232,5 +236,6 @@ export const {
   useGetAvgMonthTemperature15HoursQuery,
   useGetWaterLevelQuery,
   useDataByIdQuery,
-  useCurrentWeatherQuery
+  useCurrentWeatherQuery,
+  useForecast3daysQuery
 } = apiSlice

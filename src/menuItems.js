@@ -65,6 +65,10 @@ export const menuItems = [
         url: 'fireDanger',
       },
       {
+        title: 'Прогноз на 1-3 суток',
+        url: 'forecast3days',
+      },
+      {
         title: 'Текущая погода',
         url: 'currentWeather',
       },
