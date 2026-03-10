@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetSoapMeteoStationsQuery } from '../api/apiSlice'

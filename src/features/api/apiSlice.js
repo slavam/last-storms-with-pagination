@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-const hmcDnrIp = 'http://10.54.1.6:8080'
+
 const stations = '34519,34524,34622,34721,34615,34712'
 const points = '0,10800,21600,32400,43200,54000,64800,75600'
 let url = window.location.href
+const hmcDnrIp = ((url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))? 'http://10.54.1.6:8080':'http://31.133.32.14:8080')
 const soapApiIp = ((url.indexOf('localhost')>-1 || (url.indexOf('//10.54')>-1))? '10.54.1.11:8083':'31.133.32.14:8083')
 export const apiSlice = createApi({
   reducerPath: 'api',

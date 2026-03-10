@@ -20,10 +20,8 @@ export const Forecast3days = ()=>{
   const {
       data: forecast = {},
       isLoading,
-      isFetching,
       isSuccess,
       isError,
-      error,
   } = useForecast3daysQuery(reportDate)
   let content
   if (isLoading) {

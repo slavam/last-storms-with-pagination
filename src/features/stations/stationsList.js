@@ -29,9 +29,8 @@ export const WmoStationsList = () => {
   if (isLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedStations = stations.map((station) => (
+    stations.map((station) => (
       clusterPoints.push(<Placemark key={station.id} defaultGeometry={[+station.latitude, 	+station.longitude]} />)
-      // <Station key={station.id} station={station} />
     ))
 
     const containerClassname = classnames('stations-container', {

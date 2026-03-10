@@ -21,10 +21,7 @@ export const CurrentWeather = ()=>{
   const {
     data: observations = [],
     isLoading,
-    isFetching,
     isSuccess,
-    isError,
-    error,
   } = useCurrentWeatherQuery(qParams)
   let temperature
   let windDirection
