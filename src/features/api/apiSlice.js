@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-
 const stations = '34519,34524,34622,34721,34615,34712'
 const points = '0,10800,21600,32400,43200,54000,64800,75600'
 let url = window.location.href
@@ -60,7 +59,6 @@ export const apiSlice = createApi({
         // let date2 = d.getTime()/1000
         let hashes = qParams.measurement ? `&hashes=${qParams.measurement}`:'';
         let sources = +qParams.sources===0 ? '' : `&sources=${qParams.sources}`
-        // let source = +qParams.sources===0 ? '' : `&source=${qParams.sources}`
         let stream = qParams.stream===null ? '' : `&streams=${qParams.stream}`
         let term = qParams.syn_hours==='' ? '' : `&syn_hours=${qParams.syn_hours}`
         // let point = qParams.point==='' ? '' : `&point=${+qParams.syn_hours*3600}`
