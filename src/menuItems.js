@@ -16,9 +16,13 @@ export const menuItems = [
       //   title: 'Наблюдения',
       //   url: 'observations',
       // },
+      // {
+      //   title: 'Метеостанции ДНР',
+      //   url: 'stationsSoap'
+      // },
       {
-        title: 'Метеостанции ДНР',
-        url: 'stationsSoap'
+        title: 'Метеостанции ДНР с погодой',
+        url: 'stationsWithWeather'
       },
       {
         title: 'Наблюдения',

@@ -1,9 +1,10 @@
-import React from 'react'
 import classnames from 'classnames'
 import { Spinner } from '../../components/Spinner'
 import { useGetSoapMeteoStationsQuery } from '../api/apiSlice'
+import { useCurrentWeatherQuery } from '../api/apiSlice'
 import { stationCoordinates } from '../../synopticDictionaries'
 import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
+import { useState, useEffect } from 'react'
 
 let Station = ({ station }) => {
   let s = `${station.index} ${station.name}`
@@ -13,7 +14,29 @@ let Station = ({ station }) => {
     </article>
   )
 }
+const absoluteZero = 273.15
 export const StationsListSoap = ()=>{
+  let s
+  const observedAt = () => {
+    s = new Date().toISOString().slice(0, 15).replace('T', ' ') + '0:00'
+    return new Date(s).getTime()/1000 +3600*3
+  }
+  const [station, setStation] = useState(34519)
+  const [queryMoment, setQueryMoment] = useState(observedAt())
+  useEffect(() => {
+    setQueryMoment(observedAt());
+  }, [station])
+  let qParams = {
+    station: station,
+    notbefore: queryMoment,
+    notafter: queryMoment+600
+  }
+  const {
+    data: observations = [],
+    isLoading: cwLoading,
+    isSuccess: cwSuccess,
+  } = useCurrentWeatherQuery(qParams)
+
   const {
     data: stations = [],
     isLoading,
@@ -22,60 +45,68 @@ export const StationsListSoap = ()=>{
     isError,
     error,
   } = useGetSoapMeteoStationsQuery()
+  useEffect(() => {
+    if (cwSuccess && observations && station) {
+      // Обновить баллун для выбранной станции
+      // updateBalloonContent(station, observations);
+    }
+  }, [observations, cwSuccess, station])
 
-  // Создаем кастомный макет для балуна с кнопкой
-  // var MyBalloonLayout = YMaps.templateLayoutFactory.createClass(
-  //   '<div class="my-balloon">' +
-  //       '<b>{{properties.name}}</b><br/>' +
-  //       '<button class="my-button" data-id="{{properties.id}}">Подробнее</button>' +
-  //   '</div>', {
-  //       build: function() {
-  //           MyBalloonLayout.superclass.build.call(this);
-  //           // Вешаем обработчик на кнопку
-  //           $('.my-button').on('click', this.onButtonClick);
-  //       },
-  //       clear: function() {
-  //           $('.my-button').off('click', this.onButtonClick);
-  //           MyBalloonLayout.superclass.clear.call(this);
-  //       },
-  //       onButtonClick: function(e) {
-  //           var id = $(this).data('id');
-  //           alert('Клик по кнопке! ID: ' + id);
-  //       }
-  //   }
-  // );
   let content
   const clusterPoints = []
-  if (isLoading) {
+  if (isLoading || cwLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedStations = stations.meteostations.map((station) => 
-      {clusterPoints.push(<Placemark 
+    const renderedStations = stations.meteostations.map((station) => {
+      clusterPoints.push(<Placemark 
         key={station.index} 
         defaultGeometry={stationCoordinates[station.index]} 
         properties={{
           iconContent: station.index,
           hintContent: station.name,
-          balloonContentBody: `Это метка номер ${station.index}`,
-          // balloonContent: `Это метка номер ${station.index}`,
         }} 
         modules = {
           ['geoObject.addon.hint','geoObject.addon.balloon']
         }
         options={{preset: "islands#grayStretchyIcon"}}
-        // Используем instanceRef для доступа к внутреннему объекту
         instanceRef={(ref) => {
           if (ref) {
             ref.events.add('click', (e) => {
               const target = e.get('target');
               const id = target.properties.get('iconContent');
-              target.properties.set('balloonContentBody', `${id} report_date: ${new Date().toLocaleString().replace('T',' ').slice(0,16)}0:00`)
-              console.log('Клик! ID:', id);
-              // if (ref.current) {
-                // Принудительно открываем балун у этой метки
-                // target.properties.set('balloonContentBody', 'Новый контент')
-                // ref.current.balloon.open();
-              // }
+              
+              setStation(id)
+              let clickMoment = new Date()
+              if((clickMoment - queryMoment)>600)
+                setQueryMoment(observedAt())
+              let temperature, windDirection, windSpeed, humidity
+              if(cwSuccess && observations){
+                observations.map(observation=>{
+                  if(observation.station === +id){
+                    switch (observation.meas_hash) {
+                      case 1451382247:
+                        temperature = (+observation.value - absoluteZero).toFixed(1)
+                        break
+                      case -789901366:
+                        windDirection = observation.value
+                        break
+                      case 1345858116:
+                        windSpeed = observation.value
+                        break
+                      case -996973625:
+                        humidity = observation.value
+                        break
+                      default:
+                        break;
+                    }
+                  }
+                })
+                if(temperature){
+                  console.log(JSON.stringify(id))
+                  let t = `<p>Время измерения местное ${new Date().toLocaleTimeString().slice(0,4)}0</p><table border-collapse: collapse;><thead><tr><th >Температура</th><td style="padding-left: 15px;">${temperature}°C</td></tr><tr><th>Влажность</th><td style="padding-left: 15px;">${humidity}%</td></tr><tr><th >Скорость ветра</th><td style="padding-left: 15px;">${windSpeed} м/с</td></tr><tr><th >Направление ветра</th><td style="padding-left: 15px;">${windDirection}°</td></tr></thead></table>`
+                  target.properties.set('balloonContentBody', t) 
+                }
+              }
               
             });
           }

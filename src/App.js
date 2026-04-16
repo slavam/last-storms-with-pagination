@@ -7,6 +7,7 @@ import {
 import { Navbar1 } from './app/Navbar'
 import { WmoStationsList } from './features/stations/stationsList'
 import { StationsListSoap } from './features/stations/stationsListSoap'
+import { StationsWithWeather } from './features/stations/stationsWithWeather'
 import { HydropostsList } from './features/hydroposts/hydropostsList'
 import { WaterLevel } from './features/hydroposts/waterLevel'
 import { MeasurementsList } from './features/measurements/measurementsList'
@@ -65,6 +66,7 @@ function App() {
         <Route path="/stations" element={<WmoStationsList />} />
         <Route path="/fireDanger" element={<FireDanger />} />
         <Route path='/stationsSoap' element={<StationsListSoap />} />
+        <Route path='/stationsWithWeather' element={<StationsWithWeather />} />
         <Route path="/hydroposts" element={<HydropostsList />} />
         <Route path='/waterLevel' element={<WaterLevel />} />
         <Route path="/measurements" element={<MeasurementsList />} />
