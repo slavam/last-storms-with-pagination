@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import {
   Routes,
   Route,
@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import { Navbar1 } from './app/Navbar'
 import { WmoStationsList } from './features/stations/stationsList'
-import { StationsListSoap } from './features/stations/stationsListSoap'
+// import { StationsListSoap } from './features/stations/stationsListSoap'
 import { StationsWithWeather } from './features/stations/stationsWithWeather'
 import { HydropostsList } from './features/hydroposts/hydropostsList'
 import { WaterLevel } from './features/hydroposts/waterLevel'
@@ -65,7 +65,7 @@ function App() {
         </Route>
         <Route path="/stations" element={<WmoStationsList />} />
         <Route path="/fireDanger" element={<FireDanger />} />
-        <Route path='/stationsSoap' element={<StationsListSoap />} />
+        {/* <Route path='/stationsSoap' element={<StationsListSoap />} /> */}
         <Route path='/stationsWithWeather' element={<StationsWithWeather />} />
         <Route path="/hydroposts" element={<HydropostsList />} />
         <Route path='/waterLevel' element={<WaterLevel />} />
