@@ -24,6 +24,7 @@ export const StationsWithWeather = () => {
   let qParams = {
     station: station,
     notbefore: queryMoment,
+    notafter: queryMoment+600
   }
   
   const {
@@ -51,13 +52,11 @@ export const StationsWithWeather = () => {
       const stationData = observationsCacheRef.current.get(stationId)
       stationData[observation.meas_hash] = observation.value
       observationsCacheRef.current.set(stationId, stationData)
-      
     })
-    
-    
     // Обновляем currentStationRef
     currentStationRef.current = station
   }, [observations, cwSuccess, station])
+  // }, [cwSuccess, station])
   
   // Функция для создания HTML баллуна из данных станции
   const createBalloonContent = (stationId, stationData) => {
@@ -100,7 +99,7 @@ export const StationsWithWeather = () => {
   if (isLoading || cwLoading) {
     content = <Spinner text="Loading..." />
   } else if (isSuccess) {
-    const renderedStations = stations.meteostations.map((station) => {
+    stations.meteostations.forEach((station) => {
       clusterPoints.push(
         <Placemark 
           key={station.index} 
@@ -123,6 +122,7 @@ export const StationsWithWeather = () => {
                 
                 // 2. Пытаемся получить данные из кэша
                 const cachedData = null //observationsCacheRef.current.get(+id)
+                // const cachedData = observationsCacheRef.current.get(+id)
                 
                 if (cachedData && Object.keys(cachedData).length > 0) {
                   // Если данные есть в кэше - показываем сразу
