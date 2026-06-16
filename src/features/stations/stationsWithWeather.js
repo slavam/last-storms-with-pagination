@@ -56,7 +56,6 @@ export const StationsWithWeather = () => {
     // Обновляем currentStationRef
     currentStationRef.current = station
   }, [observations, cwSuccess, station])
-  // }, [cwSuccess, station])
   
   // Функция для создания HTML баллуна из данных станции
   const createBalloonContent = (stationId, stationData) => {
@@ -66,6 +65,7 @@ export const StationsWithWeather = () => {
     const windDirection = stationData[-789901366]
     const windSpeed = stationData[1345858116]
     const humidity = stationData[-996973625]
+    const aboutPrecipitation = +stationData[882721309]>0.0 ? "Осадки на станции" : "На станции без осадков"
     
     if (!temperature) return '<p>Нет данных о температуре</p>'
     let stationName = stations.meteostations.find((station)=>station.index===stationId).name
@@ -79,6 +79,7 @@ export const StationsWithWeather = () => {
           <tr><th>Влажность</th><td style="padding-left: 15px;">${humidity || 'Н/Д'}%</td></tr>
           <tr><th>Скорость ветра</th><td style="padding-left: 15px;">${windSpeed || 'Н/Д'} м/с</td></tr>
           <tr><th>Направление ветра</th><td style="padding-left: 15px;">${windDirection || 'Н/Д'}°</td></tr>
+          <tr><th>${aboutPrecipitation}</td></tr>
         </tbody>
       </table>
     `
