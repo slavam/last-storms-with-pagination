@@ -48,6 +48,7 @@ function App() {
     <div >
       <Navbar1 />
       <Routes>
+        <Route index element={<Navigate to="/hydroposts" replace />} />
         <Route path="/" element={<Layout />}>
           <Route exact path="/storms" element={<StormsList />} />
           {/* <Route path='/inputHydroTelegram' element={<InputHydroTelegram />} /> */}

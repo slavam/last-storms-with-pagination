@@ -17,7 +17,7 @@ export const StormsList = () => {
 
   useLayoutEffect(() => {
     dispatch(allStormsRead())
-  })
+  },[storms])
 
   const renderedStorms = storms.map((storm) => {
     // const date = parseISO(telegram.telegram_date)

@@ -271,3 +271,67 @@ button.reaction-button {
 .notification.new {
   background-color: rgba(29, 161, 242, 0.1);
 }
+
+/* Dark theme */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] header {
+  color: #e0e0e0;
+  background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .table {
+  color: #e0e0e0;
+  background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .table td,
+[data-theme="dark"] .table th {
+  border-color: #444;
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+  color: #fff;
+  background-color: #2a2a2a;
+}
+
+[data-theme="dark"] .post-excerpt {
+  border-color: #444;
+  background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .notification {
+  border-color: #444;
+  background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .notification.new {
+  background-color: rgba(29, 161, 242, 0.2);
+}
+
+[data-theme="dark"] .loader:after {
+  background: #121212;
+}
+
+[data-theme="dark"] .badge {
+  color: #e0e0e0;
+  background-color: #333;
+}
+
+[data-theme="dark"] .custom-control-label::before {
+  background-color: #333;
+  border-color: #666;
+}
+
+[data-theme="dark"] .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #764abc;
+  border-color: #764abc;
+}

@@ -6,6 +6,9 @@ import { store } from '../src/app/store'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '../src/index.css';
+import { initTheme } from './theme/theme';
+
+initTheme();
 
 const container = document.getElementById('root');
 const root = createRoot(container);

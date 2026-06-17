@@ -1,6 +1,17 @@
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { applyTheme, getTheme } from '../theme/theme'
+
 export function Profile(){
   const authUser = useSelector(x => x.auth.user)
+  const [darkTheme, setDarkTheme] = useState(() => getTheme() === 'dark')
+
+  const handleThemeChange = (e) => {
+    const isDark = e.target.checked
+    applyTheme(isDark ? 'dark' : 'light')
+    setDarkTheme(isDark)
+  }
+
   let content = authUser?
     <section>
       <h3>Пользователь</h3>
@@ -35,8 +46,24 @@ export function Profile(){
     </section>
     :
     <h1>Unknown</h1>
+
   return <div className="col-md-2 offset-md-5 mt-1">
-    <h4>Build date 2026-04-17</h4>
+    <h4>Build date 2026-06-16</h4>
+    <section>
+      <h3>Настройки</h3>
+      <div className="custom-control custom-switch">
+        <input
+          type="checkbox"
+          className="custom-control-input"
+          id="darkThemeSwitch"
+          checked={darkTheme}
+          onChange={handleThemeChange}
+        />
+        <label className="custom-control-label" htmlFor="darkThemeSwitch">
+          Тёмная тема
+        </label>
+      </div>
+    </section>
     {content}
   </div>
 }
