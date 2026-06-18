@@ -1,12 +1,22 @@
 import { Spinner } from '../../components/Spinner'
+import React from 'react'
 import {useForecast3daysQuery} from '../api/apiSlice'
 import { useState } from 'react'
+
+const renderForecastSentences = (text) => {
+  if (!text) return null
+  return text
+    .split(/(?<=\.)\s+/)
+    .filter(Boolean)
+    .map((sentence, index) => <p key={index} style={{ margin: 0, padding: 0 }}>
+                                {sentence.trim()}
+                              </p>)
+}
 
 export const Forecast3days = ()=>{
   const d = new Date()
   const currentDate = `${d.getUTCFullYear()}-${('0'+(d.getUTCMonth()+1)).slice(-2)}-${('0'+(d.getUTCDate())).slice(-2)}`
   const [reportDate, setReportDate] = useState(currentDate)
-  // const rdPlus1 = reportDate.setDate(reportDate.getDate()+1)
   const maxDate = new Date().toISOString().substring(0,10)
   let rdPlus1 = new Date(reportDate)
   rdPlus1.setDate(rdPlus1.getDate() + 1)
@@ -30,19 +40,25 @@ export const Forecast3days = ()=>{
     content = <div>
       <h4>Прогноз погоды на {rd1}</h4>
       <h4>В городе Донецке</h4>
-      <p>{forecast.forecast_city}</p>
+      {renderForecastSentences(forecast.forecast_city)}
+      <br/>
       <h4>В Донецкой Народной Республике</h4>
-      <p>{forecast.forecast}</p>
+      {renderForecastSentences(forecast.forecast)}
+      <br/>
       <h4>Прогноз погоды на {rd2}</h4>
       <h4>В городе Донецке</h4>
-      <p>{forecast.forecast_city_plus_1}</p>
+      {renderForecastSentences(forecast.forecast_city_plus_1)}
+      <br/>
       <h4>В Донецкой Народной Республике</h4>
-      <p>{forecast.forecast_plus_1}</p>
+      {renderForecastSentences(forecast.forecast_plus_1)}
+      <br/>
       <h4>Прогноз погоды на {rd3}</h4>
       <h4>В городе Донецке</h4>
-      <p>{forecast.forecast_city_plus_2}</p>
+      {renderForecastSentences(forecast.forecast_city_plus_2)}
+      <br/>
       <h4>В Донецкой Народной Республике</h4>
-      <p>{forecast.forecast_plus_2}</p>
+      {renderForecastSentences(forecast.forecast_plus_2)}
+      <br/>
     </div>
   } else if (isError) {
     content = <h4>Данные не найдены</h4>

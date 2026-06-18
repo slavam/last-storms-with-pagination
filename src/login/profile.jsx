@@ -48,7 +48,7 @@ export function Profile(){
     <h1>Unknown</h1>
 
   return <div className="col-md-2 offset-md-5 mt-1">
-    <h4>Build date 2026-06-16</h4>
+    <h4>Build date 2026-06-18 with Cursor AI</h4>
     <section>
       <h3>Настройки</h3>
       <div className="custom-control custom-switch">
