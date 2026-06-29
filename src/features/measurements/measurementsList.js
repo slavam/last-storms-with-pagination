@@ -43,7 +43,7 @@ export const MeasurementsList = () => {
       {contentM}
       <Table striped bordered hover variant="primary"  >
         <thead>
-          <th>Код</th><th>Хеш</th><th>Название</th><th>Единица измерения</th>
+          <tr><th>Код</th><th>Хеш</th><th>Название</th><th>Единица измерения</th></tr>
         </thead>
         <tbody>
           {renderedMeasurements}

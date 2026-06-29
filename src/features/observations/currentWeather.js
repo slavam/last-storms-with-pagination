@@ -3,6 +3,7 @@ import {stations} from '../../synopticDictionaries'
 import { useState } from 'react'
 import Select from 'react-select'
 import { Spinner } from '../../components/Spinner'
+import Table from 'react-bootstrap/Table'
 
 export const CurrentWeather = ()=>{
   let s
@@ -27,13 +28,14 @@ export const CurrentWeather = ()=>{
   let windDirection
   let windSpeed
   let humidity
+  let aboutPrecipitation=false
   const absoluteZero = 273.15
   let content
   if (isLoading) {
       content = <Spinner text="Loading..." />
   } else if (isSuccess && observations) {
     // console.log(JSON.stringify(observations))
-    observations.map((data) => {
+    observations.forEach((data) => {
       let measurement = data.meas_hash
       switch (measurement) {
         case 1451382247:
@@ -48,6 +50,9 @@ export const CurrentWeather = ()=>{
         case -996973625:
           humidity = data.value
           break
+        case 882721309:
+          aboutPrecipitation = +data.value>0.0
+          break
       }
     })
     content = <div className='font-bold text-lg'>
@@ -59,10 +64,13 @@ export const CurrentWeather = ()=>{
           Направление ветра: <b>{windDirection}°</b>
         </li>
         <li key='3' className="whitespace-nowrap">
-          Скорость ветра: <b>{windSpeed}м/с</b>
+          Скорость ветра: <b>{windSpeed} м/с</b>
         </li>
         <li key='4' className="whitespace-nowrap">
           Относительная влажность: <b>{humidity}%</b>
+        </li>
+        <li key='5' className='witespace-nowrap'>
+          {aboutPrecipitation ? "Осадки на станции" : "На станции без осадков"}
         </li>
       </ul>
     </div>
@@ -70,7 +78,15 @@ export const CurrentWeather = ()=>{
   return (
     <div className="col-md-6 offset-md-3 mt-5">
       <h4>Погода на метеостанции {station.label} по состоянию на {s} UTC</h4>
-      <Select className="mb-3" value={station} onChange={val => setStation(val)} options={meteoStations} id='select-station'/>
+      <Table striped bordered hover variant="secondary">
+        <thead>
+          <tr>
+            <td>
+              <Select className="mb-3" value={station} onChange={val => setStation(val)} options={meteoStations} id='select-station'/>
+            </td>
+          </tr>
+        </thead>
+      </Table>
       {content}
     </div>
   )

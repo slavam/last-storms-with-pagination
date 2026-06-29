@@ -70,7 +70,7 @@ export const AvgTemperatures = ()=>{
                  ['Седово',null,null,null,null,null,null,null,null,0,0,0],
                  ['Волноваха',null,null,null,null,null,null,null,null,0,0,0],
                  ['Мариуполь',null,null,null,null,null,null,null,null,0,0,0]]
-    observations.map((o) => {
+    observations.forEach((o) => {
       i = codeStations.indexOf(o.station)
       j = shiftTerms.indexOf(o.point/3600)+1
       let tempC = Number.parseFloat(+o.value-absoluteZero).toFixed(1)

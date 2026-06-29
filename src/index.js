@@ -7,6 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '../src/index.css';
 import { initTheme } from './theme/theme';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 initTheme();
 

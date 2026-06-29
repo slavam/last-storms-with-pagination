@@ -47,7 +47,7 @@ const Observation = ({observation, measurement, measurements})=>{
   let telegram = []
   if(isSuccess){
     let ms = {}
-    measurements.map(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
+    measurements.forEach(m=> {ms[m.meas_hash] = `${m.caption} (${m.unit})`})
     telegram = telegramData.filter((td)=> td.message_id === observation.message_id)
     tlgFields = telegram.map(t=> {return <tr key={t.id}><th>{ms[t.meas_hash]?ms[t.meas_hash]:t.meas_hash}</th><td>{t.value}</td></tr>})
   }
@@ -124,7 +124,7 @@ export const SelectObservations = ()=>{
   } = useGetMeasurementsQuery()
   let parameters = [{label: 'Все', value: null}]
   if(isSuccessM)
-    measurements.map(m => {parameters.push({label: m.caption, value: m.meas_hash})})
+    measurements.forEach(m => {parameters.push({label: m.caption, value: m.meas_hash})})
 
   const [station, setStation] = useState(stations[3])
   const [date1, setDate1] = useState(new Date().toISOString().substring(0,11)+'00:00')

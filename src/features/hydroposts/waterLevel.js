@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { YMaps, Map, Placemark, Clusterer } from '@pbe/react-yandex-maps'
 import { useGetWaterLevelQuery, useGetHydropostsQuery } from '../api/apiSlice'
-// import { stations } from '../../synopticDictionaries'
 import ru from 'date-fns/locale/ru'
 
 export const WaterLevel = ()=>{
@@ -10,23 +9,15 @@ export const WaterLevel = ()=>{
   let reportDateSec = Math.round(new Date(reportDate).getTime()/1000)
   const {
     data: hydroPosts = [],
-    // isLoading,
-    // isFetching: gpFetching,
     isSuccess: gpSuccess,
-    // isError,
-    // error,
   } = useGetHydropostsQuery()
-  // let observations=[]
-  // useEffect(() => {
     const {
       data: observations=[],
       isSuccess
     } = useGetWaterLevelQuery(reportDateSec)
-  // }, [reportDateSec]);
-  // console.log(hydroPosts)
     const clusterPoints = []
     let wlData = null
-    hydroPosts.map(s =>{
+    hydroPosts.forEach(s =>{
       let waterLevel = 0
       let waterLevelChange = 0
       if(gpSuccess && isSuccess && observations){

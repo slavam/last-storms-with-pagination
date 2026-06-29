@@ -84,10 +84,10 @@ export const menuItems = [
         title: 'Средняя температура за сутки',
         url: 'avgDailyTemp',
       },
-      // {
-      //   title: 'Синоптические данные',
-      //   url: 'synopticData',
-      // },
+      {
+        title: 'Синоптические данные',
+        url: 'synopticData',
+      },
       {
         title: 'Осадки',
         url: 'precipitation',
